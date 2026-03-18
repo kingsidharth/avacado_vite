@@ -1,39 +1,57 @@
 import { useState } from 'react'
 import type { ManyOfManyQuestion } from '@/types/content'
-import { Checkbox } from '@/components/ui/checkbox'
-import { Button } from '@/components/ui/button'
 import { HintReveal } from './HintReveal'
 import { AnswerFeedback } from './AnswerFeedback'
 import { scoreManyOfMany } from '@/lib/scoring'
 import type { QuestionResult } from '@/types/content'
+import { QuizOptionButton, type QuizOptionVariant } from '@/components/quiz/QuizOptionButton'
+import { cn } from '@/lib/utils'
+import { ChevronRight } from 'lucide-react'
 
 interface ManyOfManyQuestionProps {
   question: ManyOfManyQuestion
   onSubmit: (result: QuestionResult, answer: string[]) => void
   submitted?: boolean
+  onContinue?: () => void
+  continueLabel?: string
+}
+
+/**
+ * After submit: only SELECTED options show a state — non-selected stay default.
+ * Correct selected → green, wrong selected → orange.
+ */
+function getVariantMulti(
+  optionId: string,
+  correctOptions: string[],
+  selected: string[],
+  hasResult: boolean,
+): QuizOptionVariant {
+  if (!hasResult) return selected.includes(optionId) ? 'selected' : 'default'
+  if (!selected.includes(optionId)) return 'default'
+  return correctOptions.includes(optionId) ? 'correct' : 'wrong'
 }
 
 export function ManyOfManyQuestionComponent({
   question,
   onSubmit,
   submitted = false,
+  onContinue,
+  continueLabel = 'Continue',
 }: ManyOfManyQuestionProps) {
   const [selected, setSelected] = useState<string[]>([])
   const [result, setResult] = useState<QuestionResult | null>(null)
 
-  const toggleOption = (optionId: string) => {
-    if (submitted) return
+  const hasSubmitted = !!result || submitted
 
+  const toggleOption = (optionId: string) => {
+    if (hasSubmitted) return
     setSelected((prev) =>
-      prev.includes(optionId)
-        ? prev.filter((id) => id !== optionId)
-        : [...prev, optionId]
+      prev.includes(optionId) ? prev.filter((id) => id !== optionId) : [...prev, optionId],
     )
   }
 
   const handleSubmit = () => {
     if (selected.length === 0) return
-
     const scoring = scoreManyOfMany(question, selected)
     const questionResult: QuestionResult = {
       questionId: question.id,
@@ -45,7 +63,6 @@ export function ManyOfManyQuestionComponent({
       correctAnswer: question.correct_options,
       feedback: question.explanation,
     }
-
     setResult(questionResult)
     onSubmit(questionResult, selected)
   }
@@ -53,170 +70,109 @@ export function ManyOfManyQuestionComponent({
   const renderAs = question.render_as ?? 'checkboxes'
 
   const renderOptions = () => {
-    const isCorrectOption = (id: string) =>
-      result && question.correct_options.includes(id)
-    const isWrongOption = (id: string) =>
-      result && selected.includes(id) && !question.correct_options.includes(id)
-
-    switch (renderAs) {
-      case 'card-grid':
-        return (
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {question.options.map((option) => {
-              const isSelected = selected.includes(option.id)
-
-              return (
-                <button
-                  key={option.id}
-                  onClick={() => toggleOption(option.id)}
-                  disabled={submitted}
-                  className={`flex flex-col items-start gap-2 rounded-xl border-2 p-4 text-left transition-all ${
-                    isSelected
-                      ? 'border-primary bg-primary/5'
-                      : 'border-transparent hover:border-border'
-                  } ${isCorrectOption(option.id) ? 'border-green-500 bg-green-50' : ''} ${
-                    isWrongOption(option.id) ? 'border-red-500 bg-red-50' : ''
-                  }`}
-                >
-                  {option.image && (
-                    <img
-                      src={option.image}
-                      alt=""
-                      className="h-20 w-full rounded-lg object-cover"
-                    />
-                  )}
-                  <div className="flex items-center gap-2">
-                    <div
-                      className={`flex size-5 items-center justify-center rounded border-2 ${
-                        isSelected
-                          ? 'border-primary bg-primary'
-                          : 'border-muted-foreground'
-                      }`}
-                    >
-                      {isSelected && (
-                        <svg
-                          className="size-3 text-primary-foreground"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={3}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      )}
-                    </div>
-                    <span className="font-medium">{option.text}</span>
-                  </div>
-                </button>
-              )
-            })}
-          </div>
-        )
-
-      case 'toggle-list':
-        return (
-          <div className="space-y-2">
-            {question.options.map((option) => {
-              const isSelected = selected.includes(option.id)
-
-              return (
-                <button
-                  key={option.id}
-                  onClick={() => toggleOption(option.id)}
-                  disabled={submitted}
-                  className={`flex w-full items-center gap-3 rounded-xl border-2 p-4 transition-all ${
-                    isSelected
-                      ? 'border-primary bg-primary/5'
-                      : 'border-transparent hover:border-border'
-                  } ${isCorrectOption(option.id) ? 'border-green-500 bg-green-50' : ''} ${
-                    isWrongOption(option.id) ? 'border-red-500 bg-red-50' : ''
-                  }`}
-                >
-                  <div
-                    className={`flex size-5 items-center justify-center rounded border-2 ${
-                      isSelected
-                        ? 'border-primary bg-primary'
-                        : 'border-muted-foreground'
-                    }`}
-                  >
-                    {isSelected && (
-                      <svg
-                        className="size-3 text-primary-foreground"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={3}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                    )}
-                  </div>
-                  <span className="text-sm font-medium">{option.text}</span>
-                </button>
-              )
-            })}
-          </div>
-        )
-
-      case 'checkboxes':
-      default:
-        return (
-          <div className="space-y-3">
-            {question.options.map((option) => {
-              const isSelected = selected.includes(option.id)
-
-              return (
-                <label
-                  key={option.id}
-                  className={`flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border-2 p-4 transition-all ${
-                    isSelected
-                      ? 'border-primary bg-primary/5'
-                      : 'border-transparent'
-                  } ${isCorrectOption(option.id) ? 'border-green-500 bg-green-50' : ''} ${
-                    isWrongOption(option.id) ? 'border-red-500 bg-red-50' : ''
-                  }`}
-                >
-                  <Checkbox
-                    checked={isSelected}
-                    onCheckedChange={() => toggleOption(option.id)}
-                    className="shrink-0"
-                    disabled={submitted}
-                  />
-                  <span className="text-sm font-medium">{option.text}</span>
-                </label>
-              )
-            })}
-          </div>
-        )
+    // ── Card grid (with images) ───────────────────────────────────────────────
+    if (renderAs === 'card-grid') {
+      const cardVariantStyles: Record<QuizOptionVariant, string> = {
+        default:  'border-[rgba(0,0,0,0.08)] bg-white shadow-[var(--quiz-option-shadow-default)]',
+        selected: 'border-[var(--quiz-option-selected-border)] bg-[var(--quiz-option-selected-bg)] shadow-[var(--quiz-option-shadow-state)]',
+        correct:  'border-[var(--quiz-option-correct-border)] bg-[var(--quiz-option-correct-bg)] shadow-[var(--quiz-option-shadow-state)]',
+        wrong:    'border border-[var(--quiz-option-wrong-border)] bg-[var(--quiz-option-wrong-bg)] shadow-[var(--quiz-option-shadow-state)]',
+      }
+      return (
+        <ul
+          className="flex w-full flex-col items-start justify-start gap-[16px] list-none p-0 m-0"
+          role="list"
+          data-quiz-options
+        >
+          {question.options.map((option) => (
+            <li
+              key={option.id}
+              className="w-full"
+              data-quiz-option
+              data-option-id={option.id}
+            >
+              <button
+                type="button"
+                onClick={() => toggleOption(option.id)}
+                disabled={hasSubmitted}
+                className={cn(
+                  'flex w-full flex-col items-start gap-2 rounded-xl border p-4 text-left transition-colors',
+                  cardVariantStyles[getVariantMulti(option.id, question.correct_options, selected, !!result)],
+                )}
+              >
+                {option.image && (
+                  <img src={option.image} alt="" className="h-20 w-full rounded-lg object-cover" />
+                )}
+                <span className="text-sm font-medium">{option.text}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )
     }
+
+    // ── Default: checkboxes / toggle-list → QuizOptionButton vertical list ────
+    return (
+      <ul
+        className="flex w-full flex-col items-start justify-start gap-[16px] list-none p-0 m-0"
+        role="list"
+        data-quiz-options
+      >
+        {question.options.map((option) => (
+          <li
+            key={option.id}
+            className="w-full"
+            data-quiz-option
+            data-option-id={option.id}
+          >
+            <QuizOptionButton
+              label={option.text}
+              variant={getVariantMulti(option.id, question.correct_options, selected, !!result)}
+              onClick={() => toggleOption(option.id)}
+              disabled={hasSubmitted}
+            />
+          </li>
+        ))}
+      </ul>
+    )
   }
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-2">
-        <h2 className="text-lg font-semibold">{question.prompt}</h2>
-        {question.hint && !submitted && <HintReveal hint={question.hint} />}
+    <div className="flex flex-col gap-[16px]">
+      <div className="flex flex-col gap-2">
+        <h2 className="text-[18px] font-medium leading-[1.4] tracking-[-0.45px] text-[#0a0a0a]">
+          {question.prompt}
+        </h2>
+        {question.hint && !hasSubmitted && <HintReveal hint={question.hint} />}
       </div>
 
-      <div className="space-y-4">
+      <div className="flex w-full flex-col items-start justify-start gap-[16px]">
         {renderOptions()}
 
-        {!submitted && (
-          <Button onClick={handleSubmit} disabled={selected.length === 0}>
-            Check Answer
-          </Button>
+        {!result && !submitted && (
+          <button
+            type="button"
+            onClick={handleSubmit}
+            disabled={selected.length === 0}
+            className="mt-2 h-[46px] w-full rounded-xl bg-[#0a0a0a] text-base font-medium leading-[1.2] text-white shadow-[var(--quiz-cta-shadow)] transition-opacity hover:opacity-90 disabled:opacity-40"
+          >
+            Check
+          </button>
         )}
       </div>
 
       {result && <AnswerFeedback result={result} />}
+
+      {result && onContinue && (
+        <button
+          type="button"
+          onClick={onContinue}
+          className="flex h-[46px] w-full items-center justify-center gap-2 rounded-xl bg-[#0a0a0a] text-base font-medium text-white shadow-[var(--quiz-cta-shadow)] transition-opacity hover:opacity-90"
+        >
+          {continueLabel}
+          <ChevronRight className="size-4" />
+        </button>
+      )}
     </div>
   )
 }

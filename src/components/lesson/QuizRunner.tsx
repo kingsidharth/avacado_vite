@@ -1,8 +1,7 @@
-import { useReducer, useCallback } from 'react'
+import { useReducer, useCallback, useEffect } from 'react'
 import type { Question, QuestionResult, QuizConfig, AssessmentResult } from '@/types/content'
 import { QuestionRenderer } from './questions/QuestionRenderer'
 import { Assessment } from './Assessment'
-import { Button } from '@/components/ui/button'
 import { ChevronRight } from 'lucide-react'
 import { assessQuiz } from '@/lib/scoring'
 
@@ -16,6 +15,8 @@ interface QuizRunnerProps {
   onComplete: (result: AssessmentResult) => void
   onRetry?: () => void
   onAnswerRecord?: (correct: boolean) => void
+  /** Called when the current question index changes (for parent to show "QUESTION X OF Y" in header). */
+  onQuestionIndexChange?: (index: number) => void
 }
 
 interface QuizState {
@@ -81,7 +82,14 @@ function quizReducer(state: QuizState, action: QuizAction): QuizState {
 // Component
 // ============================================================================
 
-export function QuizRunner({ questions, config, onComplete, onRetry, onAnswerRecord }: QuizRunnerProps) {
+export function QuizRunner({
+  questions,
+  config,
+  onComplete,
+  onRetry,
+  onAnswerRecord,
+  onQuestionIndexChange,
+}: QuizRunnerProps) {
   const [state, dispatch] = useReducer(quizReducer, {
     currentIndex: 0,
     answers: {},
@@ -90,6 +98,10 @@ export function QuizRunner({ questions, config, onComplete, onRetry, onAnswerRec
     isComplete: false,
     assessmentResult: null,
   })
+
+  useEffect(() => {
+    onQuestionIndexChange?.(state.currentIndex)
+  }, [state.currentIndex, onQuestionIndexChange])
 
   const currentQuestion = questions[state.currentIndex]
   const isLastQuestion = state.currentIndex === questions.length - 1
@@ -149,26 +161,6 @@ export function QuizRunner({ questions, config, onComplete, onRetry, onAnswerRec
 
   return (
     <div className="flex h-full flex-col gap-6">
-      {/* Progress Header */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-muted-foreground">
-            Question {state.currentIndex + 1} of {questions.length}
-          </span>
-          <span className="text-sm text-muted-foreground">
-            {Math.round((state.submittedQuestions.size / questions.length) * 100)}% complete
-          </span>
-        </div>
-        <div className="h-2 overflow-hidden rounded-full bg-muted">
-          <div
-            className="h-full bg-primary transition-all"
-            style={{
-              width: `${(state.submittedQuestions.size / questions.length) * 100}%`,
-            }}
-          />
-        </div>
-      </div>
-
       {/* Question */}
       <div className="flex-1">
         <QuestionRenderer
@@ -178,13 +170,17 @@ export function QuizRunner({ questions, config, onComplete, onRetry, onAnswerRec
         />
       </div>
 
-      {/* Navigation */}
+      {/* Next / Finish — only after answer submitted */}
       {hasSubmittedCurrent && (
-        <div className="flex justify-end pt-4">
-          <Button onClick={handleNext}>
-            {isLastQuestion ? 'Finish Quiz' : 'Next Question'}
-            <ChevronRight className="ml-1 size-4" />
-          </Button>
+        <div className="pt-2">
+          <button
+            type="button"
+            onClick={handleNext}
+            className="flex h-[46px] w-full items-center justify-center gap-2 rounded-xl bg-[#0a0a0a] text-base font-medium text-white shadow-[var(--quiz-cta-shadow)] transition-opacity hover:opacity-90"
+          >
+            {isLastQuestion ? 'Finish' : 'Next'}
+            <ChevronRight className="size-4" />
+          </button>
         </div>
       )}
     </div>

@@ -1,4 +1,4 @@
-import { useReducer, useRef, useCallback, useEffect } from 'react'
+import { useReducer, useRef, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import type { Lesson, AssessmentResult, ContentManifest } from '@/types/content'
 import { useScreens, useQuestions, useQuizConfig } from '@/hooks/useContentManifest'
@@ -109,8 +109,6 @@ export function LessonPlayer({
 
   const containerRef = useRef<HTMLDivElement>(null)
   const touchStartRef = useRef<{ y: number; time: number } | null>(null)
-  const progressCircleRef = useRef<SVGCircleElement>(null)
-  const counterRef = useRef<HTMLSpanElement>(null)
   const wheelCooldownRef = useRef(false)
   const [state, dispatch] = useReducer(lessonReducer, {
     phase: 'screens',
@@ -118,6 +116,7 @@ export function LessonPlayer({
     quizCompleted: false,
     assessmentResult: null,
   })
+  const [quizQuestionIndex, setQuizQuestionIndex] = useState(0)
 
   const recordLessonResult = useProgressStore((s: ProgressStore) => s.recordLessonResult)
   const markScreenComplete = useProgressStore((s: ProgressStore) => s.markScreenComplete)
@@ -146,31 +145,6 @@ export function LessonPlayer({
     })
   }, [])
 
-  // Animate circular progress + counter
-  const CIRCLE_RADIUS = 16
-  const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS
-
-  const animateProgressBar = useCallback((targetPercent: number) => {
-    if (!progressCircleRef.current) return
-    const targetOffset = CIRCLE_CIRCUMFERENCE * (1 - targetPercent / 100)
-    animate(progressCircleRef.current, {
-      strokeDashoffset: targetOffset,
-      duration: 400,
-      ease: 'outQuad',
-    })
-  }, [CIRCLE_CIRCUMFERENCE])
-
-  const animateCounter = useCallback((direction: 'next' | 'prev') => {
-    if (!counterRef.current) return
-    const yFrom = direction === 'next' ? -12 : 12
-    animate(counterRef.current, {
-      translateY: [yFrom, 0],
-      opacity: [0, 1],
-      duration: 250,
-      ease: 'outQuad',
-    })
-  }, [])
-
   // Advance from current screen (called when transcript finishes)
   const advanceFromScreen = useCallback(() => {
     const currentScreen = screens[state.currentScreenIndex]
@@ -186,7 +160,6 @@ export function LessonPlayer({
     if (checkpointQuestion) {
       // Show checkpoint as separate step
       animateTransition('next')
-      animateCounter('next')
       dispatch({ type: 'SHOW_CHECKPOINT' })
       return
     }
@@ -194,14 +167,9 @@ export function LessonPlayer({
     // No checkpoint — advance to next screen, quiz, or finish
     if (state.currentScreenIndex < screens.length - 1) {
       animateTransition('next')
-      animateCounter('next')
       dispatch({ type: 'NEXT_SCREEN' })
-      const totalSteps = screens.length + (hasQuiz ? 1 : 0)
-      animateProgressBar(((state.currentScreenIndex + 1) / totalSteps) * 100)
     } else if (hasQuiz) {
       dispatch({ type: 'START_QUIZ' })
-      const totalSteps = screens.length + 1
-      animateProgressBar((screens.length / totalSteps) * 100)
     } else {
       recordLessonResult(milestoneId, levelId, lesson.id, 1, true)
       recordLessonWatched(lessonSlug).catch(() => {})
@@ -219,8 +187,6 @@ export function LessonPlayer({
     manifest.questions,
     markScreenComplete,
     animateTransition,
-    animateCounter,
-    animateProgressBar,
     navigate,
     recordLessonResult,
     recordLessonWatched,
@@ -232,14 +198,9 @@ export function LessonPlayer({
 
     if (state.currentScreenIndex < screens.length - 1) {
       animateTransition('next')
-      animateCounter('next')
       dispatch({ type: 'NEXT_SCREEN' })
-      const totalSteps = screens.length + (hasQuiz ? 1 : 0)
-      animateProgressBar(((state.currentScreenIndex + 1) / totalSteps) * 100)
     } else if (hasQuiz) {
       dispatch({ type: 'START_QUIZ' })
-      const totalSteps = screens.length + 1
-      animateProgressBar((screens.length / totalSteps) * 100)
     } else {
       recordLessonResult(milestoneId, levelId, lesson.id, 1, true)
       recordLessonWatched(lessonSlug).catch(() => {})
@@ -255,8 +216,6 @@ export function LessonPlayer({
     lesson.id,
     lessonSlug,
     animateTransition,
-    animateCounter,
-    animateProgressBar,
     navigate,
     recordLessonResult,
     recordLessonWatched,
@@ -266,27 +225,22 @@ export function LessonPlayer({
     if (state.phase === 'checkpoint') {
       // Go back from checkpoint to the screen
       animateTransition('prev')
-      animateCounter('prev')
       dispatch({ type: 'CHECKPOINT_PASSED' }) // reset to screens phase
       return
     }
     if (state.currentScreenIndex > 0) {
       animateTransition('prev')
-      animateCounter('prev')
       dispatch({ type: 'PREV_SCREEN' })
-      const totalSteps = screens.length + (hasQuiz ? 1 : 0)
-      animateProgressBar(((state.currentScreenIndex - 1) / totalSteps) * 100)
     }
-  }, [state.phase, state.currentScreenIndex, animateTransition, animateCounter, animateProgressBar, screens.length, hasQuiz])
+  }, [state.phase, state.currentScreenIndex, animateTransition, screens.length, hasQuiz])
 
   const handleQuizComplete = useCallback(
     (result: AssessmentResult) => {
       recordLessonResult(milestoneId, levelId, lesson.id, result.score, result.passed)
       recordLessonWatched(lessonSlug).catch(() => {})
       dispatch({ type: 'COMPLETE_QUIZ', result })
-      animateProgressBar(100)
     },
-    [milestoneId, levelId, lesson.id, lessonSlug, recordLessonResult, recordLessonWatched, animateProgressBar]
+    [milestoneId, levelId, lesson.id, lessonSlug, recordLessonResult, recordLessonWatched]
   )
 
   const handleRetryQuiz = useCallback(() => {
@@ -301,20 +255,42 @@ export function LessonPlayer({
     navigate({ to: '/dashboard' })
   }, [navigate])
 
+  // ---- Adjacent-lesson navigation ----
+  // Find the current lesson's position within the level's ordered lesson list.
+  const lessonRefs = manifest.levels[levelId]?.lesson_refs ?? []
+  const currentLessonIdx = lessonRefs.indexOf(lesson.id)
+  const prevLessonId = currentLessonIdx > 0 ? lessonRefs[currentLessonIdx - 1] : null
+  const nextLessonId = currentLessonIdx < lessonRefs.length - 1 ? lessonRefs[currentLessonIdx + 1] : null
+
+  const navigateToPrevLesson = useCallback(() => {
+    if (prevLessonId) {
+      navigate({
+        to: '/lesson/$milestoneId/$levelId/$lessonId',
+        params: { milestoneId, levelId, lessonId: prevLessonId },
+      })
+    } else {
+      navigate({ to: '/dashboard' })
+    }
+  }, [prevLessonId, milestoneId, levelId, navigate])
+
+  const navigateToNextLesson = useCallback(() => {
+    if (nextLessonId) {
+      navigate({
+        to: '/lesson/$milestoneId/$levelId/$lessonId',
+        params: { milestoneId, levelId, lessonId: nextLessonId },
+      })
+    } else {
+      navigate({ to: '/dashboard' })
+    }
+  }, [nextLessonId, milestoneId, levelId, navigate])
+
   const handleMascotCta = useCallback(() => {
     advanceFromScreen()
   }, [advanceFromScreen])
 
-  const handleCheckpointSubmit = useCallback(
-    (result: QuestionResult) => {
-      if (result.correct) {
-        setTimeout(() => {
-          advanceFromCheckpoint()
-        }, 400)
-      }
-    },
-    [advanceFromCheckpoint]
-  )
+  const handleCheckpointSubmit = useCallback((_result: QuestionResult) => {
+    // Don't auto-advance; user clicks Continue (onContinue) to move to next step
+  }, [])
 
   // ---- Swipe handling ----
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
@@ -332,13 +308,20 @@ export function LessonPlayer({
 
     if (Math.abs(deltaY) < SWIPE_THRESHOLD) return
 
+    // Lesson-complete phase: swipe navigates between lessons
+    if (state.phase === 'complete') {
+      if (deltaY > 0) navigateToNextLesson()
+      else navigateToPrevLesson()
+      return
+    }
+
     if (deltaY > 0) {
-      // Swipe up → next
+      // Swipe up → advance to next screen (only during screen playback)
       if (state.phase === 'screens') {
         advanceFromScreen()
       }
     } else {
-      // Swipe down → prev or home
+      // Swipe down → go back (only during screen playback or checkpoint)
       if (state.phase === 'screens' || state.phase === 'checkpoint') {
         if (state.phase === 'screens' && state.currentScreenIndex === 0) {
           navigate({ to: '/dashboard' })
@@ -347,9 +330,9 @@ export function LessonPlayer({
         }
       }
     }
-  }, [state.phase, state.currentScreenIndex, advanceFromScreen, handleScreenPrev, navigate])
+  }, [state.phase, state.currentScreenIndex, advanceFromScreen, handleScreenPrev, navigate, navigateToPrevLesson, navigateToNextLesson])
 
-  // ---- Wheel/scroll handling for desktop ----
+  // ---- Wheel/scroll + keyboard handling for desktop ----
   useEffect(() => {
     const el = containerRef.current?.closest('.lesson-player-root')
     if (!el) return
@@ -364,13 +347,20 @@ export function LessonPlayer({
         wheelCooldownRef.current = false
       }, WHEEL_COOLDOWN_MS)
 
+      // Lesson-complete phase: scroll navigates between lessons
+      if (state.phase === 'complete') {
+        if (we.deltaY > 0) navigateToNextLesson()
+        else navigateToPrevLesson()
+        return
+      }
+
       if (we.deltaY > 0) {
-        // Scroll down → next
+        // Scroll down → advance screen (only during screen playback)
         if (state.phase === 'screens') {
           advanceFromScreen()
         }
       } else {
-        // Scroll up → prev or home
+        // Scroll up → go back (only during screen playback or checkpoint)
         if (state.phase === 'screens' || state.phase === 'checkpoint') {
           if (state.phase === 'screens' && state.currentScreenIndex === 0) {
             navigate({ to: '/dashboard' })
@@ -381,11 +371,20 @@ export function LessonPlayer({
       }
     }
 
+    // Arrow-key navigation between lessons (only when lesson is complete)
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (state.phase !== 'complete') return
+      if (e.key === 'ArrowDown') navigateToNextLesson()
+      else if (e.key === 'ArrowUp') navigateToPrevLesson()
+    }
+
     el.addEventListener('wheel', handleWheel, { passive: true })
+    document.addEventListener('keydown', handleKeyDown)
     return () => {
       el.removeEventListener('wheel', handleWheel)
+      document.removeEventListener('keydown', handleKeyDown)
     }
-  }, [state.phase, state.currentScreenIndex, advanceFromScreen, handleScreenPrev, navigate])
+  }, [state.phase, state.currentScreenIndex, advanceFromScreen, handleScreenPrev, navigate, navigateToPrevLesson, navigateToNextLesson])
 
   // Calculate progress
   const totalSteps = screens.length + (hasQuiz ? 1 : 0)
@@ -396,7 +395,7 @@ export function LessonPlayer({
       : totalSteps
   const progressPercent = totalSteps > 0 ? (currentStep / totalSteps) * 100 : 0
 
-  // Completed screens count
+  // Completed steps count (for header progress bar and label)
   const completedScreens = state.phase === 'screens' || state.phase === 'checkpoint'
     ? state.currentScreenIndex
     : screens.length
@@ -439,17 +438,12 @@ export function LessonPlayer({
         if (!checkpointQuestion) return null
 
         return (
-          <div className="flex h-full flex-col items-center justify-center gap-6 px-4">
-            <div className="w-full max-w-lg">
-              <p className="mb-6 text-lg font-medium text-foreground">
-                Quick check before continuing
-              </p>
-              <QuestionRenderer
-                question={checkpointQuestion}
-                onSubmit={handleCheckpointSubmit}
-              />
-            </div>
-          </div>
+          <QuestionRenderer
+            question={checkpointQuestion}
+            onSubmit={handleCheckpointSubmit}
+            onContinue={advanceFromCheckpoint}
+            continueLabel="Continue"
+          />
         )
       }
 
@@ -457,10 +451,15 @@ export function LessonPlayer({
         if (!hasQuiz) return null
 
         return (
-          <div className="flex h-full flex-col">
-            <div className="mb-4">
-              <h2 className="text-xl font-medium">Lesson Quiz</h2>
-              <p className="text-sm text-muted-foreground">
+          <div className="flex h-full flex-col gap-3">
+            <div className="mb-4 flex flex-col gap-1.5">
+              <div className="flex flex-col gap-1.5">
+                <p className="text-caption text-[#6c6c6c] px-1.5">
+                  QUESTION {quizQuestionIndex + 1} OF {questions.length}
+                </p>
+              </div>
+              <h2 className="text-[18px] font-medium px-1.5">Lesson Quiz</h2>
+              <p className="text-sm text-muted-foreground px-1.5">
                 Test your knowledge from this lesson
               </p>
             </div>
@@ -471,6 +470,7 @@ export function LessonPlayer({
                 onComplete={handleQuizComplete}
                 onRetry={handleRetryQuiz}
                 onAnswerRecord={(correct) => recordQuizAnswer(lessonSlug, correct)}
+                onQuestionIndexChange={setQuizQuestionIndex}
               />
             </div>
           </div>
@@ -508,62 +508,62 @@ export function LessonPlayer({
 
   return (
     <div
-      className="lesson-player-root flex h-dvh flex-col bg-background"
+      className="lesson-player-root flex h-dvh flex-col justify-start items-start bg-background pt-3 pb-3"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Header */}
-      <header className="mx-auto flex w-full max-w-2xl items-center justify-between px-4 py-3">
-        {/* Left: Close button */}
-        <button
-          onClick={handleClose}
-          className="flex size-10 items-center justify-center rounded-full hover:bg-muted"
-        >
-          <X className="size-5" />
-        </button>
-
-        {/* Center: Lesson title */}
-        <h1 className="max-w-[60%] truncate text-sm font-medium">
-          {lesson.title}
-        </h1>
-
-        {/* Right: Circular progress with counter */}
-        <div className="relative flex size-10 items-center justify-center">
-          <svg className="absolute inset-0 -rotate-90" viewBox="0 0 40 40">
-            <circle
-              cx="20"
-              cy="20"
-              r={CIRCLE_RADIUS}
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              className="text-muted"
-            />
-            <circle
-              ref={progressCircleRef}
-              cx="20"
-              cy="20"
-              r={CIRCLE_RADIUS}
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              className="text-primary"
-              strokeDasharray={CIRCLE_CIRCUMFERENCE}
-              strokeDashoffset={CIRCLE_CIRCUMFERENCE * (1 - progressPercent / 100)}
-            />
-          </svg>
-          <span
-            ref={counterRef}
-            className="relative text-[10px] font-semibold text-muted-foreground"
+      {/* Header — design spec 559:4084: close, title, progress label, segmented bar */}
+      <header className="mx-auto flex w-full max-w-[400px] flex-col gap-[11px] px-4 py-[5.5px]">
+        {/* Top row: close, title, progress label */}
+        <div className="flex items-center justify-between gap-2">
+          <button
+            type="button"
+            onClick={handleClose}
+            className="flex size-9 shrink-0 items-center justify-center p-1.5 hover:bg-muted rounded-md"
+            aria-label="Close lesson"
           >
-            {completedScreens}/{screens.length}
+            <X className="size-6 shrink-0 text-foreground" />
+          </button>
+          <h1 className="min-w-0 flex-1 truncate text-center text-[16px] font-medium leading-[1.32] tracking-[-0.45px] text-[#0a0a0a]">
+            {lesson.title}
+          </h1>
+          <span className="shrink-0 text-[16px] font-medium leading-[1.1] tracking-[-1px] text-[rgba(10,10,10,0.3)] whitespace-nowrap">
+            {currentStep}/{totalSteps}
           </span>
+        </div>
+        {/* Segmented progress bar — segment count = totalSteps */}
+        <div className="flex w-full items-center justify-between gap-0.5">
+          {Array.from({ length: totalSteps }, (_, i) => {
+            // Fully filled: past segments OR current segment when not actively playing (checkpoint/quiz/complete)
+            const filled = i < currentStep || (i === currentStep && state.phase !== 'screens')
+            // Slowly animating: only the segment currently being narrated
+            const isCurrent = i === currentStep && state.phase === 'screens'
+            const screenDuration = screens[state.currentScreenIndex]?.estimated_duration_seconds ?? 8
+
+            return (
+              <div
+                key={i}
+                className="h-[6px] min-w-[10px] flex-1 overflow-hidden rounded-[8px] bg-[rgba(10,10,10,0.08)]"
+              >
+                {filled && (
+                  <div className="h-full w-full bg-[var(--onboarding-fill)]" />
+                )}
+                {isCurrent && (
+                  // key changes every time currentScreenIndex changes → remount → animation restarts
+                  <div
+                    key={`seg-fill-${state.currentScreenIndex}`}
+                    className="lesson-segment-active h-full bg-[var(--onboarding-fill)]"
+                    style={{ animationDuration: `${screenDuration}s` }}
+                  />
+                )}
+              </div>
+            )
+          })}
         </div>
       </header>
 
-      {/* Content */}
-      <main className="mx-auto w-full max-w-2xl flex-1 overflow-hidden p-4">
+      {/* Content — 400px max width for lessons */}
+      <main className="mx-auto w-full max-w-[400px] flex-1 overflow-hidden p-4">
         <div ref={containerRef} className="h-full">
           {renderContent()}
         </div>

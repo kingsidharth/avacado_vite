@@ -7,12 +7,18 @@ interface QuestionRendererProps {
   question: Question
   onSubmit: (result: QuestionResult, answer: unknown) => void
   submitted?: boolean
+  /** When set, a "Continue" CTA is shown after the user submits (e.g. checkpoint → next lesson). */
+  onContinue?: () => void
+  /** Label for the continue button. Default: "Continue". */
+  continueLabel?: string
 }
 
 export function QuestionRenderer({
   question,
   onSubmit,
   submitted = false,
+  onContinue,
+  continueLabel = 'Continue',
 }: QuestionRendererProps) {
   switch (question.type) {
     case 'text-entry':
@@ -21,6 +27,8 @@ export function QuestionRenderer({
           question={question}
           onSubmit={(result, answer) => onSubmit(result, answer)}
           submitted={submitted}
+          onContinue={onContinue}
+          continueLabel={continueLabel}
         />
       )
 
@@ -30,6 +38,8 @@ export function QuestionRenderer({
           question={question}
           onSubmit={(result, answer) => onSubmit(result, answer)}
           submitted={submitted}
+          onContinue={onContinue}
+          continueLabel={continueLabel}
         />
       )
 
@@ -39,6 +49,8 @@ export function QuestionRenderer({
           question={question}
           onSubmit={(result, answer) => onSubmit(result, answer)}
           submitted={submitted}
+          onContinue={onContinue}
+          continueLabel={continueLabel}
         />
       )
 

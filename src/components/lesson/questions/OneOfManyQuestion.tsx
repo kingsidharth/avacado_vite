@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import type { OneOfManyQuestion } from '@/types/content'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Button } from '@/components/ui/button'
 import {
   Select,
   SelectContent,
@@ -13,24 +11,54 @@ import { HintReveal } from './HintReveal'
 import { AnswerFeedback } from './AnswerFeedback'
 import { scoreOneOfMany } from '@/lib/scoring'
 import type { QuestionResult } from '@/types/content'
+import { QuizOptionButton, type QuizOptionVariant } from '@/components/quiz/QuizOptionButton'
+import { cn } from '@/lib/utils'
+import { ChevronRight } from 'lucide-react'
 
 interface OneOfManyQuestionProps {
   question: OneOfManyQuestion
   onSubmit: (result: QuestionResult, answer: string) => void
+  /** External "already submitted" flag from parent (e.g. QuizRunner).
+   *  We also track this locally via `result`, so either source locks interaction. */
   submitted?: boolean
+  /** When set, a Continue CTA is shown after submit (e.g. checkpoint → next lesson). */
+  onContinue?: () => void
+  continueLabel?: string
+}
+
+/**
+ * Returns the visual variant for an option AFTER the user submits.
+ * Only the SELECTED option shows a state — others stay default.
+ * This matches the reference design (screenshots 2 & 3).
+ */
+function getVariant(
+  optionId: string,
+  correctOptionId: string,
+  selected: string,
+  hasResult: boolean,
+): QuizOptionVariant {
+  if (!hasResult) return selected === optionId ? 'selected' : 'default'
+  // Non-selected options always stay default after submit
+  if (selected !== optionId) return 'default'
+  return optionId === correctOptionId ? 'correct' : 'wrong'
 }
 
 export function OneOfManyQuestionComponent({
   question,
   onSubmit,
   submitted = false,
+  onContinue,
+  continueLabel = 'Continue',
 }: OneOfManyQuestionProps) {
   const [selected, setSelected] = useState<string>('')
   const [result, setResult] = useState<QuestionResult | null>(null)
 
+  // Use local result state as the source-of-truth for "has submitted"
+  // The external `submitted` prop may not update in all contexts (e.g. checkpoint quiz).
+  const hasSubmitted = !!result || submitted
+
   const handleSubmit = () => {
     if (!selected) return
-
     const scoring = scoreOneOfMany(question, selected)
     const questionResult: QuestionResult = {
       questionId: question.id,
@@ -42,7 +70,6 @@ export function OneOfManyQuestionComponent({
       correctAnswer: question.correct_option,
       feedback: question.explanation,
     }
-
     setResult(questionResult)
     onSubmit(questionResult, selected)
   }
@@ -50,147 +77,107 @@ export function OneOfManyQuestionComponent({
   const renderAs = question.render_as ?? 'radio'
 
   const renderOptions = () => {
-    switch (renderAs) {
-      case 'cards':
-        return (
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {question.options.map((option) => {
-              const isSelected = selected === option.id
-              const isCorrect = result && option.id === question.correct_option
-              const isWrong = result && isSelected && !isCorrect
-
-              return (
-                <button
-                  key={option.id}
-                  onClick={() => !submitted && setSelected(option.id)}
-                  disabled={submitted}
-                  className={`flex flex-col items-start gap-2 rounded-xl border-2 p-4 text-left transition-all ${
-                    isSelected
-                      ? 'border-primary bg-primary/5'
-                      : 'border-transparent hover:border-border'
-                  } ${isCorrect ? 'border-green-500 bg-green-50' : ''} ${
-                    isWrong ? 'border-red-500 bg-red-50' : ''
-                  }`}
-                >
-                  {option.image && (
-                    <img
-                      src={option.image}
-                      alt=""
-                      className="h-20 w-full rounded-lg object-cover"
-                    />
-                  )}
-                  <span className="font-medium">{option.text}</span>
-                </button>
-              )
-            })}
-          </div>
-        )
-
-      case 'button-grid':
-        return (
-          <div className="grid grid-cols-2 gap-3">
-            {question.options.map((option) => {
-              const isSelected = selected === option.id
-              const isCorrect = result && option.id === question.correct_option
-              const isWrong = result && isSelected && !isCorrect
-
-              return (
-                <button
-                  key={option.id}
-                  onClick={() => !submitted && setSelected(option.id)}
-                  disabled={submitted}
-                  className={`min-h-12 rounded-xl border-2 p-3 text-sm font-medium transition-all ${
-                    isSelected
-                      ? 'border-primary bg-primary/5'
-                      : 'border-transparent hover:border-border'
-                  } ${isCorrect ? 'border-green-500 bg-green-50' : ''} ${
-                    isWrong ? 'border-red-500 bg-red-50' : ''
-                  }`}
-                >
-                  {option.text}
-                </button>
-              )
-            })}
-          </div>
-        )
-
-      case 'dropdown':
-        return (
-          <Select
-            value={selected}
-            onValueChange={setSelected}
-            disabled={submitted}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select an answer..." />
-            </SelectTrigger>
-            <SelectContent>
-              {question.options.map((option) => (
-                <SelectItem key={option.id} value={option.id}>
-                  {option.text}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        )
-
-      case 'radio':
-      default:
-        return (
-          <RadioGroup
-            value={selected}
-            onValueChange={submitted ? undefined : setSelected}
-          >
-            <div className="space-y-3">
-              {question.options.map((option) => {
-                const isSelected = selected === option.id
-                const isCorrect = result && option.id === question.correct_option
-                const isWrong = result && isSelected && !isCorrect
-
-                return (
-                  <label
-                    key={option.id}
-                    className={`flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border-2 p-4 transition-all ${
-                      isSelected
-                        ? 'border-primary bg-primary/5'
-                        : 'border-transparent'
-                    } ${isCorrect ? 'border-green-500 bg-green-50' : ''} ${
-                      isWrong ? 'border-red-500 bg-red-50' : ''
-                    }`}
-                  >
-                    <RadioGroupItem
-                      value={option.id}
-                      className="shrink-0"
-                      disabled={submitted}
-                    />
-                    <span className="text-sm font-medium">{option.text}</span>
-                  </label>
-                )
-              })}
-            </div>
-          </RadioGroup>
-        )
+    // ── Dropdown ──────────────────────────────────────────────────────────────
+    if (renderAs === 'dropdown') {
+      return (
+        <Select value={selected} onValueChange={setSelected} disabled={hasSubmitted}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select an answer..." />
+          </SelectTrigger>
+          <SelectContent>
+            {question.options.map((option) => (
+              <SelectItem key={option.id} value={option.id}>
+                {option.text}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )
     }
+
+    // ── Cards (with images) ────────────────────────────────────────────────────
+    if (renderAs === 'cards') {
+      const cardVariantStyles: Record<QuizOptionVariant, string> = {
+        default:  'border-[rgba(0,0,0,0.08)] bg-white shadow-[var(--quiz-option-shadow-default)]',
+        selected: 'border-[var(--quiz-option-selected-border)] bg-[var(--quiz-option-selected-bg)] shadow-[var(--quiz-option-shadow-state)]',
+        correct:  'border-[var(--quiz-option-correct-border)] bg-[var(--quiz-option-correct-bg)] shadow-[var(--quiz-option-shadow-state)]',
+        wrong:    'border border-[var(--quiz-option-wrong-border)] bg-[var(--quiz-option-wrong-bg)] shadow-[var(--quiz-option-shadow-state)]',
+      }
+      return (
+        <div className="flex flex-col gap-4">
+          {question.options.map((option) => (
+            <button
+              key={option.id}
+              onClick={() => !hasSubmitted && setSelected(option.id)}
+              disabled={hasSubmitted}
+              className={cn(
+                'flex flex-col items-start gap-2 rounded-xl border p-4 text-left transition-colors',
+                cardVariantStyles[getVariant(option.id, question.correct_option, selected, !!result)],
+              )}
+            >
+              {option.image && (
+                <img src={option.image} alt="" className="h-20 w-full rounded-lg object-cover" />
+              )}
+              <span className="text-sm font-medium">{option.text}</span>
+            </button>
+          ))}
+        </div>
+      )
+    }
+
+    // ── Default: radio / button-grid → QuizOptionButton vertical list ─────────
+    return (
+      <div className="flex flex-col gap-4">
+        {question.options.map((option) => (
+          <QuizOptionButton
+            key={option.id}
+            label={option.text}
+            variant={getVariant(option.id, question.correct_option, selected, !!result)}
+            onClick={() => !hasSubmitted && setSelected(option.id)}
+            disabled={hasSubmitted}
+          />
+        ))}
+      </div>
+    )
   }
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-2">
-        <h2 className="text-lg font-semibold">{question.prompt}</h2>
-        {question.hint && !submitted && <HintReveal hint={question.hint} />}
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-2">
+        <h2 className="text-[18px] font-medium leading-[1.4] tracking-[-0.45px] text-[#0a0a0a]">
+          {question.prompt}
+        </h2>
+        {question.hint && !hasSubmitted && <HintReveal hint={question.hint} />}
       </div>
 
-      <div className="space-y-4">
+      <div className="flex flex-col gap-4">
         {renderOptions()}
 
-        {!submitted && (
-          <Button onClick={handleSubmit} disabled={!selected}>
-            Check Answer
-          </Button>
+        {/* Check button — hidden once result is set */}
+        {!result && !submitted && (
+          <button
+            type="button"
+            onClick={handleSubmit}
+            disabled={!selected}
+            className="mt-2 h-[46px] w-full rounded-xl bg-[#0a0a0a] text-base font-medium leading-[1.2] text-white shadow-[var(--quiz-cta-shadow)] transition-opacity hover:opacity-90 disabled:opacity-40"
+          >
+            Check
+          </button>
         )}
       </div>
 
       {result && <AnswerFeedback result={result} />}
+
+      {result && onContinue && (
+        <button
+          type="button"
+          onClick={onContinue}
+          className="flex h-[46px] w-full items-center justify-center gap-2 rounded-xl bg-[#0a0a0a] text-base font-medium text-white shadow-[var(--quiz-cta-shadow)] transition-opacity hover:opacity-90"
+        >
+          {continueLabel}
+          <ChevronRight className="size-4" />
+        </button>
+      )}
     </div>
   )
 }

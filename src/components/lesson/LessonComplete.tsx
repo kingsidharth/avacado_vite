@@ -4,6 +4,7 @@ import { MascotBlob } from '@/components/mascot/MascotBlob'
 import { FireworksBackground } from '@/components/animate-ui/components/backgrounds/fireworks'
 import { Button } from '@/components/ui/button'
 import { RotateCcw } from 'lucide-react'
+import { ScoreRing } from '@/components/lesson/ScoreRing'
 import type { AssessmentResult } from '@/types/content'
 
 // ============================================================================
@@ -33,14 +34,18 @@ export function LessonComplete({
 }: LessonCompleteProps) {
   const hasAnimatedRef = useRef(false)
 
-  const scorePercent = assessmentResult
-    ? Math.round(assessmentResult.score * 100)
-    : 100
-  const isGreatScore = scorePercent > 50
   const correct = assessmentResult?.breakdown.correct ?? 0
   const total = assessmentResult
     ? assessmentResult.breakdown.correct + assessmentResult.breakdown.incorrect + assessmentResult.breakdown.partial
     : 0
+
+  // Ring fill is based on correct/total questions so it always matches the
+  // displayed centre number, regardless of weighted point values.
+  const ringPercent = total > 0 ? Math.round((correct / total) * 100) : 0
+  const scorePercent = assessmentResult
+    ? Math.round(assessmentResult.score * 100)
+    : 100
+  const isGreatScore = scorePercent > 50
 
   const containerRef = useCallback(
     (node: HTMLDivElement | null) => {
@@ -70,17 +75,7 @@ export function LessonComplete({
         }, 500)
       }
 
-      // 4. Score bar fills
-      const scoreBar = node.querySelector('.score-bar-fill')
-      if (scoreBar) {
-        tl.add(scoreBar, {
-          width: [`0%`, `${scorePercent}%`],
-          duration: 700,
-          ease: 'outQuad',
-        }, 600)
-      }
-
-      // 5. Mascot rises from bottom
+      // 4. Mascot rises from bottom
       const mascotEl = node.querySelector('.celebrate-mascot')
       if (mascotEl) {
         tl.add(mascotEl, {
@@ -92,7 +87,7 @@ export function LessonComplete({
         }, 700)
       }
 
-      // 6. Message
+      // 5. Message
       const messageEl = node.querySelector('.celebrate-message')
       if (messageEl) {
         tl.add(messageEl, {
@@ -102,7 +97,7 @@ export function LessonComplete({
         }, 1100)
       }
 
-      // 7. CTA slides up
+      // 6. CTA slides up
       const ctaEl = node.querySelector('.celebrate-cta')
       if (ctaEl) {
         tl.add(ctaEl, {
@@ -134,31 +129,24 @@ export function LessonComplete({
         {/* Score section — top area */}
         {assessmentResult && (
           <div className="flex flex-col items-center gap-2 px-6 pt-10">
-            {/* Row 1: X/N */}
             <div
-              className="celebrate-score-num text-5xl font-medium tracking-tight text-foreground"
+              className="celebrate-score-num"
               style={{ opacity: 0 }}
             >
-              {correct}<span className="text-2xl text-muted-foreground">/{total}</span>
+              <ScoreRing
+                score={ringPercent}
+                displayValue={correct}
+                label={total > 0 ? `Out of ${total}` : 'Out of 100'}
+                animated={false}
+              />
             </div>
 
-            {/* Row 2: Your Score */}
             <p
-              className="celebrate-score-label text-sm text-muted-foreground"
+              className="celebrate-score-label text-base text-muted-foreground"
               style={{ opacity: 0 }}
             >
               Your Score
             </p>
-
-            {/* Row 3: tiny progress bar */}
-            <div className="mt-1 h-2 w-40 overflow-hidden rounded-full bg-muted">
-              <div
-                className={`score-bar-fill h-full rounded-full ${
-                  scorePercent > 70 ? 'bg-primary' : scorePercent > 50 ? 'bg-yellow-400' : 'bg-orange-400'
-                }`}
-                style={{ width: '0%' }}
-              />
-            </div>
           </div>
         )}
 
@@ -166,10 +154,10 @@ export function LessonComplete({
         <div className="flex flex-1 flex-col items-center justify-end">
           {/* Speech bubble above mascot */}
           <div
-            className="celebrate-message mb-2"
+            className="celebrate-message relative mb-2"
             style={{ opacity: 0 }}
           >
-            <div className="relative rounded-2xl border-2 border-border bg-card px-5 py-3 shadow-level-1">
+            <div className="absolute top-[49px] left-[-55px] rounded-2xl border-2 border-border bg-card px-5 py-3 shadow-level-1">
               <h2 className="text-center text-lg font-medium text-card-foreground">
                 {isGreatScore ? 'You did amazing!' : 'Lesson Complete!'}
               </h2>

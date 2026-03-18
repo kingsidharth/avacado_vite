@@ -15,6 +15,8 @@ export interface SubBlobConfig {
 }
 
 export interface MascotBlobProps {
+  /** Applied to root SVG; e.g. for Cursor DOM path targeting */
+  'data-cursor-element-id'?: string
   className?: string
   bodyMode?: BodyMode
   eyeVariant?: EyeVariant
@@ -33,6 +35,8 @@ export interface MascotBlobProps {
   faceOffsetY?: number
   faceSpacing?: number
   faceScale?: number
+  /** Align SVG content horizontally when scaled: 'left' | 'center' (default) */
+  alignContent?: 'left' | 'center'
   // Animation props
   animationEnabled?: boolean
   animationSpeed?: number
@@ -89,7 +93,8 @@ function computeInnerCenter(innerBlobs: SubBlobConfig[]) {
 }
 
 export function MascotBlob({
-  className,
+  'data-cursor-element-id': dataCursorElementId,
+  className = 'w-full max-w-[420px] md:max-w-[520px] lg:max-w-[600px]',
   bodyMode = 'static',
   eyeVariant = 'regular',
   mouthVariant = 'smile',
@@ -104,6 +109,7 @@ export function MascotBlob({
   faceOffsetY = -35,
   faceSpacing = 1.0,
   faceScale = 1.3,
+  alignContent = 'center',
   animationEnabled = false,
   animationSpeed = 3,
   animationAmplitude = 8,
@@ -227,16 +233,20 @@ export function MascotBlob({
   const eyeYOff = -eyeH * 0.8 * spacing
   const mouthYOff = mouthH * 0.55 * spacing
 
+  const preserveAspectRatio = alignContent === 'left' ? 'xMinYMid meet' : 'xMidYMid meet'
+
   return (
     <svg
       viewBox="0 0 500 520"
       width="100%"
+      preserveAspectRatio={preserveAspectRatio}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
+      style={{ cursor: 'pointer' }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
-      style={{ cursor: 'pointer' }}
+      {...(dataCursorElementId != null && { 'data-cursor-element-id': dataCursorElementId })}
     >
       {isGenerated && (
         <defs>

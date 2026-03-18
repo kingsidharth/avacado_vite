@@ -29,6 +29,7 @@ import { Route as AppChatNewRouteImport } from './routes/_app/chat.new'
 import { Route as AppChatChatIdRouteImport } from './routes/_app/chat.$chatId'
 import { Route as AppLearnMilestoneIdIndexRouteImport } from './routes/_app/learn/$milestoneId/index'
 import { Route as LessonMilestoneIdLevelIdLessonIdRouteImport } from './routes/lesson.$milestoneId.$levelId.$lessonId'
+import { Route as LessonLoadingMilestoneIdLevelIdLessonIdRouteImport } from './routes/lesson-loading.$milestoneId.$levelId.$lessonId'
 import { Route as AppLearnMilestoneIdLevelIdRouteImport } from './routes/_app/learn/$milestoneId/$levelId'
 
 const SplashRoute = SplashRouteImport.update({
@@ -132,6 +133,12 @@ const LessonMilestoneIdLevelIdLessonIdRoute =
     path: '/lesson/$milestoneId/$levelId/$lessonId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const LessonLoadingMilestoneIdLevelIdLessonIdRoute =
+  LessonLoadingMilestoneIdLevelIdLessonIdRouteImport.update({
+    id: '/lesson-loading/$milestoneId/$levelId/$lessonId',
+    path: '/lesson-loading/$milestoneId/$levelId/$lessonId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AppLearnMilestoneIdLevelIdRoute =
   AppLearnMilestoneIdLevelIdRouteImport.update({
     id: '/learn/$milestoneId/$levelId',
@@ -158,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/quiz/$quizId': typeof AppQuizQuizIdRoute
   '/learn/': typeof AppLearnIndexRoute
   '/learn/$milestoneId/$levelId': typeof AppLearnMilestoneIdLevelIdRoute
+  '/lesson-loading/$milestoneId/$levelId/$lessonId': typeof LessonLoadingMilestoneIdLevelIdLessonIdRoute
   '/lesson/$milestoneId/$levelId/$lessonId': typeof LessonMilestoneIdLevelIdLessonIdRoute
   '/learn/$milestoneId/': typeof AppLearnMilestoneIdIndexRoute
 }
@@ -180,6 +188,7 @@ export interface FileRoutesByTo {
   '/quiz/$quizId': typeof AppQuizQuizIdRoute
   '/learn': typeof AppLearnIndexRoute
   '/learn/$milestoneId/$levelId': typeof AppLearnMilestoneIdLevelIdRoute
+  '/lesson-loading/$milestoneId/$levelId/$lessonId': typeof LessonLoadingMilestoneIdLevelIdLessonIdRoute
   '/lesson/$milestoneId/$levelId/$lessonId': typeof LessonMilestoneIdLevelIdLessonIdRoute
   '/learn/$milestoneId': typeof AppLearnMilestoneIdIndexRoute
 }
@@ -204,6 +213,7 @@ export interface FileRoutesById {
   '/_app/quiz/$quizId': typeof AppQuizQuizIdRoute
   '/_app/learn/': typeof AppLearnIndexRoute
   '/_app/learn/$milestoneId/$levelId': typeof AppLearnMilestoneIdLevelIdRoute
+  '/lesson-loading/$milestoneId/$levelId/$lessonId': typeof LessonLoadingMilestoneIdLevelIdLessonIdRoute
   '/lesson/$milestoneId/$levelId/$lessonId': typeof LessonMilestoneIdLevelIdLessonIdRoute
   '/_app/learn/$milestoneId/': typeof AppLearnMilestoneIdIndexRoute
 }
@@ -228,6 +238,7 @@ export interface FileRouteTypes {
     | '/quiz/$quizId'
     | '/learn/'
     | '/learn/$milestoneId/$levelId'
+    | '/lesson-loading/$milestoneId/$levelId/$lessonId'
     | '/lesson/$milestoneId/$levelId/$lessonId'
     | '/learn/$milestoneId/'
   fileRoutesByTo: FileRoutesByTo
@@ -250,6 +261,7 @@ export interface FileRouteTypes {
     | '/quiz/$quizId'
     | '/learn'
     | '/learn/$milestoneId/$levelId'
+    | '/lesson-loading/$milestoneId/$levelId/$lessonId'
     | '/lesson/$milestoneId/$levelId/$lessonId'
     | '/learn/$milestoneId'
   id:
@@ -273,6 +285,7 @@ export interface FileRouteTypes {
     | '/_app/quiz/$quizId'
     | '/_app/learn/'
     | '/_app/learn/$milestoneId/$levelId'
+    | '/lesson-loading/$milestoneId/$levelId/$lessonId'
     | '/lesson/$milestoneId/$levelId/$lessonId'
     | '/_app/learn/$milestoneId/'
   fileRoutesById: FileRoutesById
@@ -285,6 +298,7 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   SplashRoute: typeof SplashRoute
   PaywallFullRoute: typeof PaywallFullRoute
+  LessonLoadingMilestoneIdLevelIdLessonIdRoute: typeof LessonLoadingMilestoneIdLevelIdLessonIdRoute
   LessonMilestoneIdLevelIdLessonIdRoute: typeof LessonMilestoneIdLevelIdLessonIdRoute
 }
 
@@ -430,6 +444,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LessonMilestoneIdLevelIdLessonIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lesson-loading/$milestoneId/$levelId/$lessonId': {
+      id: '/lesson-loading/$milestoneId/$levelId/$lessonId'
+      path: '/lesson-loading/$milestoneId/$levelId/$lessonId'
+      fullPath: '/lesson-loading/$milestoneId/$levelId/$lessonId'
+      preLoaderRoute: typeof LessonLoadingMilestoneIdLevelIdLessonIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_app/learn/$milestoneId/$levelId': {
       id: '/_app/learn/$milestoneId/$levelId'
       path: '/learn/$milestoneId/$levelId'
@@ -491,6 +512,8 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   SplashRoute: SplashRoute,
   PaywallFullRoute: PaywallFullRoute,
+  LessonLoadingMilestoneIdLevelIdLessonIdRoute:
+    LessonLoadingMilestoneIdLevelIdLessonIdRoute,
   LessonMilestoneIdLevelIdLessonIdRoute: LessonMilestoneIdLevelIdLessonIdRoute,
 }
 export const routeTree = rootRouteImport
