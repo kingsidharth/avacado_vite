@@ -12,7 +12,6 @@ import { useSessionStore } from '@/store/session'
 import { useRecordUserHistory } from '@/hooks/useRecordUserHistory'
 import { X } from 'lucide-react'
 import { animate } from 'animejs'
-import type { QuestionResult } from '@/types/content'
 
 // ============================================================================
 // Types
@@ -238,7 +237,7 @@ export function LessonPlayer({
       animateTransition('prev')
       dispatch({ type: 'PREV_SCREEN' })
     }
-  }, [state.phase, state.currentScreenIndex, animateTransition, screens.length, hasQuiz])
+  }, [state.phase, state.currentScreenIndex, animateTransition])
 
   const handleQuizComplete = useCallback(
     (result: AssessmentResult) => {
@@ -293,11 +292,7 @@ export function LessonPlayer({
     }
   }, [nextLessonId, milestoneId, levelId, navigate])
 
-  const handleMascotCta = useCallback(() => {
-    advanceFromScreen()
-  }, [advanceFromScreen])
-
-  const handleCheckpointSubmit = useCallback((_result: QuestionResult) => {
+  const handleCheckpointSubmit = useCallback(() => {
     // Don't auto-advance; user clicks Continue (onContinue) to move to next step
   }, [])
 
@@ -402,13 +397,6 @@ export function LessonPlayer({
     : state.phase === 'quiz'
       ? screens.length
       : totalSteps
-  const progressPercent = totalSteps > 0 ? (currentStep / totalSteps) * 100 : 0
-
-  // Completed steps count (for header progress bar and label)
-  const completedScreens = state.phase === 'screens' || state.phase === 'checkpoint'
-    ? state.currentScreenIndex
-    : screens.length
-
   // Render based on phase
   const renderContent = () => {
     switch (state.phase) {
@@ -432,7 +420,6 @@ export function LessonPlayer({
             key={screenKey ?? currentScreen.id}
             screen={currentScreen}
             onComplete={advanceFromScreen}
-            onMascotCta={handleMascotCta}
             ttsUrl={ttsUrl}
           />
         )
@@ -448,6 +435,7 @@ export function LessonPlayer({
 
         return (
           <QuestionRenderer
+            key={checkpointQuestion.id}
             question={checkpointQuestion}
             onSubmit={handleCheckpointSubmit}
             onContinue={advanceFromCheckpoint}

@@ -10,7 +10,8 @@ import { ChevronRight } from 'lucide-react'
 interface TextEntryQuestionProps {
   question: TextEntryQuestion
   onSubmit: (result: QuestionResult, answer: string) => void
-  submitted?: boolean
+  result?: QuestionResult | null
+  answer?: unknown
   onContinue?: () => void
   continueLabel?: string
 }
@@ -18,12 +19,16 @@ interface TextEntryQuestionProps {
 export function TextEntryQuestionComponent({
   question,
   onSubmit,
-  submitted = false,
+  result: externalResult = null,
+  answer: externalAnswer,
   onContinue,
   continueLabel = 'Continue',
 }: TextEntryQuestionProps) {
-  const [answer, setAnswer] = useState('')
-  const [result, setResult] = useState<QuestionResult | null>(null)
+  const [draftAnswer, setDraftAnswer] = useState('')
+  const [localResult, setLocalResult] = useState<QuestionResult | null>(null)
+  const answer = typeof externalAnswer === 'string' ? externalAnswer : draftAnswer
+  const result = localResult ?? externalResult
+  const hasSubmitted = !!result
 
   const handleSubmit = () => {
     if (!answer.trim()) return
@@ -40,7 +45,7 @@ export function TextEntryQuestionComponent({
       feedback: question.explanation,
     }
 
-    setResult(questionResult)
+    setLocalResult(questionResult)
     onSubmit(questionResult, answer)
   }
 
@@ -50,25 +55,25 @@ export function TextEntryQuestionComponent({
     <div className="space-y-2 px-1.5">
       <div className="space-y-2">
         <h2 className="text-base font-medium">{question.prompt}</h2>
-        {question.hint && !submitted && <HintReveal hint={question.hint} />}
+        {question.hint && !hasSubmitted && <HintReveal hint={question.hint} />}
       </div>
 
       <div className="space-y-4">
         <Input
           type="text"
           value={answer}
-          onChange={(e) => setAnswer(e.target.value)}
+          onChange={(e) => setDraftAnswer(e.target.value)}
           placeholder={question.placeholder || 'Enter your answer...'}
-          disabled={submitted || isCorrect}
+          disabled={hasSubmitted || isCorrect}
           className={`h-[56px] pt-2 pb-6 text-left focus-visible:ring-[#0a0a0a] ${isCorrect ? 'border-green-500 bg-green-50' : ''}`}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' && !submitted) {
+            if (e.key === 'Enter' && !hasSubmitted) {
               handleSubmit()
             }
           }}
         />
 
-        {!submitted && (
+        {!hasSubmitted && (
           <button
             type="button"
             onClick={handleSubmit}

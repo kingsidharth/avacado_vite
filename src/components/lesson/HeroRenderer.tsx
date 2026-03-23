@@ -28,8 +28,6 @@ interface HeroRendererProps {
   currentWordIndex?: number
   /** Callback when a sync point is triggered */
   onSyncPoint?: (syncPoint: SyncPoint) => void
-  /** Callback for mascot hero CTA click */
-  onMascotCta?: () => void
 }
 
 // ============================================================================
@@ -37,7 +35,7 @@ interface HeroRendererProps {
 // ============================================================================
 
 export const HeroRenderer = forwardRef<HeroRendererRef, HeroRendererProps>(
-  ({ hero, currentWordIndex, onSyncPoint, onMascotCta }, ref) => {
+  ({ hero, currentWordIndex, onSyncPoint }, ref) => {
     const videoRef = useRef<VideoHeroRef>(null)
 
     // Expose video controls via ref
@@ -108,8 +106,6 @@ export const HeroRenderer = forwardRef<HeroRendererRef, HeroRendererProps>(
           <MascotHero
             eyeVariant={hero.eye_variant}
             mouthVariant={hero.mouth_variant}
-            ctaText={hero.cta_text}
-            onCtaClick={onMascotCta}
           />
         )
 

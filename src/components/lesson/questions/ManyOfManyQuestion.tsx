@@ -11,7 +11,8 @@ import { ChevronRight } from 'lucide-react'
 interface ManyOfManyQuestionProps {
   question: ManyOfManyQuestion
   onSubmit: (result: QuestionResult, answer: string[]) => void
-  submitted?: boolean
+  result?: QuestionResult | null
+  answer?: unknown
   onContinue?: () => void
   continueLabel?: string
 }
@@ -34,14 +35,19 @@ function getVariantMulti(
 export function ManyOfManyQuestionComponent({
   question,
   onSubmit,
-  submitted = false,
+  result: externalResult = null,
+  answer: externalAnswer,
   onContinue,
   continueLabel = 'Continue',
 }: ManyOfManyQuestionProps) {
   const [selected, setSelected] = useState<string[]>([])
-  const [result, setResult] = useState<QuestionResult | null>(null)
-
-  const hasSubmitted = !!result || submitted
+  const [localResult, setLocalResult] = useState<QuestionResult | null>(null)
+  const result = localResult ?? externalResult
+  const resolvedSelected =
+    Array.isArray(externalAnswer) ? externalAnswer :
+      Array.isArray(result?.userAnswer) ? result.userAnswer.filter((value): value is string => typeof value === 'string') :
+        selected
+  const hasSubmitted = !!result
 
   const toggleOption = (optionId: string) => {
     if (hasSubmitted) return
@@ -51,20 +57,20 @@ export function ManyOfManyQuestionComponent({
   }
 
   const handleSubmit = () => {
-    if (selected.length === 0) return
-    const scoring = scoreManyOfMany(question, selected)
+    if (resolvedSelected.length === 0) return
+    const scoring = scoreManyOfMany(question, resolvedSelected)
     const questionResult: QuestionResult = {
       questionId: question.id,
       correct: scoring.correct,
       partial: scoring.partial,
       pointsEarned: scoring.pointsEarned,
       pointsPossible: question.points,
-      userAnswer: selected,
+      userAnswer: resolvedSelected,
       correctAnswer: question.correct_options,
       feedback: question.explanation,
     }
-    setResult(questionResult)
-    onSubmit(questionResult, selected)
+    setLocalResult(questionResult)
+    onSubmit(questionResult, resolvedSelected)
   }
 
   const renderAs = question.render_as ?? 'checkboxes'
@@ -76,7 +82,7 @@ export function ManyOfManyQuestionComponent({
         default:  'border-[rgba(0,0,0,0.08)] bg-white shadow-[var(--quiz-option-shadow-default)]',
         selected: 'border-[var(--quiz-option-selected-border)] bg-[var(--quiz-option-selected-bg)] shadow-[var(--quiz-option-shadow-state)]',
         correct:  'border-[var(--quiz-option-correct-border)] bg-[var(--quiz-option-correct-bg)] shadow-[var(--quiz-option-shadow-state)]',
-        wrong:    'border border-[var(--quiz-option-wrong-border)] bg-[var(--quiz-option-wrong-bg)] shadow-[var(--quiz-option-shadow-state)]',
+        wrong:    'border border-dashed border-[var(--quiz-option-wrong-border)] bg-[var(--quiz-option-wrong-bg)] shadow-[var(--quiz-option-shadow-state)]',
       }
       return (
         <ul
@@ -97,7 +103,7 @@ export function ManyOfManyQuestionComponent({
                 disabled={hasSubmitted}
                 className={cn(
                   'flex w-full flex-col items-start gap-2 rounded-xl border p-4 text-left transition-colors',
-                  cardVariantStyles[getVariantMulti(option.id, question.correct_options, selected, !!result)],
+                  cardVariantStyles[getVariantMulti(option.id, question.correct_options, resolvedSelected, hasSubmitted)],
                 )}
               >
                 {option.image && (
@@ -127,7 +133,7 @@ export function ManyOfManyQuestionComponent({
           >
             <QuizOptionButton
               label={option.text}
-              variant={getVariantMulti(option.id, question.correct_options, selected, !!result)}
+              variant={getVariantMulti(option.id, question.correct_options, resolvedSelected, hasSubmitted)}
               onClick={() => toggleOption(option.id)}
               disabled={hasSubmitted}
             />
@@ -149,11 +155,11 @@ export function ManyOfManyQuestionComponent({
       <div className="flex w-full flex-col items-start justify-start gap-[16px]">
         {renderOptions()}
 
-        {!result && !submitted && (
+        {!hasSubmitted && (
           <button
             type="button"
             onClick={handleSubmit}
-            disabled={selected.length === 0}
+            disabled={resolvedSelected.length === 0}
             className="mt-2 h-[46px] w-full rounded-xl bg-[#0a0a0a] text-base font-medium leading-[1.2] text-white shadow-[var(--quiz-cta-shadow)] transition-opacity hover:opacity-90 disabled:opacity-40"
           >
             Check

@@ -18,9 +18,8 @@ import { ChevronRight } from 'lucide-react'
 interface OneOfManyQuestionProps {
   question: OneOfManyQuestion
   onSubmit: (result: QuestionResult, answer: string) => void
-  /** External "already submitted" flag from parent (e.g. QuizRunner).
-   *  We also track this locally via `result`, so either source locks interaction. */
-  submitted?: boolean
+  result?: QuestionResult | null
+  answer?: unknown
   /** When set, a Continue CTA is shown after submit (e.g. checkpoint → next lesson). */
   onContinue?: () => void
   continueLabel?: string
@@ -46,32 +45,37 @@ function getVariant(
 export function OneOfManyQuestionComponent({
   question,
   onSubmit,
-  submitted = false,
+  result: externalResult = null,
+  answer: externalAnswer,
   onContinue,
   continueLabel = 'Continue',
 }: OneOfManyQuestionProps) {
   const [selected, setSelected] = useState<string>('')
-  const [result, setResult] = useState<QuestionResult | null>(null)
-
-  // Use local result state as the source-of-truth for "has submitted"
-  // The external `submitted` prop may not update in all contexts (e.g. checkpoint quiz).
-  const hasSubmitted = !!result || submitted
+  const [localResult, setLocalResult] = useState<QuestionResult | null>(null)
+  const result = localResult ?? externalResult
+  const resolvedSelected =
+    typeof externalAnswer === 'string'
+      ? externalAnswer
+      : typeof result?.userAnswer === 'string'
+        ? result.userAnswer
+        : selected
+  const hasSubmitted = !!result
 
   const handleSubmit = () => {
-    if (!selected) return
-    const scoring = scoreOneOfMany(question, selected)
+    if (!resolvedSelected) return
+    const scoring = scoreOneOfMany(question, resolvedSelected)
     const questionResult: QuestionResult = {
       questionId: question.id,
       correct: scoring.correct,
       partial: scoring.partial,
       pointsEarned: scoring.pointsEarned,
       pointsPossible: question.points,
-      userAnswer: selected,
+      userAnswer: resolvedSelected,
       correctAnswer: question.correct_option,
       feedback: question.explanation,
     }
-    setResult(questionResult)
-    onSubmit(questionResult, selected)
+    setLocalResult(questionResult)
+    onSubmit(questionResult, resolvedSelected)
   }
 
   const renderAs = question.render_as ?? 'radio'
@@ -80,7 +84,7 @@ export function OneOfManyQuestionComponent({
     // ── Dropdown ──────────────────────────────────────────────────────────────
     if (renderAs === 'dropdown') {
       return (
-        <Select value={selected} onValueChange={setSelected} disabled={hasSubmitted}>
+        <Select value={resolvedSelected} onValueChange={setSelected} disabled={hasSubmitted}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select an answer..." />
           </SelectTrigger>
@@ -101,7 +105,7 @@ export function OneOfManyQuestionComponent({
         default:  'border-[rgba(0,0,0,0.08)] bg-white shadow-[var(--quiz-option-shadow-default)]',
         selected: 'border-[var(--quiz-option-selected-border)] bg-[var(--quiz-option-selected-bg)] shadow-[var(--quiz-option-shadow-state)]',
         correct:  'border-[var(--quiz-option-correct-border)] bg-[var(--quiz-option-correct-bg)] shadow-[var(--quiz-option-shadow-state)]',
-        wrong:    'border border-[var(--quiz-option-wrong-border)] bg-[var(--quiz-option-wrong-bg)] shadow-[var(--quiz-option-shadow-state)]',
+        wrong:    'border border-dashed border-[var(--quiz-option-wrong-border)] bg-[var(--quiz-option-wrong-bg)] shadow-[var(--quiz-option-shadow-state)]',
       }
       return (
         <div className="flex flex-col gap-4">
@@ -112,7 +116,7 @@ export function OneOfManyQuestionComponent({
               disabled={hasSubmitted}
               className={cn(
                 'flex flex-col items-start gap-2 rounded-xl border p-4 text-left transition-colors',
-                cardVariantStyles[getVariant(option.id, question.correct_option, selected, !!result)],
+                cardVariantStyles[getVariant(option.id, question.correct_option, resolvedSelected, hasSubmitted)],
               )}
             >
               {option.image && (
@@ -132,7 +136,7 @@ export function OneOfManyQuestionComponent({
           <QuizOptionButton
             key={option.id}
             label={option.text}
-            variant={getVariant(option.id, question.correct_option, selected, !!result)}
+            variant={getVariant(option.id, question.correct_option, resolvedSelected, hasSubmitted)}
             onClick={() => !hasSubmitted && setSelected(option.id)}
             disabled={hasSubmitted}
           />
@@ -154,11 +158,11 @@ export function OneOfManyQuestionComponent({
         {renderOptions()}
 
         {/* Check button — hidden once result is set */}
-        {!result && !submitted && (
+        {!hasSubmitted && (
           <button
             type="button"
             onClick={handleSubmit}
-            disabled={!selected}
+            disabled={!resolvedSelected}
             className="mt-2 h-[46px] w-full rounded-xl bg-[#0a0a0a] text-base font-medium leading-[1.2] text-white shadow-[var(--quiz-cta-shadow)] transition-opacity hover:opacity-90 disabled:opacity-40"
           >
             Check

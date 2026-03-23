@@ -1,4 +1,4 @@
-import { useRouter } from '@tanstack/react-router'
+import { useNavigate, useRouter } from '@tanstack/react-router'
 import { ChevronLeft } from 'lucide-react'
 
 interface QuizPageHeaderProps {
@@ -12,14 +12,24 @@ interface QuizPageHeaderProps {
  */
 export function QuizPageHeader({ progressPercent }: QuizPageHeaderProps) {
   const router = useRouter()
+  const navigate = useNavigate()
   const percent = Math.min(100, Math.max(0, progressPercent))
+
+  const handleBack = () => {
+    if (router.history.canGoBack()) {
+      router.history.back()
+      return
+    }
+
+    void navigate({ to: '/dashboard' })
+  }
 
   return (
     <div className="flex w-full items-center gap-1.5">
       {/* Back: 36×36 touch, 6px padding, 24×24 icon */}
       <button
         type="button"
-        onClick={() => router.history.back()}
+        onClick={handleBack}
         className="flex shrink-0 items-center justify-center rounded-lg p-1.5 text-foreground transition-colors hover:bg-muted"
         aria-label="Go back"
       >

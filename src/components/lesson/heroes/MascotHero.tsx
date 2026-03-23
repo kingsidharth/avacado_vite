@@ -7,10 +7,6 @@ import type { MouthVariant } from '@/components/mascot/MascotMouth'
 interface MascotHeroProps {
   eyeVariant?: string
   mouthVariant?: string
-  /** @deprecated CTA removed from hero; kept for content manifest compatibility */
-  ctaText?: string
-  /** @deprecated CTA removed from hero; kept for content manifest compatibility */
-  onCtaClick?: () => void
 }
 
 export function MascotHero({

@@ -6,7 +6,8 @@ import { ManyOfManyQuestionComponent } from './ManyOfManyQuestion'
 interface QuestionRendererProps {
   question: Question
   onSubmit: (result: QuestionResult, answer: unknown) => void
-  submitted?: boolean
+  result?: QuestionResult | null
+  answer?: unknown
   /** When set, a "Continue" CTA is shown after the user submits (e.g. checkpoint → next lesson). */
   onContinue?: () => void
   /** Label for the continue button. Default: "Continue". */
@@ -16,7 +17,8 @@ interface QuestionRendererProps {
 export function QuestionRenderer({
   question,
   onSubmit,
-  submitted = false,
+  result = null,
+  answer,
   onContinue,
   continueLabel = 'Continue',
 }: QuestionRendererProps) {
@@ -26,7 +28,8 @@ export function QuestionRenderer({
         <TextEntryQuestionComponent
           question={question}
           onSubmit={(result, answer) => onSubmit(result, answer)}
-          submitted={submitted}
+          result={result}
+          answer={answer}
           onContinue={onContinue}
           continueLabel={continueLabel}
         />
@@ -37,7 +40,8 @@ export function QuestionRenderer({
         <OneOfManyQuestionComponent
           question={question}
           onSubmit={(result, answer) => onSubmit(result, answer)}
-          submitted={submitted}
+          result={result}
+          answer={answer}
           onContinue={onContinue}
           continueLabel={continueLabel}
         />
@@ -48,7 +52,8 @@ export function QuestionRenderer({
         <ManyOfManyQuestionComponent
           question={question}
           onSubmit={(result, answer) => onSubmit(result, answer)}
-          submitted={submitted}
+          result={result}
+          answer={answer}
           onContinue={onContinue}
           continueLabel={continueLabel}
         />

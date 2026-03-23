@@ -164,9 +164,11 @@ export function QuizRunner({
       {/* Question */}
       <div className="flex-1">
         <QuestionRenderer
+          key={currentQuestion.id}
           question={currentQuestion}
           onSubmit={handleSubmit}
-          submitted={hasSubmittedCurrent}
+          result={state.results[currentQuestion.id] ?? null}
+          answer={state.answers[currentQuestion.id]}
         />
       </div>
 
