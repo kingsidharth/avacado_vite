@@ -60,14 +60,6 @@ function matchRoute(pathname: string): Handler | null {
 
 const PORT = Number(process.env.API_DEV_PORT) || 3001
 
-// Free the port if a previous dev server is still running
-try {
-  const { execSync } = await import('node:child_process')
-  execSync(`lsof -ti:${PORT} 2>/dev/null | xargs kill -9 2>/dev/null`, { stdio: 'ignore' })
-} catch {
-  // Port was already free — nothing to do
-}
-
 // Ensure DB is migrated before handling requests (avoids 500 from missing tables)
 const { getDb } = await import('../api/_lib/db/adapter')
 try {
@@ -114,6 +106,18 @@ const server = createServer(async (req, res) => {
       res.end(JSON.stringify({ error: err instanceof Error ? err.message : 'Internal server error' }))
     }
   }
+})
+
+server.on('error', (error: NodeJS.ErrnoException) => {
+  if (error.code === 'EADDRINUSE') {
+    console.error(
+      `API dev server could not start because port ${PORT} is already in use. Stop the process using that port or set API_DEV_PORT to a different value and retry.`,
+    )
+    process.exit(1)
+  }
+
+  console.error('API dev server failed to start.', error)
+  process.exit(1)
 })
 
 server.listen(PORT, () => {
