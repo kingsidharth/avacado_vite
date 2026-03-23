@@ -108,7 +108,7 @@ export function LessonComplete({
       }
 
     },
-    [scorePercent]
+    []
   )
 
   return (
@@ -129,10 +129,7 @@ export function LessonComplete({
         {/* Score section — top area */}
         {assessmentResult && (
           <div className="flex flex-col items-center gap-2 px-6 pt-10">
-            <div
-              className="celebrate-score-num"
-              style={{ opacity: 0 }}
-            >
+            <div className="celebrate-score-num opacity-0">
               <ScoreRing
                 score={ringPercent}
                 displayValue={correct}
@@ -141,10 +138,7 @@ export function LessonComplete({
               />
             </div>
 
-            <p
-              className="celebrate-score-label text-base text-muted-foreground"
-              style={{ opacity: 0 }}
-            >
+            <p className="celebrate-score-label opacity-0 text-base text-muted-foreground">
               Your Score
             </p>
           </div>
@@ -153,10 +147,7 @@ export function LessonComplete({
         {/* Mascot — big, bottom-aligned, fills remaining space */}
         <div className="flex flex-1 flex-col items-center justify-end">
           {/* Speech bubble above mascot */}
-          <div
-            className="celebrate-message relative mb-2"
-            style={{ opacity: 0 }}
-          >
+          <div className="celebrate-message relative mb-2 opacity-0">
             <div className="absolute top-[49px] left-[-55px] rounded-2xl border-2 border-border bg-card px-5 py-3 shadow-level-1">
               <h2 className="text-center text-lg font-medium text-card-foreground">
                 {isGreatScore ? 'You did amazing!' : 'Lesson Complete!'}
@@ -168,10 +159,7 @@ export function LessonComplete({
             </div>
           </div>
 
-          <div
-            className="celebrate-mascot w-[22rem] max-w-[90vw] md:w-[28rem]"
-            style={{ opacity: 0 }}
-          >
+          <div className="celebrate-mascot w-[22rem] max-w-[90vw] opacity-0 md:w-[28rem]">
             <div className="aspect-[500/520]">
               <MascotBlob
                 bodyMode="static"
@@ -200,10 +188,7 @@ export function LessonComplete({
       </div>
 
       {/* Bottom CTA */}
-      <div
-        className="celebrate-cta relative z-10 px-4 pb-8 pt-2"
-        style={{ opacity: 0 }}
-      >
+      <div className="celebrate-cta relative z-10 px-4 pb-8 pt-2 opacity-0">
         <Button
           className="w-full bg-black text-white hover:bg-black/90"
           size="lg"

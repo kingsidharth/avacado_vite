@@ -14,7 +14,9 @@ function LessonLoadingPage() {
   const scope = useRef<ReturnType<typeof createScope> | null>(null)
 
   useEffect(() => {
-    scope.current = createScope({ root: rootRef }).add(() => {
+    if (!rootRef.current) return
+
+    scope.current = createScope({ root: rootRef.current }).add(() => {
       // Entry: fade in the whole scene
       animate('.loading-scene', {
         opacity: [0, 1],
@@ -91,10 +93,7 @@ function LessonLoadingPage() {
       </div>
 
       {/* Full scene — fades in on mount (platform only) */}
-      <div
-        className="loading-scene relative flex flex-col items-center"
-        style={{ opacity: 0 }}
-      >
+      <div className="loading-scene relative flex flex-col items-center opacity-0">
         {/* Gap between mascot and platform */}
         <div className="h-8" />
 
@@ -111,17 +110,14 @@ function LessonLoadingPage() {
       </div>
 
       {/* Loading indicator */}
-      <div
-        className="loading-scene absolute bottom-16 flex items-center gap-1"
-        style={{ opacity: 0 }}
-      >
-        <span className="text-sm font-medium tracking-[-0.4px] text-[rgba(255,255,255,0.5)]">
+      <div className="loading-scene absolute bottom-16 flex items-center gap-1 opacity-0">
+        <span className="text-sm font-medium tracking-[-0.4px] text-muted-foreground">
           Preparing your lesson
         </span>
         <span className="flex items-end gap-[3px] pb-[1px]">
-          <span className="dot-1 inline-block h-[5px] w-[5px] rounded-full bg-[rgba(255,255,255,0.4)]" />
-          <span className="dot-2 inline-block h-[5px] w-[5px] rounded-full bg-[rgba(255,255,255,0.4)]" />
-          <span className="dot-3 inline-block h-[5px] w-[5px] rounded-full bg-[rgba(255,255,255,0.4)]" />
+          <span className="dot-1 inline-block h-[5px] w-[5px] rounded-full bg-muted-foreground/60" />
+          <span className="dot-2 inline-block h-[5px] w-[5px] rounded-full bg-muted-foreground/60" />
+          <span className="dot-3 inline-block h-[5px] w-[5px] rounded-full bg-muted-foreground/60" />
         </span>
       </div>
     </div>

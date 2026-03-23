@@ -105,7 +105,7 @@ Frame 559:4084 — Frame 2147225339 (354×53)
 | **Position** | x: 327px, y: 9px |
 | **Size** | 27px × 18px |
 | **Content (example)** | "1/8" |
-| **Font family** | Recursive Sans Linear Medium — `font-['Recursive:Sans_Linear_Medium',sans-serif]` |
+| **Font family** | Space Grotesk Medium — use the app sans font token |
 | **Font variation settings** | `'CASL' 0, 'CRSV' 0.5, 'MONO' 0` |
 | **Font weight** | Medium |
 | **Font size** | 16px |
@@ -166,7 +166,7 @@ Each segment is a rounded pill with two layers:
 | **Progress track** | `rgba(10, 10, 10, 0.08)` | Segment background |
 | **Gap (vertical)** | 11px | Between top row and progress bar |
 | **Title font** | Space Grotesk Medium, 18px | Header title |
-| **Progress font** | Recursive Sans Linear Medium, 16px | "1/8" label |
+| **Progress font** | Space Grotesk Medium, 16px | "1/8" label |
 | **Segment size** | 25×6px | Each progress pill |
 | **Segment radius** | 8px (container), 20px (fill ends) | Pills |
 | **Close touch target** | 36×36px, 6px padding | Icon 24×24 |
@@ -198,7 +198,7 @@ Each segment is a rounded pill with two layers:
 
 ## 10. Implementation Notes
 
-- Use **Space Grotesk** for the title (project typography) and **Recursive** for the progress label if available; otherwise map to existing fonts.
+- Use **Space Grotesk** for both title and progress label to match the app typography system.
 - Progress bar can be implemented as a list of segment components; each segment has a track div and an optional fill div whose width is set by progress.
 - Preserve 11px gap between header row and progress bar and 25×6 segment size with 8px radius for visual match.
 - Ensure close button has at least 36×36px hit area and 24×24px visible icon.

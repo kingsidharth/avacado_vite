@@ -72,7 +72,7 @@ export function QuizOptionButton({
     correct:
       'bg-[var(--quiz-option-correct-bg)] border border-[var(--quiz-option-correct-border)] shadow-[var(--quiz-option-shadow-state)]',
     wrong:
-      'bg-[var(--quiz-option-wrong-bg)] border border-[var(--quiz-option-wrong-border)] shadow-[var(--quiz-option-shadow-state)]',
+      'bg-[var(--quiz-option-wrong-bg)] border border-dashed border-[var(--quiz-option-wrong-border)] shadow-[var(--quiz-option-shadow-state)]',
   }[variant]
 
   // ── Label color ────────────────────────────────────────────────────────────

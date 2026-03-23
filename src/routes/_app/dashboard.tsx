@@ -120,7 +120,7 @@ function DashboardPage() {
     }) ?? milestones[0]
 
   return (
-    <div className="mx-auto w-full max-w-[450px] space-y-10 px-[var(--space-screen-x)] py-6">
+    <div className="mx-auto w-full max-w-[450px] space-y-10 px-6 py-6">
       {/* Stats row — XP / Streak / Coins / Avo Cash */}
       <StatsRow />
 

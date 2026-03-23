@@ -109,16 +109,10 @@ export function ScoreRing({
 
       {/* Centred label */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span
-          className="font-medium leading-snug text-foreground"
-          style={{ fontSize: 28, letterSpacing: '-1px' }}
-        >
+        <span className="text-[28px] font-medium leading-snug tracking-[-1px] text-foreground">
           {centreNumber}
         </span>
-        <span
-          className="font-medium"
-          style={{ fontSize: 12, letterSpacing: '-0.4px', color: 'rgba(10,10,10,0.4)', lineHeight: 1 }}
-        >
+        <span className="text-xs font-medium leading-none tracking-[-0.4px] text-[rgba(10,10,10,0.4)]">
           {label}
         </span>
       </div>

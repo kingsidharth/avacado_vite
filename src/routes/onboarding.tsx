@@ -11,10 +11,6 @@ import { RadioQuestion } from '@/components/quiz/RadioQuestion'
 import { OnboardingProgressBar } from '@/components/onboarding/OnboardingProgressBar'
 import { OnboardingMascotBubble } from '@/components/onboarding/OnboardingMascotBubble'
 import { OnboardingErrorBoundary } from '@/components/onboarding/OnboardingErrorBoundary'
-import { LearningScreenLayout } from '@/components/learning/layout/LearningScreenLayout'
-import { ContentColumn } from '@/components/learning/layout/ContentColumn'
-import { Stack } from '@/components/learning/layout/Stack'
-import { StickyPrimaryCTA } from '@/components/learning/StickyPrimaryCTA'
 import { MascotBlob } from '@/components/mascot/MascotBlob'
 import { DEFAULT_OUTER_BLOBS } from '@/components/mascot/mascot-blob-config'
 import { apiRequest } from '@/lib/api/client'
@@ -143,8 +139,9 @@ function OnboardingPage() {
         await submitOnboarding()
         setPhase('celebration')
       } catch (err) {
+        console.error('Failed to submit onboarding.', err)
         setPhase('steps')
-        setSaveError(err instanceof Error ? err.message : 'Failed to save. Check the terminal: the API may need CLERK_SECRET_KEY in .env.local.')
+        setSaveError('We could not save your plan right now. Please try again.')
       }
       return
     }
@@ -192,10 +189,10 @@ function OnboardingPage() {
 
   if (phase === 'saving') {
     return (
-      <LearningScreenLayout className="items-center justify-center gap-4">
+      <div className="flex min-h-dvh flex-col items-center justify-center gap-4">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
         <p className="text-body text-muted-foreground">Setting up your plan...</p>
-      </LearningScreenLayout>
+      </div>
     )
   }
 
@@ -231,21 +228,18 @@ function OnboardingPage() {
                 : ''
 
   return (
-    <LearningScreenLayout>
-      {/* Fixed header: progress bar + mascot bubble */}
-      <header className="fixed top-0 right-0 left-0 z-10 flex flex-col border-b border-border bg-background">
-        <ContentColumn narrow noPadding>
+    <div className="flex min-h-dvh flex-col">
+      <header className="sticky top-0 z-10 border-b border-border bg-background">
+        <div className="mx-auto w-full max-w-md">
           <OnboardingProgressBar totalSteps={totalSteps} currentStep={stepIndex} />
-        </ContentColumn>
-        <ContentColumn narrow className="py-3">
+        </div>
+        <div className="mx-auto w-full max-w-md px-6 py-3">
           <OnboardingMascotBubble question={stepQuestion} variant="header" className="w-full" />
-        </ContentColumn>
+        </div>
       </header>
 
-      {/* Scrollable content — offset clears the fixed header (~130px) */}
-      <div className="flex flex-1 flex-col pt-[130px]">
-        <ContentColumn narrow className="flex-1 py-[var(--space-section-gap)]">
-          <Stack gap="lg">
+      <div className="mx-auto flex w-full max-w-md flex-1 flex-col px-6 py-6">
+        <div className="flex flex-1 flex-col gap-6">
             {currentStepKey === 'profession' && (
               <RadioQuestion
                 prompt=""
@@ -281,7 +275,7 @@ function OnboardingPage() {
             )}
 
             {currentStepKey === 'timeCommitment' && (
-              <Stack gap="lg">
+              <div className="flex flex-col gap-5">
                 <div className="flex flex-wrap gap-2">
                   {TIME_SPAN_OPTIONS.map((m) => (
                     <Button
@@ -295,7 +289,7 @@ function OnboardingPage() {
                     </Button>
                   ))}
                 </div>
-                <Stack gap="md">
+                <div className="flex flex-col gap-4">
                   <p className="text-body text-muted-foreground">How often?</p>
                   <RadioQuestion
                     prompt=""
@@ -303,8 +297,8 @@ function OnboardingPage() {
                     selected={frequency ? [frequency] : []}
                     onSelect={(value) => { setValidationError(null); setFrequency(value as Frequency) }}
                   />
-                </Stack>
-              </Stack>
+                </div>
+              </div>
             )}
 
             {currentStepKey === 'preferredTiming' && (
@@ -315,12 +309,10 @@ function OnboardingPage() {
                 onSelect={(value) => { setValidationError(null); setPreferredTiming(value as Timing) }}
               />
             )}
-          </Stack>
-        </ContentColumn>
+        </div>
       </div>
 
-      {/* CTA block — anchored to bottom of flex column */}
-      <ContentColumn narrow className="flex flex-col gap-3 py-[var(--space-section-gap)]">
+      <div className="mx-auto flex w-full max-w-md flex-col gap-3 px-6 py-6">
         {validationError && (
           <p className="text-caption text-center text-destructive">{validationError}</p>
         )}
@@ -334,11 +326,15 @@ function OnboardingPage() {
             Skip
           </Button>
         )}
-        <StickyPrimaryCTA onClick={handleContinue} bottomSafe={false}>
+        <Button
+          size="lg"
+          className="h-[46px] w-full rounded-xl bg-foreground text-background hover:bg-foreground/90"
+          onClick={handleContinue}
+        >
           Continue
-        </StickyPrimaryCTA>
-      </ContentColumn>
-    </LearningScreenLayout>
+        </Button>
+      </div>
+    </div>
   )
 }
 
@@ -369,16 +365,20 @@ function OnboardingCompleteScreen({
   }
 
   return (
-    <div ref={setRef} className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-[var(--space-screen-x)]">
+    <div ref={setRef} className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6">
       <div className="ob-shine absolute -z-10 h-[300px] w-[300px] scale-[0.8] rounded-full bg-(--onboarding-fill) opacity-0 blur-3xl" />
       <div className="ob-mascot flex justify-center">
         <CompletionMascot />
       </div>
-      <p className="text-body-lg mt-[var(--space-section-gap)] text-center">Your personal plan is ready</p>
-      <div className="mt-[var(--space-section-gap)] w-full max-w-xs">
-        <StickyPrimaryCTA onClick={onCtaClick} bottomSafe={false}>
+      <p className="mt-6 text-center text-body-lg">Your personal plan is ready</p>
+      <div className="mt-6 w-full max-w-xs">
+        <Button
+          size="lg"
+          className="h-[46px] w-full rounded-xl bg-foreground text-background hover:bg-foreground/90"
+          onClick={onCtaClick}
+        >
           Your Personal Plan is Ready
-        </StickyPrimaryCTA>
+        </Button>
       </div>
     </div>
   )
@@ -436,7 +436,7 @@ function PersonalisingLoader({ onComplete }: { onComplete: () => void }) {
   }
 
   return (
-    <div ref={setRef} className="flex min-h-dvh flex-col items-center justify-center gap-[var(--space-content-gap)]">
+    <div ref={setRef} className="flex min-h-dvh flex-col items-center justify-center gap-5">
       <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
       <p className="pl-text text-body text-muted-foreground opacity-0">Personalising the app for you...</p>
     </div>
@@ -446,14 +446,18 @@ function PersonalisingLoader({ onComplete }: { onComplete: () => void }) {
 function OnboardingFallback() {
   const navigate = useNavigate()
   return (
-    <div className="flex min-h-dvh flex-col items-center justify-center gap-[var(--space-content-gap)] px-[var(--space-screen-x)]">
+    <div className="flex min-h-dvh flex-col items-center justify-center gap-5 px-6">
       <p className="text-body text-center text-muted-foreground">
         Having trouble connecting. You can continue to the app and finish setup later.
       </p>
       <div className="w-full max-w-xs">
-        <StickyPrimaryCTA bottomSafe={false} onClick={() => navigate({ to: '/dashboard' })}>
+        <Button
+          size="lg"
+          className="h-[46px] w-full rounded-xl bg-foreground text-background hover:bg-foreground/90"
+          onClick={() => navigate({ to: '/dashboard' })}
+        >
           Continue to app
-        </StickyPrimaryCTA>
+        </Button>
       </div>
     </div>
   )

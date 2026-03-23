@@ -2,11 +2,8 @@ import { useState } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { MascotBlob, DEFAULT_OUTER_BLOBS, type SubBlobConfig, type BodyMode } from '@/components/mascot/MascotBlob'
 import { MascotSettings } from '@/components/mascot/MascotSettings'
-import { LearningScreenLayout } from '@/components/learning/layout/LearningScreenLayout'
-import { ContentColumn } from '@/components/learning/layout/ContentColumn'
-import { Stack } from '@/components/learning/layout/Stack'
-import { StickyPrimaryCTA } from '@/components/learning/StickyPrimaryCTA'
 import { RedirectSignedInFromSplash } from '@/components/auth/AuthGuards'
+import { Button } from '@/components/ui/button'
 import type { EyeVariant } from '@/components/mascot/MascotEyes'
 import type { MouthVariant } from '@/components/mascot/MascotMouth'
 
@@ -50,7 +47,7 @@ function SplashPage() {
 
   return (
     <RedirectSignedInFromSplash>
-      <LearningScreenLayout>
+      <div className="flex min-h-dvh flex-col">
         <MascotSettings
           bodyMode={bodyMode}
           outerBlobs={outerBlobs}
@@ -101,18 +98,17 @@ function SplashPage() {
           onOpenChange={setDrawerOpen}
         />
 
-        <ContentColumn
-          className={`flex max-w-[402px] min-h-[874px] min-w-[402px] flex-1 flex-col items-center justify-center transition-all ${drawerOpen ? 'pb-[45vh]' : ''}`}
+        <div
+          className={`mx-auto flex w-full max-w-[402px] flex-1 flex-col items-center justify-center transition-all ${drawerOpen ? 'pb-[45vh]' : ''}`}
         >
-          <Stack gap="xs" className="w-full items-center text-center">
-            <Stack gap="sm" className="items-center">
+          <div className="flex w-full flex-col items-center gap-2 px-6 text-center">
+            <div className="flex flex-col items-center gap-3">
               <p className="text-caption text-muted-foreground">Avocado</p>
-              {/* Title + subtitle in one frame, 4px spacing */}
               <div className="flex flex-col items-center gap-1">
                 <h1 className="text-display">Master AI for your work</h1>
                 <p className="text-display-sub text-muted-foreground">10 minutes a Day</p>
               </div>
-            </Stack>
+            </div>
             <MascotBlob
               className="w-full max-w-[420px] md:max-w-[520px] lg:max-w-[600px]"
               bodyMode={bodyMode}
@@ -139,13 +135,19 @@ function SplashPage() {
               grainBrightness={grainBrightness}
               grainScale={grainScale}
             />
-          </Stack>
-        </ContentColumn>
+          </div>
+        </div>
 
-        <StickyPrimaryCTA onClick={() => navigate({ to: '/signup' })}>
-          Get Started
-        </StickyPrimaryCTA>
-      </LearningScreenLayout>
+        <div className="mt-auto px-6 pb-7">
+          <Button
+            size="lg"
+            className="h-[46px] w-full rounded-xl bg-foreground text-background hover:bg-foreground/90"
+            onClick={() => navigate({ to: '/signup' })}
+          >
+            Get Started
+          </Button>
+        </div>
+      </div>
     </RedirectSignedInFromSplash>
   )
 }

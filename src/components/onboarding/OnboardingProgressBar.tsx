@@ -8,11 +8,8 @@ export function OnboardingProgressBar({ totalSteps, currentStep }: OnboardingPro
   return (
     <div className="h-3 w-full overflow-hidden rounded-full bg-border">
       <div
-        className="h-full rounded-full transition-[width] duration-300 ease-out"
-        style={{
-          width: `${pct}%`,
-          backgroundColor: 'var(--onboarding-fill)',
-        }}
+        className="h-full rounded-full bg-[var(--onboarding-fill)] transition-[width] duration-300 ease-out"
+        style={{ width: `${pct}%` }}
       />
     </div>
   )
