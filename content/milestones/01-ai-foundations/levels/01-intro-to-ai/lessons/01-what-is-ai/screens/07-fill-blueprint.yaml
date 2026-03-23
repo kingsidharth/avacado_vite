@@ -1,0 +1,49 @@
+id: "07-fill-blueprint"
+title: "Fill the Blueprint"
+hero:
+  type: "interactive"
+  component: "FillTheBlueprint"
+  props:
+    headline: "Fill the Blueprint"
+    subline: "Complete this pro prompt. Tap filled chips to remove them."
+    blanks:
+      - id: "role"
+        label: "ROLE"
+        correct: "You are a senior copywriter"
+        options:
+          - "You are a senior copywriter"
+          - "Write something"
+          - "Just help me"
+          - "Hey AI"
+      - id: "task"
+        label: "TASK"
+        correct: "Rewrite this product description"
+        options:
+          - "Rewrite this product description"
+          - "Do things with text"
+          - "Make it better"
+          - "Fix this somehow"
+      - id: "audience"
+        label: "AUDIENCE"
+        correct: "for millennials aged 25–35"
+        options:
+          - "for millennials aged 25–35"
+          - "for everyone"
+          - "for somebody"
+          - "for the internet"
+      - id: "format"
+        label: "FORMAT"
+        correct: "in 3 punchy sentences, max 60 words"
+        options:
+          - "in 3 punchy sentences, max 60 words"
+          - "however you like"
+          - "as long as needed"
+          - "quickly"
+    success_message: "That's a complete 4-layer pro prompt."
+    points_first_try: 30
+    points_with_correction: 15
+transcript: |
+  Fill the blueprint. Complete this pro prompt by choosing the right option for each blank.
+
+  Role. Task. Audience. Format. Four layers that turn a vague ask into a professional instruction.
+estimated_duration_seconds: 25

@@ -1,0 +1,38 @@
+id: "10-build-toolkit"
+title: "Your RAG Toolkit"
+hero:
+  type: "interactive"
+  component: "TechniqueToolkit"
+  props:
+    headline: "Your RAG Toolkit"
+    subline: "Select the 3 most important things you learned."
+    techniques:
+      - id: "grounding"
+        icon: "book"
+        label: "Ground in Documents"
+        description: "Always give AI your actual document — don't let it guess from training data."
+      - id: "specific"
+        icon: "target"
+        label: "Ask Specific Questions"
+        description: "Specific prompts get specific answers. 'What was Q3 revenue?' beats 'How did we do?'"
+      - id: "verify"
+        icon: "shield"
+        label: "Verify Claims"
+        description: "Cross-check AI answers against the source. Look for hallucinations."
+      - id: "constrain"
+        icon: "lock"
+        label: "Constrain the AI"
+        description: "Tell AI to answer ONLY from the document and admit when it doesn't know."
+      - id: "structure"
+        icon: "layout"
+        label: "Structure Your Prompts"
+        description: "Use role + constraint + evidence + fallback for reliable RAG prompts."
+      - id: "iterate"
+        icon: "repeat"
+        label: "Iterate and Compare"
+        description: "Your first prompt won't be perfect. Upgrade it and compare results."
+    max_selections: 3
+    points: 20
+transcript: |
+  Pick the three techniques that stood out most to you. These are your go-to moves for working with documents and AI.
+estimated_duration_seconds: 20

@@ -1,0 +1,20 @@
+id: "00-what-even-is-ai"
+title: "What Even Is AI?"
+description: "What AI really is — no jargon, no fluff."
+order: 0
+screen_refs:
+  - screens/01-lesson-intro.yaml
+  - screens/02-cold-open-quiz.yaml
+  - screens/03-honest-one-liner.yaml
+  - screens/04-how-ai-learns.yaml
+  - screens/05-spot-the-ai.yaml
+  - screens/06-hype-vs-reality.yaml
+  - screens/07-good-and-bad.yaml
+  - screens/08-ai-or-not.yaml
+  - screens/09-reflection.yaml
+  - screens/10-celebration.yaml
+estimated_duration_minutes: 15
+tags:
+  - ai-basics
+  - mental-model
+  - foundations

@@ -1,0 +1,14 @@
+id: "14-celebration"
+title: "Daily Driver Unlocked!"
+hero:
+  type: "mascot"
+  eye_variant: "excited"
+  mouth_variant: "open-smile"
+  badge: "Daily Driver"
+  xp_total: 400
+  cta_text: "Continue"
+  cta_action: "next"
+  points: 20
+transcript: |
+  Lesson 2.1 Complete! 400 XP. 5 Modules. 5 Real Outputs. What you built today: 1 professional email, written, refined, sent-ready. 1 personalised cold message, structure plus human detail. 1 slide deck outline, from a 2-line brief. 1 data analysis, pulled from real numbers. Your AI work day routine, saved and ready.
+estimated_duration_seconds: 15

@@ -1,0 +1,35 @@
+id: "03-module-chooser"
+title: "Pick Your First Challenge"
+hero:
+  type: "interactive"
+  component: "ColdOpenQuiz"
+  props:
+    headline: "Pick Your First Challenge"
+    subline: "Five modules. You can do them in any order. Which work problem do you want to solve first?"
+    options:
+      - id: "email"
+        text: "Email — Write a professional email in under 2 minutes"
+        is_correct: true
+        explanation: "Great pick! We'll start there — but you'll tackle all five before we're done."
+      - id: "cold"
+        text: "Cold Outreach — Build a message people actually reply to"
+        is_correct: true
+        explanation: "Great pick! We'll start there — but you'll tackle all five before we're done."
+      - id: "slides"
+        text: "Slides — Turn a 2-line brief into a full deck outline"
+        is_correct: true
+        explanation: "Great pick! We'll start there — but you'll tackle all five before we're done."
+      - id: "data"
+        text: "Data — Pull real insights from a dataset"
+        is_correct: true
+        explanation: "Great pick! We'll start there — but you'll tackle all five before we're done."
+      - id: "daily"
+        text: "Daily Tasks — Build your AI routine for every work day"
+        is_correct: true
+        explanation: "Great pick! We'll start there — but you'll tackle all five before we're done."
+    all_correct: true
+    correct_reveal: "Great pick! We'll start there — but you'll tackle all five before we're done."
+    points: 0
+transcript: |
+  Five modules. You can do them in any order. Which work problem do you want to solve first? Which challenge are you most excited about?
+estimated_duration_seconds: 10

@@ -184,31 +184,9 @@ export const useProgressStore = create<ProgressState & ProgressActions>()(
       // Gating Functions
       // ----------------------------------------------------------------------
       
-      isLessonUnlocked: (milestoneId: string, levelId: string, lessonId: string, manifest: ContentManifest) => {
-        // First lesson in a level is always unlocked
-        const level = manifest.levels[`${milestoneId}/${levelId}`]
-        if (!level) return false
-
-        const lessonIds = level.lesson_refs
-          .map((ref: string) => {
-            const lesson = manifest.lessons[ref]
-            return lesson?.id
-          })
-          .filter(Boolean) as string[]
-        
-        const lessonIndex = lessonIds.indexOf(lessonId)
-        if (lessonIndex === -1) return false
-        
-        // First lesson is always unlocked
-        if (lessonIndex === 0) return true
-
-        // Check if previous lesson is complete
-        const prevLessonId = lessonIds[lessonIndex - 1]
-        const prevLessonKey = makeLessonKey(milestoneId, levelId, prevLessonId)
-        const prevResult = get().lessonResults[prevLessonKey]
-        
-        // Previous lesson must be passed
-        return prevResult?.passed ?? false
+      isLessonUnlocked: (_milestoneId: string, _levelId: string, _lessonId: string, _manifest: ContentManifest) => {
+        // DEV: All lessons unlocked for testing
+        return true
       },
 
       isLevelUnlocked: (milestoneId: string, levelId: string, manifest: ContentManifest) => {

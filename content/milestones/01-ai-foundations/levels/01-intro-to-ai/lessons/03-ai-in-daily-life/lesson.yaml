@@ -1,9 +1,27 @@
 id: "03-ai-in-daily-life"
-title: "AI in Daily Life"
-description: "See how AI is already shaping your everyday experiences."
+title: "Do Less. Output More."
+description: "5 AI tasks. 5 real outputs. Your work day, upgraded."
 order: 3
-screen_refs: []
-estimated_duration_minutes: 10
+screen_refs:
+  - screens/01-lesson-intro.yaml
+  - screens/02-work-day-swipe.yaml
+  - screens/03-module-chooser.yaml
+  - screens/04-email-builder.yaml
+  - screens/05-rate-and-refine.yaml
+  - screens/06-cold-message-builder.yaml
+  - screens/07-personalise-message.yaml
+  - screens/08-slide-builder.yaml
+  - screens/09-slide-critique.yaml
+  - screens/10-data-builder.yaml
+  - screens/11-insight-swipe.yaml
+  - screens/12-ranking-exercise.yaml
+  - screens/13-routine-builder.yaml
+  - screens/14-celebration.yaml
+estimated_duration_minutes: 25
 tags:
-  - fundamentals
-  - applications
+  - ai-at-work
+  - emails
+  - outreach
+  - slides
+  - data-analysis
+  - productivity

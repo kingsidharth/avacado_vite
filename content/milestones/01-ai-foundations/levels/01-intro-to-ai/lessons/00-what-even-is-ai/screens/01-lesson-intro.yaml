@@ -1,0 +1,9 @@
+id: "01-lesson-intro"
+title: "Welcome to the Real World"
+hero:
+  type: "mascot"
+  cta_text: "Let's find out"
+  cta_action: "next"
+transcript: |
+  Before we get into prompts, tools, and all the good stuff — let's spend 15 minutes making sure you actually know what AI is. Not the sci-fi version. Not the doom version. The real one.
+estimated_duration_seconds: 15

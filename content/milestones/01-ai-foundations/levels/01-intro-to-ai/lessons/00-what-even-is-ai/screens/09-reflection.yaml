@@ -1,0 +1,30 @@
+id: "09-reflection"
+title: "What This Means for Your Work"
+hero:
+  type: "interactive"
+  component: "ColdOpenQuiz"
+  props:
+    headline: "What This Means for Your Work"
+    subline: "You now understand what AI is. Which of these feels most true right now?"
+    options:
+      - id: "see-fit"
+        text: "I can see exactly where AI fits into my work"
+        is_correct: true
+        explanation: "Great — Level 1 will show you exactly how to use it."
+      - id: "potential"
+        text: "I see the potential but don't know where to start"
+        is_correct: true
+        explanation: "That's what the next lessons are for. One step at a time."
+      - id: "curious"
+        text: "I'm still a bit nervous, but more curious than before"
+        is_correct: true
+        explanation: "Curiosity is the best starting point. You're ahead already."
+      - id: "practical"
+        text: "I want to get to the practical stuff immediately"
+        is_correct: true
+        explanation: "You're about to. Lesson 1.1 is hands-on from screen one."
+    correct_reveal: "Whatever you picked — you're in the right place. Everything in Level 1 builds on exactly what you just learned."
+    points: 20
+transcript: |
+  You now understand what AI is. Let's make it personal. Which of these feels most true right now?
+estimated_duration_seconds: 15

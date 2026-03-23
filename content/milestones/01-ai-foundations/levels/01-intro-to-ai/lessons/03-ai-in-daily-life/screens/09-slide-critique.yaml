@@ -1,0 +1,56 @@
+id: "09-slide-critique"
+title: "Slide by Slide — Fix It"
+hero:
+  type: "interactive"
+  component: "SpotTheGap"
+  props:
+    headline: "Slide by Slide — Fix It"
+    subline: "AI builds decks fast. It also makes predictable mistakes. Spot them."
+    rounds:
+      - id: "r1"
+        ai_claim: "Slide shown: 'Our Solution Is Best-in-Class'"
+        question: "What's missing from this slide?"
+        options:
+          - id: "chart"
+            text: "It needs a chart"
+            is_correct: false
+          - id: "evidence"
+            text: "No evidence or data to back the claim"
+            is_correct: true
+          - id: "font"
+            text: "The font is wrong"
+            is_correct: false
+        explanation: "Correct! 'Best-in-class' means nothing without proof. Always back claims with specific data."
+      - id: "r2"
+        ai_claim: "Slide shown: 7 dense bullet points, each 2 lines long"
+        question: "What's the core problem?"
+        options:
+          - id: "text"
+            text: "Too many ideas — violates one-idea-per-slide"
+            is_correct: true
+          - id: "colour"
+            text: "Not enough colour"
+            is_correct: false
+          - id: "title"
+            text: "Missing a title"
+            is_correct: false
+        explanation: "Right! Dense slides lose the audience. One idea per slide. If you need more, use more slides."
+      - id: "r3"
+        ai_claim: "Final slide shown: 'Thank You!'"
+        question: "What's wrong with ending here?"
+        options:
+          - id: "short"
+            text: "It's too short"
+            is_correct: false
+          - id: "no-cta"
+            text: "No next step or call to action"
+            is_correct: true
+          - id: "photo"
+            text: "It needs the presenter's photo"
+            is_correct: false
+        explanation: "Never end with 'Thank You.' End with a clear call to action. What should they DO next?"
+    completion_text: "You now know what separates a good deck from a great one. Structure + specificity + CTA."
+    points_per_correct: 10
+transcript: |
+  AI builds decks fast. It also makes predictable mistakes. Spot them. Three rounds of slide critique.
+estimated_duration_seconds: 20

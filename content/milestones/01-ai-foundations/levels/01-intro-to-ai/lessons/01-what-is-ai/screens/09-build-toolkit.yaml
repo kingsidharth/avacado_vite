@@ -1,0 +1,42 @@
+id: "09-build-toolkit"
+title: "Build Your Toolkit"
+hero:
+  type: "interactive"
+  component: "TechniqueToolkit"
+  props:
+    headline: "Build Your Toolkit"
+    subline: "Pick up to 3 techniques you'll use this week. They'll be saved to your profile."
+    max_selections: 3
+    techniques:
+      - id: "role"
+        icon: "user-check"
+        label: "Role Prompting"
+        description: "Expert-level responses"
+      - id: "cot"
+        icon: "link"
+        label: "Chain of Thought"
+        description: "Complex analysis"
+      - id: "few-shot"
+        icon: "paperclip"
+        label: "Few-Shot"
+        description: "Match my writing style"
+      - id: "step-back"
+        icon: "telescope"
+        label: "Step-Back"
+        description: "Strategic decisions"
+      - id: "format"
+        icon: "file-text"
+        label: "Format Layers"
+        description: "Consistent structure"
+      - id: "zero-shot"
+        icon: "zap"
+        label: "Zero-Shot"
+        description: "Fast everyday tasks"
+    points: 15
+transcript: |
+  Build your toolkit. Pick up to 3 techniques you'll use this week.
+
+  Role prompting. Chain of thought. Few-shot. Step-back. Format layers. Zero-shot.
+
+  Choose the ones that fit your work best.
+estimated_duration_seconds: 15

@@ -1,0 +1,20 @@
+id: "06-upload-document"
+title: "Upload Your Document"
+hero:
+  type: "interactive"
+  component: "DocumentUploader"
+  props:
+    headline: "Upload Your Document"
+    subline: "Drop a file below, or use our sample report to practice."
+    accepted_types:
+      - ".pdf"
+      - ".docx"
+      - ".txt"
+    max_size_mb: 5
+    sample_doc_url: "/content/docs/avocado-q3-report.txt"
+    sample_doc_label: "Use Sample: Avocado Inc Q3 Report"
+    success_message: "Document loaded! AI can now read it."
+    points: 15
+transcript: |
+  Time to go hands-on. Upload your own document — a PDF, Word file, or plain text. Or use our sample quarterly report. AI will read the whole thing.
+estimated_duration_seconds: 15

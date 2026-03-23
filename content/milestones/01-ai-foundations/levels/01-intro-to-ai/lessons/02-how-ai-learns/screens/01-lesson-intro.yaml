@@ -1,0 +1,11 @@
+id: "01-lesson-intro"
+title: "Talk to Your Documents"
+hero:
+  type: "mascot"
+  eye_variant: "regular"
+  mouth_variant: "smile"
+  cta_text: "Let's Go"
+  cta_action: "next"
+transcript: |
+  Lesson 1.5 — Talk to Your Documents. Imagine you have a 50-page report on your desk. Your boss asks one question about page 37. You could skim for 20 minutes — or you could let AI find the answer in 3 seconds. That's what you'll build today. Upload a real document. Ask AI questions about it. See exactly how it finds the answers. 12 screens. Mostly hands-on. Let's go.
+estimated_duration_seconds: 18

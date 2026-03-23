@@ -1,0 +1,27 @@
+id: "05-rate-and-refine"
+title: "Is This Actually Good?"
+hero:
+  type: "interactive"
+  component: "RateAndRefine"
+  props:
+    headline: "Is This Actually Good?"
+    subline: "Don't just send the first draft. You're the editor."
+    source_store_key: "email_output"
+    sections:
+      - id: "subject"
+        label: "Subject Line"
+      - id: "opening"
+        label: "Opening Line"
+      - id: "body"
+        label: "Main Body"
+      - id: "cta"
+        label: "Call to Action"
+    rating_labels:
+      keep: "Keep"
+      tweak: "Tweak"
+      rewrite: "Rewrite"
+    system_prompt: "You are a professional email editor. The user wants to rewrite a specific section of their email. Rewrite ONLY the section they specify, following their instruction. Keep the same tone and length. Return only the rewritten section text, nothing else."
+    points: 20
+transcript: |
+  Don't just send the first draft. You're the editor. Rate each part of the email. Anything you'd rewrite, tell AI what to change.
+estimated_duration_seconds: 30

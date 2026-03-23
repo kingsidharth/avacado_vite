@@ -1,0 +1,59 @@
+id: "05-power-techniques"
+title: "5 Power Techniques"
+hero:
+  type: "interactive"
+  component: "TechniqueExplorer"
+  props:
+    headline: "5 Power Techniques"
+    subline: "Tap each to unlock it."
+    min_to_proceed: 3
+    techniques:
+      - id: "zero-shot"
+        icon: "zap"
+        label: "ZERO-SHOT"
+        power: 1
+        tagline: "Just ask. No examples needed."
+        when_to_use: "Simple, clear tasks where AI has enough context to deliver immediately."
+        example: "Translate this into Spanish: 'Our product ships within 2 business days.'"
+        best_for: "Quick translations, basic formatting, simple lookups"
+      - id: "few-shot"
+        icon: "paperclip"
+        label: "FEW-SHOT"
+        power: 3
+        tagline: "Show 2–3 examples, then ask."
+        when_to_use: "When you need a specific style, tone, or output pattern."
+        example: "Input: Invoice overdue → Output: 'Hey! Quick note — your invoice is 7 days past due.'\nInput: Meeting cancelled → Output: ___"
+        best_for: "Matching your brand voice, replicating a format, style transfer"
+      - id: "chain-of-thought"
+        icon: "link"
+        label: "CHAIN OF THOUGHT"
+        power: 4
+        tagline: "Ask AI to think step by step."
+        when_to_use: "Complex reasoning, multi-step problems, or analysis that needs to be shown."
+        example: "Think step by step: What are the three biggest risks in our go-to-market plan, and how would you mitigate each?"
+        best_for: "Strategic analysis, complex decisions, debugging logic"
+      - id: "role-prompting"
+        icon: "user-check"
+        label: "ROLE PROMPTING"
+        power: 4
+        tagline: "Give AI a title and let it run."
+        when_to_use: "You need expert-level knowledge, a specific voice, or professional perspective."
+        example: "You are a McKinsey senior consultant. Identify 3 efficiency gaps in this workflow and propose concrete fixes."
+        best_for: "Expert advice, professional tone, specialized knowledge"
+      - id: "step-back"
+        icon: "telescope"
+        label: "STEP-BACK PROMPTING"
+        power: 5
+        tagline: "Zoom out before zooming in."
+        when_to_use: "Complex problems that need first-principles thinking before a tactical answer."
+        example: "Before answering, step back: what are the fundamental principles that govern SaaS pricing? Now apply them to our situation."
+        best_for: "Strategy, pricing decisions, architecture planning"
+    points_per_technique: 5
+    cta_text: "Next: Match Them"
+transcript: |
+  Five power techniques. Tap each to unlock it.
+
+  Zero-shot — just ask. Few-shot — show examples first. Chain of thought — think step by step. Role prompting — give AI a title. Step-back prompting — zoom out before zooming in.
+
+  Each one unlocks a different kind of AI output.
+estimated_duration_seconds: 30

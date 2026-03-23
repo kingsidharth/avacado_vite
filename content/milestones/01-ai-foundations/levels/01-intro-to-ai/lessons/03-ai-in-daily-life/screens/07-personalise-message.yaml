@@ -1,0 +1,29 @@
+id: "07-personalise-message"
+title: "Add the Human Touch"
+hero:
+  type: "interactive"
+  component: "PersonaliseMessage"
+  props:
+    headline: "Add the Human Touch"
+    subline: "AI wrote the bones. Now add what it can't — specific human detail."
+    source_store_key: "cold_message_output"
+    gaps:
+      - id: "a"
+        marker: "[A]"
+        label: "Something specific you noticed about THEM"
+        placeholder: "e.g. Their recent post about scaling ops, their job change..."
+        hint: "Research wins. The more specific, the harder to ignore."
+      - id: "b"
+        marker: "[B]"
+        label: "One concrete data point from YOUR experience"
+        placeholder: "e.g. 40% faster onboarding, 3x response rate..."
+        hint: "Numbers are memorable. Make your proof specific."
+      - id: "c"
+        marker: "[C]"
+        label: "A soft exit — no pressure"
+        placeholder: "e.g. Happy to send resources if useful, no pressure"
+        hint: "A soft out makes it easier to say yes."
+    points: 20
+transcript: |
+  AI wrote the bones. Now add what it can't. Specific human detail. Fill in the three gaps with real information.
+estimated_duration_seconds: 25

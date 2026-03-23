@@ -1,0 +1,40 @@
+id: "05-spot-the-ai"
+title: "Spot the AI"
+hero:
+  type: "interactive"
+  component: "TechniqueMatching"
+  props:
+    headline: "Spot the AI"
+    instruction: "AI is already everywhere. Match each experience to what the AI is doing."
+    terms:
+      - id: "gmail"
+        text: "Gmail suggests a reply"
+      - id: "spotify"
+        text: "Spotify Discover Weekly"
+      - id: "maps"
+        text: "Google Maps reroutes you"
+      - id: "linkedin"
+        text: "LinkedIn job matches"
+      - id: "face-unlock"
+        text: "Phone unlocks by face"
+    definitions:
+      - id: "d-gmail"
+        text: "Predicting your likely response from past emails"
+        matches: "gmail"
+      - id: "d-spotify"
+        text: "Predicting songs you'll like from listening patterns"
+        matches: "spotify"
+      - id: "d-maps"
+        text: "Predicting fastest route from live traffic patterns"
+        matches: "maps"
+      - id: "d-linkedin"
+        text: "Predicting relevant jobs from your profile patterns"
+        matches: "linkedin"
+      - id: "d-face"
+        text: "Predicting whether the face matches stored patterns"
+        matches: "face-unlock"
+    completion_text: "You've been using AI every day without realising it. Today you start using it on purpose."
+    points: 30
+transcript: |
+  AI is already in more places than you realise. Match each everyday experience to what the AI is actually doing.
+estimated_duration_seconds: 25

@@ -1,0 +1,44 @@
+id: "10-data-builder"
+title: "Ask Your Data — Live"
+hero:
+  type: "interactive"
+  component: "BuildAPrompt"
+  props:
+    headline: "Ask Your Data — Live"
+    subline: "Upload something real. Or use our sample. Either way — let's get an insight."
+    fields:
+      - id: "data_context"
+        label: "What data are you analysing?"
+        type: "text"
+        placeholder: "e.g. 12 months of sales data by region and product category"
+        required: true
+      - id: "analysis_type"
+        label: "What do you want to know?"
+        type: "dropdown"
+        options:
+          - "What are the top 3 performing categories?"
+          - "Where is performance declining and by how much?"
+          - "What's the month-over-month trend?"
+          - "Are there any anomalies or unexpected spikes?"
+          - "Give me an executive summary"
+        required: true
+      - id: "output_format"
+        label: "How should the output look?"
+        type: "dropdown"
+        options:
+          - "Executive summary + 3 bullet points"
+          - "Table format"
+          - "Numbered insights"
+          - "One-paragraph summary"
+        required: true
+    system_prompt: "You are a senior data analyst. Based on the user's description of their data, provide a realistic and detailed analysis. Include specific plausible figures, percentages, and trends. Format as requested. Add one 'anomaly callout' at the end flagging something unexpected. Be specific and use concrete numbers."
+    prompt_template: "Analyse this data:\nData: {data_context}\nAnalysis: {analysis_type}\nFormat: {output_format}\n\nProvide realistic, specific insights with concrete numbers."
+    output_label: "Your Data Analysis"
+    output_format: "analysis"
+    store_key: "data_output"
+    cta_text: "Run Analysis"
+    points: 50
+    show_copy: true
+transcript: |
+  Upload something real. Or use our sample. Either way, let's get an insight. Describe your data and choose what you want to know.
+estimated_duration_seconds: 35

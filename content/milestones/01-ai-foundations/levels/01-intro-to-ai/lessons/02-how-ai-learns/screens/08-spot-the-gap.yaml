@@ -1,0 +1,58 @@
+id: "08-spot-the-gap"
+title: "Spot the Hallucination"
+hero:
+  type: "interactive"
+  component: "SpotTheGap"
+  props:
+    headline: "Spot the Hallucination"
+    subline: "AI made 3 claims about the Avocado Inc Q3 report. Can you spot which ones are real?"
+    rounds:
+      - id: "r1"
+        ai_claim: "Avocado Inc generated $12.4 million in Q3 2025 revenue, a 23% increase from Q2."
+        question: "Is this claim actually in the document?"
+        options:
+          - id: "verified"
+            text: "Yes — this is verified in the document"
+            is_correct: true
+          - id: "hallucinated"
+            text: "No — this is hallucinated"
+            is_correct: false
+          - id: "partial"
+            text: "Partially — some details are wrong"
+            is_correct: false
+        explanation: "Correct! The Q3 report states exactly $12.4M revenue with 23% QoQ growth from Q2's $10.1M."
+        doc_excerpt: "Total revenue reached $12.4 million, a 23% increase quarter-over-quarter from Q2's $10.1 million."
+      - id: "r2"
+        ai_claim: "The company is planning to expand into the European market next quarter with offices in London and Berlin."
+        question: "Is this claim actually in the document?"
+        options:
+          - id: "verified"
+            text: "Yes — this is verified in the document"
+            is_correct: false
+          - id: "hallucinated"
+            text: "No — this is hallucinated"
+            is_correct: true
+          - id: "partial"
+            text: "Partially — some details are wrong"
+            is_correct: false
+        explanation: "Good catch! The document never mentions European expansion, London, or Berlin. This is a classic AI hallucination — confident-sounding but completely made up."
+      - id: "r3"
+        ai_claim: "Customer acquisition cost decreased by 15% due to improved unit economics in the Enterprise segment."
+        question: "Is this claim actually in the document?"
+        options:
+          - id: "verified"
+            text: "Yes — this is verified in the document"
+            is_correct: false
+          - id: "hallucinated"
+            text: "No — this is hallucinated"
+            is_correct: false
+          - id: "partial"
+            text: "Partially — inferred but not stated exactly"
+            is_correct: true
+        explanation: "Sharp eye! The document mentions 'improved unit economics' but never gives a specific CAC figure or 15% decrease. The AI filled in plausible-sounding details that aren't in the text."
+        doc_excerpt: "Unit economics improved across all segments, with Enterprise leading the way."
+    completion_text: "You can now tell real answers from AI hallucinations. This is the most important RAG skill."
+    points_per_correct: 15
+transcript: |
+  AI made three claims about your document. Your job — figure out which are real, which are hallucinated, and which are partially made up.
+estimated_duration_seconds: 30

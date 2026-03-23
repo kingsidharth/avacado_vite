@@ -1,0 +1,179 @@
+AVOCADO INC — QUARTERLY BUSINESS REPORT: Q3 2025
+Prepared by the Office of the CFO | October 14, 2025
+Classification: Internal — For Management Distribution
+
+
+================================================================================
+EXECUTIVE SUMMARY
+================================================================================
+
+Avocado Inc delivered a strong third quarter, building on the momentum established in the first half of the fiscal year. Total revenue reached $12.4M, representing a 23% increase quarter-over-quarter from Q2's $10.1M. This growth was driven primarily by accelerating enterprise adoption and the successful launch of three new product offerings during the quarter.
+
+Our customer base now stands at 847 enterprise clients, a milestone that positions us well for our year-end targets. However, several emerging risks in the APAC region and within our supply chain require immediate leadership attention and are addressed in the risk section of this report.
+
+The executive team remains confident in our ability to close the fiscal year on a strong note, provided that the Q4 priorities outlined below are executed with discipline.
+
+
+================================================================================
+REVENUE & FINANCIAL PERFORMANCE
+================================================================================
+
+Revenue Summary
+---------------
+Q3 2025 total revenue: $12.4M
+Q2 2025 total revenue: $10.1M
+Quarter-over-quarter growth: 23%
+
+Revenue composition continues to shift toward higher-value contracts. Average deal size for new enterprise agreements grew to $18,200 from $15,400 in Q2, reflecting the success of our updated pricing tiers and the introduction of bundled analytics packages. Annual recurring revenue (ARR) now stands at approximately $46.8M on a run-rate basis, up from $38.4M at the end of Q2.
+
+Gross margin improved to 71.3%, up from 68.9% in Q2. This improvement was largely attributable to improved unit economics across our cloud infrastructure layer. Specifically, the engineering team's migration to a more efficient compute architecture reduced per-user serving costs by approximately 14%. These operational gains, when combined with the favorable revenue mix shift toward enterprise, contributed to meaningful margin expansion. The finance team expects gross margins to stabilize in the 70-73% range for the foreseeable future, barring any unforeseen infrastructure cost increases.
+
+Operating expenses grew 11% QoQ, which is within the planned range. The majority of the increase was directed toward sales headcount expansion (8 new enterprise account executives) and the engineering investments required to support our Q3 product launches. Research and development spending represented 28% of total revenue, consistent with our commitment to maintaining a product-led growth strategy. Sales and marketing expenses accounted for 34% of revenue, a slight decrease from 36% in Q2, reflecting improving efficiency in our go-to-market operations.
+
+Cash position remains healthy at $34.2M, with a projected runway of 22 months at current burn rates. Net cash burn for Q3 was $1.4M, a notable improvement from Q2's $2.1M burn, driven by the combination of revenue growth and disciplined expense management. The company did not draw on its $15M credit facility during the quarter.
+
+Monthly Breakdown
+-----------------
+July 2025:   $3.8M
+August 2025: $4.1M
+September 2025: $4.5M
+
+The upward monthly trajectory reflects seasonal enterprise buying patterns and the compounding effect of new client onboarding throughout the quarter.
+
+
+================================================================================
+SEGMENT PERFORMANCE
+================================================================================
+
+Enterprise Segment
+------------------
+Revenue: $7.9M (63.7% of total)
+QoQ Growth: 34%
+Active clients: 847
+
+The enterprise segment was the clear growth engine of Q3. The 34% QoQ growth rate exceeded our internal projections by nearly 6 percentage points. Contributing factors include the expansion of our partner channel (which sourced 22% of new enterprise deals), the general availability of our SOC 2 Type II compliance report (which removed a key procurement blocker for financial services clients), and sustained demand in the healthcare vertical.
+
+Notable enterprise wins during Q3 include a 3-year, $1.2M agreement with a Fortune 500 logistics company, a multi-department rollout at a top-10 US hospital system, and a strategic partnership with a mid-market financial advisory firm that will serve as a reference account for the financial services vertical.
+
+Net revenue retention (NRR) for the enterprise segment was 118%, meaning that existing enterprise customers are spending 18% more on an annualized basis compared to the same period last year. This is driven primarily by expansion within existing accounts as teams adopt additional modules and increase seat counts.
+
+Client retention in the enterprise segment remained strong at 94.7%, though this figure masks some regional variation discussed in the risk section below. Domestic (US and Canada) retention stood at 97.1%, while international retention was lower at 88.3%, pulled down primarily by the APAC challenges outlined later in this report.
+
+SMB Segment
+-----------
+Revenue: $3.4M (27.4% of total)
+QoQ Growth: 12%
+Active accounts: 3,240
+
+The SMB segment grew at a moderate pace of 12% QoQ. While this is below the enterprise growth rate, it is consistent with our strategic decision to invest disproportionately in enterprise go-to-market motions. Self-serve signups remained steady, and the introduction of a new starter pricing tier in August contributed to a modest uplift in conversion rates from free trial to paid.
+
+Average revenue per SMB account increased to $1,049 per quarter, up from $982 in Q2, driven by add-on feature adoption.
+
+Consumer Segment
+----------------
+Revenue: $1.1M (8.9% of total)
+QoQ Growth: 1% (essentially flat)
+Active users: 28,400
+
+The consumer segment remained essentially flat, posting just 1% QoQ growth. This outcome was anticipated in our planning. Consumer revenue serves primarily as a brand awareness and product-led growth channel rather than a profit center. We continue to evaluate the long-term strategic role of the consumer offering and expect to present a revised consumer strategy to the board in Q1 2026.
+
+The consumer mobile app maintained a 4.6-star rating on both the App Store and Google Play, and daily active usage grew 8% QoQ even as revenue remained flat, suggesting strong engagement that has not yet been fully monetized.
+
+
+================================================================================
+PRODUCT & ENGINEERING
+================================================================================
+
+Three major product launches were completed in Q3:
+
+1. Avocado Analytics Pro — An advanced reporting suite designed for enterprise data teams. Includes customizable dashboards, scheduled report delivery, and integration with popular BI tools (Tableau, Looker, Power BI). Early adoption metrics are encouraging, with 127 enterprise accounts activating the module within the first six weeks.
+
+2. Avocado Connect — A lightweight integration platform that enables customers to connect Avocado to their existing workflow tools (Slack, Teams, Jira, Asana). This launch was a direct response to our top customer feature request from the Q2 NPS survey.
+
+3. Avocado Mobile 2.0 — A complete redesign of the consumer mobile application with a focus on performance, accessibility, and a streamlined onboarding flow. Early results show a 23% improvement in first-week retention compared to the previous version.
+
+Engineering velocity remained high, with the team delivering 94% of committed sprint items across the quarter. Technical debt reduction initiatives continued in parallel, with the platform reliability team reducing P1 incident frequency by 31% compared to Q2. System uptime for the quarter was 99.94%, exceeding our 99.9% SLA commitment to enterprise clients.
+
+The product roadmap for Q4 includes the delayed Avocado Insights module (discussed in the risk section), enhancements to the Analytics Pro reporting engine based on early customer feedback, and a planned expansion of the Connect integration library to include Salesforce and HubSpot connectors. The engineering team is also investing in infrastructure observability tooling to improve incident response times and proactively identify performance bottlenecks.
+
+
+================================================================================
+KEY RISKS & MITIGATION
+================================================================================
+
+The leadership team has identified three material risks that require attention heading into Q4:
+
+Risk 1: APAC Customer Churn
+----------------------------
+Customer churn in the Asia-Pacific region increased 18% during Q3. Investigation by the customer success team indicates that the primary drivers are (a) inadequate localization of our platform for Japanese and Korean enterprise clients, (b) time-zone misalignment in our current support model, and (c) increased competitive pressure from two regional SaaS vendors who launched comparable products in Q2.
+
+Mitigation: We are accelerating the hiring of a dedicated APAC customer success lead (target start date: November 2025) and have approved a $200K localization budget for Q4. Additionally, the product team is prioritizing Japanese-language support in the next release cycle.
+
+Risk 2: Key Supplier Contract Expiration
+-----------------------------------------
+Our primary cloud infrastructure agreement with Stratos Computing expires on December 31, 2025. As of this writing, no renewal has been confirmed. Stratos has indicated that they intend to revise their pricing structure, and preliminary conversations suggest a potential 20-30% increase in compute costs. Given that Stratos infrastructure currently supports approximately 60% of our production workload, this represents a significant cost exposure.
+
+Mitigation: The engineering team has been conducting a parallel evaluation of alternative providers (AWS, GCP) since August. A migration feasibility report is expected by November 15. In parallel, the procurement team is continuing negotiation with Stratos and exploring multi-year commitment structures to secure more favorable pricing.
+
+Risk 3: Product Launch Delay
+------------------------------
+The planned Q3 launch of Avocado Insights (our predictive analytics module) was delayed and is now scheduled for Q4 delivery. The delay was caused by the discovery of a data pipeline reliability issue during beta testing that required a partial re-architecture of the ingestion layer. This delay threatens the Q4 revenue target, as several enterprise prospects had committed to purchases contingent on the Insights module being generally available.
+
+Mitigation: The engineering team has reassigned two senior engineers to the Insights project on a full-time basis. The revised target for general availability is mid-November 2025. Sales leadership has been in direct communication with the affected prospects to manage expectations and, where possible, secure interim commitments.
+
+
+================================================================================
+PEOPLE & CULTURE
+================================================================================
+
+Headcount grew from 142 to 161 during Q3. Key hires included a VP of Enterprise Sales, a Director of Platform Engineering, and several senior individual contributors across engineering and customer success.
+
+Employee engagement scores from the Q3 pulse survey held steady at 82 out of 100, consistent with Q2. Voluntary attrition for the quarter was 3.1%, which is below the industry benchmark of 4.5%.
+
+The company completed its second annual Avocado Gives Back volunteer initiative, with 89% of employees participating in community service activities during the month of September. The leadership team views culture investment as a key differentiator in talent retention, particularly given the competitive hiring environment for AI and machine learning talent.
+
+Diversity metrics continued to improve, with underrepresented groups now comprising 41% of the engineering team (up from 37% in Q1). The company's internal mentorship program expanded to include 34 active mentor-mentee pairs across all departments.
+
+
+================================================================================
+OUTLOOK & Q4 PRIORITIES
+================================================================================
+
+Looking ahead to Q4, the leadership team has established the following priorities:
+
+1. Close the Avocado Insights launch — Deliver the predictive analytics module by mid-November and convert the existing pipeline of interested enterprise prospects. This single initiative carries an estimated $1.8M in potential Q4 revenue.
+
+2. Resolve the Stratos contract — Finalize either a renewal with acceptable terms or a credible migration plan by December 1. Unresolved, this issue could add $400-600K in annualized costs.
+
+3. Stabilize APAC retention — Execute the localization and support improvements outlined above. Target: reduce APAC churn rate to below 10% by end of Q1 2026.
+
+4. Maintain enterprise growth trajectory — The pipeline entering Q4 is the strongest in company history, with $8.2M in qualified opportunities. Execute with discipline to capture as much of this pipeline as possible before year-end.
+
+5. Begin FY2026 planning — Initiate the annual planning cycle with a focus on identifying the next phase of product investment and evaluating organizational readiness for scaling to $60M+ ARR. Key planning themes will include vertical-specific product strategies, international expansion beyond current markets, and the potential for strategic acquisitions to accelerate capability development.
+
+6. Strengthen data security posture — In response to evolving regulatory requirements, the security team will complete our ISO 27001 certification process and begin preparations for GDPR compliance audits expected in early 2026.
+
+The finance team projects Q4 revenue in the range of $13.8M to $15.2M, contingent on the successful Avocado Insights launch and the conversion of the current qualified pipeline. If achieved, this would bring full-year revenue to approximately $42-44M, representing 65-72% year-over-year growth.
+
+The board of directors will receive a full Q3 review presentation on October 28, 2025.
+
+
+================================================================================
+APPENDIX: KEY METRICS AT A GLANCE
+================================================================================
+
+Metric                              Q2 2025     Q3 2025     QoQ Change
+----------------------------------------------------------------------
+Total Revenue                       $10.1M      $12.4M      +23%
+Enterprise Revenue                  $5.9M       $7.9M       +34%
+SMB Revenue                         $3.0M       $3.4M       +12%
+Consumer Revenue                    $1.09M      $1.1M       +1%
+Enterprise Clients                  712         847         +19%
+Gross Margin                        68.9%       71.3%       +2.4pp
+Headcount                           142         161         +13%
+Cash Position                       $31.8M      $34.2M      +8%
+Employee Engagement Score           82/100      82/100      —
+
+================================================================================
+END OF REPORT
+================================================================================

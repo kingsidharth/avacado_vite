@@ -8,21 +8,17 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
-dist-ssr
-*.local
+.env
+.env.local
+.npmrc
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# Database
+.data/
 
-.data
-client_secret_777697891656-g2ciaisukpbe29a7e01l2cho663fera5.apps.googleusercontent.com.json
-public/tts/*
+# Build artifacts
+dist/
+*.tsbuildinfo
+
+# Generated files
+public/tts/
+package-lock.json

@@ -1,0 +1,61 @@
+id: "08-slide-builder"
+title: "Brief-to-Deck — Live"
+hero:
+  type: "interactive"
+  component: "BuildAPrompt"
+  props:
+    headline: "Brief-to-Deck — Live"
+    subline: "Two lines from you. A full deck outline from AI. Go."
+    fields:
+      - id: "topic"
+        label: "What is your presentation about?"
+        type: "text"
+        placeholder: "e.g. Proposing a new onboarding process to reduce first-90-day churn"
+        required: true
+      - id: "audience"
+        label: "Who is your audience?"
+        type: "dropdown"
+        options:
+          - "My team"
+          - "My manager"
+          - "A client"
+          - "Investors"
+          - "A conference"
+          - "Mixed audience"
+        required: true
+      - id: "action"
+        label: "What do you want them to do after?"
+        type: "text"
+        placeholder: "e.g. Approve budget for the new onboarding software"
+        required: true
+      - id: "slide_count"
+        label: "How many slides?"
+        type: "dropdown"
+        options:
+          - "5"
+          - "8"
+          - "10"
+          - "12"
+          - "15"
+        required: true
+      - id: "tone"
+        label: "Tone?"
+        type: "dropdown"
+        options:
+          - "Persuasive"
+          - "Informative"
+          - "Inspiring"
+          - "Data-heavy"
+          - "Executive summary"
+        required: true
+    system_prompt: "You are a presentation strategist. Create a structured slide-by-slide outline. For each slide provide: number, title, and a 1-line description of what goes on it. Follow the 5-part structure: Problem → Solution → Evidence → Insight → CTA. Keep it practical and actionable."
+    prompt_template: "Create a {slide_count}-slide deck outline.\n\nTopic: {topic}\nAudience: {audience}\nDesired action: {action}\nTone: {tone}"
+    output_label: "Your Deck Outline"
+    output_format: "outline"
+    store_key: "slide_output"
+    cta_text: "Generate My Deck Outline"
+    points: 50
+    show_copy: true
+transcript: |
+  Two lines from you. A full deck outline from AI. Go. Fill in the brief and watch your blank page problem disappear.
+estimated_duration_seconds: 35

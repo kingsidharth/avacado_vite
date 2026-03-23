@@ -1,0 +1,37 @@
+id: "06-technique-matching"
+title: "Match the Move"
+hero:
+  type: "interactive"
+  component: "TechniqueMatching"
+  props:
+    headline: "Match the Move"
+    instruction: "Tap a technique, then tap its matching example."
+    terms:
+      - id: "role"
+        text: "Role Prompting"
+      - id: "cot"
+        text: "Chain of Thought"
+      - id: "few-shot"
+        text: "Few-Shot"
+      - id: "step-back"
+        text: "Step-Back"
+    definitions:
+      - id: "a"
+        text: "You are a tax attorney. Explain this contract clause in plain English for a first-time buyer."
+        matches: "role"
+      - id: "b"
+        text: "Think step by step: What are the three hidden risks in this pricing strategy?"
+        matches: "cot"
+      - id: "c"
+        text: "Formal → 'We appreciate your inquiry.' Casual → 'Thanks for reaching out!' Formal → 'We regret to inform...' → Casual → ___"
+        matches: "few-shot"
+      - id: "d"
+        text: "Before answering: what are the core principles of effective B2B onboarding? Now apply them to our product."
+        matches: "step-back"
+    completion_text: "Perfect — you know your techniques cold."
+    points: 30
+transcript: |
+  Match the move. Tap a technique, then tap its matching example.
+
+  Role prompting, chain of thought, few-shot, step-back — match each to the right prompt example.
+estimated_duration_seconds: 25

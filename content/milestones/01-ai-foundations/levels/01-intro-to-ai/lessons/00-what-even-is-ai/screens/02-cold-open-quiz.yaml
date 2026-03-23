@@ -1,0 +1,38 @@
+id: "02-cold-open-quiz"
+title: "What Did You Think AI Was?"
+hero:
+  type: "interactive"
+  component: "ColdOpenQuiz"
+  props:
+    headline: "What Did You Think AI Was?"
+    subline: "No judgement. Tap everything that applied to you before today."
+    options:
+      - id: "robot"
+        text: "A robot that thinks like a human"
+        is_correct: true
+        explanation: "Common belief — but AI doesn't think. It predicts."
+      - id: "search"
+        text: "A search engine that gives longer answers"
+        is_correct: true
+        explanation: "It can feel that way — but it generates, not searches."
+      - id: "database"
+        text: "A database that stores all human knowledge"
+        is_correct: true
+        explanation: "AI doesn't store facts. It learns patterns from data."
+      - id: "tech-only"
+        text: "Something only developers and tech people use"
+        is_correct: true
+        explanation: "Not anymore — AI tools are built for everyone now."
+      - id: "job-threat"
+        text: "A tool that will take my job"
+        is_correct: true
+        explanation: "A fair concern — but AI replaces tasks, not people."
+      - id: "no-idea"
+        text: "Honestly, I still don't really know"
+        is_correct: true
+        explanation: "Honest answer. You will by the end of this lesson."
+    correct_reveal: "Every single one of these is understandable. Most of them are also wrong. Let's fix that — one idea at a time."
+    points: 20
+transcript: |
+  No judgement here. What did you actually think AI was before today? Tap everything that applied to you.
+estimated_duration_seconds: 20

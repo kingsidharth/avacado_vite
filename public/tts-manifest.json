@@ -1,4 +1,24 @@
 {
-  "01-ai-foundations/01-intro-to-ai/01-what-is-ai/01-not-new": "https://media.avacado.xperiments.app/tts/01-ai-foundations-01-intro-to-ai-01-what-is-ai-01-not-new.wav",
-  "01-ai-foundations/01-intro-to-ai/01-what-is-ai/03-ready-for-ai": "https://media.avacado.xperiments.app/tts/01-ai-foundations-01-intro-to-ai-01-what-is-ai-03-ready-for-ai.wav"
+  "01-ai-foundations/01-intro-to-ai/01-what-is-ai/09-build-toolkit": "/tts/01-ai-foundations-01-intro-to-ai-01-what-is-ai-09-build-toolkit.wav",
+  "01-ai-foundations/01-intro-to-ai/01-what-is-ai/05-power-techniques": "/tts/01-ai-foundations-01-intro-to-ai-01-what-is-ai-05-power-techniques.wav",
+  "01-ai-foundations/01-intro-to-ai/01-what-is-ai/03-prompt-swipe": "/tts/01-ai-foundations-01-intro-to-ai-01-what-is-ai-03-prompt-swipe.wav",
+  "01-ai-foundations/01-intro-to-ai/01-what-is-ai/04-prompt-anatomy": "/tts/01-ai-foundations-01-intro-to-ai-01-what-is-ai-04-prompt-anatomy.wav",
+  "01-ai-foundations/01-intro-to-ai/01-what-is-ai/02-comparison": "/tts/01-ai-foundations-01-intro-to-ai-01-what-is-ai-02-comparison.wav",
+  "01-ai-foundations/01-intro-to-ai/01-what-is-ai/08-live-ai-test": "/tts/01-ai-foundations-01-intro-to-ai-01-what-is-ai-08-live-ai-test.wav",
+  "01-ai-foundations/01-intro-to-ai/01-what-is-ai/07-fill-blueprint": "/tts/01-ai-foundations-01-intro-to-ai-01-what-is-ai-07-fill-blueprint.wav",
+  "01-ai-foundations/01-intro-to-ai/01-what-is-ai/06-technique-matching": "/tts/01-ai-foundations-01-intro-to-ai-01-what-is-ai-06-technique-matching.wav",
+  "01-ai-foundations/01-intro-to-ai/01-what-is-ai/10-celebration": "/tts/01-ai-foundations-01-intro-to-ai-01-what-is-ai-10-celebration.wav",
+  "01-ai-foundations/01-intro-to-ai/01-what-is-ai/01-lesson-intro": "/tts/01-ai-foundations-01-intro-to-ai-01-what-is-ai-01-lesson-intro.wav",
+  "01-ai-foundations/01-intro-to-ai/02-how-ai-learns/02-cold-open-quiz": "/tts/01-ai-foundations-01-intro-to-ai-02-how-ai-learns-02-cold-open-quiz.wav",
+  "01-ai-foundations/01-intro-to-ai/02-how-ai-learns/07-query-lab": "/tts/01-ai-foundations-01-intro-to-ai-02-how-ai-learns-07-query-lab.wav",
+  "01-ai-foundations/01-intro-to-ai/02-how-ai-learns/08-spot-the-gap": "/tts/01-ai-foundations-01-intro-to-ai-02-how-ai-learns-08-spot-the-gap.wav",
+  "01-ai-foundations/01-intro-to-ai/02-how-ai-learns/06-upload-document": "/tts/01-ai-foundations-01-intro-to-ai-02-how-ai-learns-06-upload-document.wav",
+  "01-ai-foundations/01-intro-to-ai/02-how-ai-learns/04-rag-comparison": "/tts/01-ai-foundations-01-intro-to-ai-02-how-ai-learns-04-rag-comparison.wav",
+  "01-ai-foundations/01-intro-to-ai/02-how-ai-learns/12-celebration": "/tts/01-ai-foundations-01-intro-to-ai-02-how-ai-learns-12-celebration.wav",
+  "01-ai-foundations/01-intro-to-ai/02-how-ai-learns/11-key-takeaway": "/tts/01-ai-foundations-01-intro-to-ai-02-how-ai-learns-11-key-takeaway.wav",
+  "01-ai-foundations/01-intro-to-ai/02-how-ai-learns/05-build-rag-prompt": "/tts/01-ai-foundations-01-intro-to-ai-02-how-ai-learns-05-build-rag-prompt.wav",
+  "01-ai-foundations/01-intro-to-ai/02-how-ai-learns/03-rag-pipeline": "/tts/01-ai-foundations-01-intro-to-ai-02-how-ai-learns-03-rag-pipeline.wav",
+  "01-ai-foundations/01-intro-to-ai/02-how-ai-learns/10-build-toolkit": "/tts/01-ai-foundations-01-intro-to-ai-02-how-ai-learns-10-build-toolkit.wav",
+  "01-ai-foundations/01-intro-to-ai/02-how-ai-learns/09-prompt-upgrade": "/tts/01-ai-foundations-01-intro-to-ai-02-how-ai-learns-09-prompt-upgrade.wav",
+  "01-ai-foundations/01-intro-to-ai/02-how-ai-learns/01-lesson-intro": "/tts/01-ai-foundations-01-intro-to-ai-02-how-ai-learns-01-lesson-intro.wav"
 }

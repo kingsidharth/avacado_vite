@@ -1,0 +1,48 @@
+id: "08-live-ai-test"
+title: "Your Turn: Live AI Test"
+hero:
+  type: "interactive"
+  component: "ScoredPromptBuilder"
+  props:
+    headline: "Your Turn: Live AI Test"
+    subline: "Write a real prompt. We'll score it and send it to a live AI."
+    placeholder: "Try: 'You are a [role]. Write a [task] for [audience]. Use [format]. Keep it [tone].'"
+    min_words: 15
+    scoring:
+      role_keywords:
+        - "you are"
+        - "act as"
+        - "as a"
+      format_keywords:
+        - "bullet"
+        - "paragraph"
+        - "words"
+        - "sentences"
+        - "short"
+        - "concise"
+        - "list"
+      tone_keywords:
+        - "professional"
+        - "casual"
+        - "formal"
+        - "friendly"
+        - "direct"
+      audience_keywords:
+        - "for a"
+        - "for the"
+        - "for my"
+    score_labels:
+      pro: "Pro Prompt"
+      getting_there: "Getting There"
+      needs_work: "Needs Work"
+      try_again: "Try Again"
+    points: 40
+transcript: |
+  Your turn. Live AI test.
+
+  Write a real prompt. We'll score it and send it to a live AI.
+
+  Aim for 15 or more words. Include a role, a task, an audience, a format, and a tone.
+
+  The higher your score, the better the AI response.
+estimated_duration_seconds: 30

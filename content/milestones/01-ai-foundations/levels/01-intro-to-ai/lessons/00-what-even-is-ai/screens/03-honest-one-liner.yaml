@@ -1,0 +1,9 @@
+id: "03-honest-one-liner"
+title: "The Honest One-Liner"
+hero:
+  type: "mascot"
+  cta_text: "Got it — what's next?"
+  cta_action: "next"
+transcript: |
+  Here's what AI actually is. One sentence. AI is software that finds patterns in data and uses those patterns to make predictions. That's it. When AI answers your question — it's predicting the most useful response based on patterns from millions of conversations. Patterns. Predictions. That's the whole thing.
+estimated_duration_seconds: 20

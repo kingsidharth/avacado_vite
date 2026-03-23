@@ -1,0 +1,31 @@
+id: "02-comparison"
+title: "Same AI. Wildly Different Results."
+hero:
+  type: "interactive"
+  component: "PromptComparison"
+  props:
+    headline: "Same AI. Wildly Different Results."
+    instruction: "Tap each card to see what the AI actually returned."
+    weak_prompt:
+      label: "WEAK PROMPT"
+      text: "Write me an email to my team about the project."
+      output: "Hi Team, Just wanted to update you on the project. There have been some changes. Please let me know if you have any questions. Thanks"
+      annotation: "Why this happened: No role, no audience, no format, no tone. AI had to guess everything — and guessed generically."
+      annotation_type: "bad"
+    pro_prompt:
+      label: "PRO PROMPT"
+      text: "You are a senior manager. Write a concise, motivating email to a 10-person product team announcing a Q3 deadline change from Sept 30 → Oct 15. Be reassuring, acknowledge their effort, end with one clear next step."
+      output: "Subject: Q3 Timeline Update — You're Doing Great\n\nHi team,\n\nQuick update: our Q3 deadline has shifted from September 30 to October 15. This isn't a setback — it's recognition that the work you're doing deserves the time to be done right.\n\nI've watched this team push through three major sprints this quarter, and the quality has been outstanding. The extra two weeks lets us ship something we're genuinely proud of.\n\nNext step: Let's sync at Thursday's standup to realign sprint priorities. I'll share an updated timeline before then.\n\nKeep the momentum going — we're in great shape.\n\nBest,\n[Name]"
+      annotation: "Why this happened: Role + context + audience + tone + format + clear CTA = AI delivers something you'd actually send."
+      annotation_type: "good"
+    cta_text: "Got It — Show Me What Makes the Difference"
+    points: 10
+transcript: |
+  Same AI. Wildly different results.
+
+  Tap each card to see what the AI actually returned.
+
+  The weak prompt gets a vague, generic email. The pro prompt gets something you'd actually send.
+
+  Role plus context plus audience plus tone plus format plus a clear call to action — that's the difference.
+estimated_duration_seconds: 20

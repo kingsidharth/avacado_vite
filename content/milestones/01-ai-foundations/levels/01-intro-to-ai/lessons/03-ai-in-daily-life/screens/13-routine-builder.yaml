@@ -1,0 +1,43 @@
+id: "13-routine-builder"
+title: "Build Your Daily AI Routine"
+hero:
+  type: "interactive"
+  component: "RoutineBuilder"
+  props:
+    headline: "Build Your Daily AI Routine"
+    subline: "Three tasks. Three time slots. Three prompts. That's your system."
+    source_store_key: "ranked_tasks"
+    time_options:
+      - "Morning"
+      - "Midday"
+      - "End of day"
+    prompt_suggestions:
+      emails:
+        - "Draft my 3 most important emails for today"
+        - "Summarise and reply to unread emails from yesterday"
+      reports:
+        - "Turn these bullet points into a formatted weekly report"
+        - "Summarise this data into an executive update"
+      presentations:
+        - "Create a 10-slide outline from this brief"
+        - "Turn my meeting notes into presentation bullets"
+      searching:
+        - "Find and summarise the top 3 articles on [topic]"
+        - "What are the key takeaways from this research paper?"
+      summarising:
+        - "Summarise this meeting transcript in 5 bullet points"
+        - "Extract action items from these meeting notes"
+      proposals:
+        - "Draft a proposal outline for [project]"
+        - "Write the executive summary for this proposal"
+      repetitive:
+        - "Create template responses for these 5 common questions"
+        - "Draft FAQ responses based on our product documentation"
+      proofreading:
+        - "Proofread this document and suggest improvements"
+        - "Check this email for tone, clarity, and grammar"
+    points: 30
+    completion_text: "That's your system. Not a course exercise. Your actual routine, starting tomorrow."
+transcript: |
+  Three tasks. Three time slots. Three prompts. That's your system. For each task, choose when in your day you'll AI-power it and set your go-to prompt.
+estimated_duration_seconds: 30

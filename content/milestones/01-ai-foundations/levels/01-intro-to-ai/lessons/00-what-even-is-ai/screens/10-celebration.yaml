@@ -1,0 +1,9 @@
+id: "10-celebration"
+title: "AI Curious — Unlocked!"
+hero:
+  type: "mascot"
+  cta_text: "Start Level 1"
+  cta_action: "next"
+transcript: |
+  Chapter 0 complete! You earned the AI Curious badge. You now know what AI actually is, how it learns, and the difference between hype and reality. Everything in Level 1 builds on exactly what you just learned. You're not starting from zero anymore.
+estimated_duration_seconds: 15

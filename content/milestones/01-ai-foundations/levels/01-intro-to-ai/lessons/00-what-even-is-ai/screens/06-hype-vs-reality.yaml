@@ -1,0 +1,51 @@
+id: "06-hype-vs-reality"
+title: "Hype vs. Reality"
+hero:
+  type: "interactive"
+  component: "PromptSwipe"
+  props:
+    headline: "Hype vs. Reality"
+    subline: "Swipe RIGHT for reality. Swipe LEFT for hype or myth."
+    prompts:
+      - id: "replace-jobs"
+        text: "AI will replace all human jobs within 5 years."
+        is_good: false
+        explanation: "Hype. AI changes jobs — it doesn't wholesale replace human judgment and relationships."
+      - id: "first-draft"
+        text: "AI can help you write a first draft faster than you ever could."
+        is_good: true
+        explanation: "Reality. This is happening right now, in real workplaces."
+      - id: "conscious"
+        text: "AI is conscious and has feelings."
+        is_good: false
+        explanation: "Myth. AI has no inner experience. It predicts text. It doesn't feel."
+      - id: "mistakes"
+        text: "AI makes mistakes and can confidently say wrong things."
+        is_good: true
+        explanation: "Reality. This is called hallucination — and it's important to know."
+      - id: "knows-all"
+        text: "AI knows everything."
+        is_good: false
+        explanation: "Myth. AI knows patterns from training data. It can be outdated, biased, or wrong."
+      - id: "advantage"
+        text: "People who use AI well will have an advantage over those who don't."
+        is_good: true
+        explanation: "Reality. This is already true in most industries."
+      - id: "tech-only"
+        text: "AI is only for tech people."
+        is_good: false
+        explanation: "Myth. The most powerful AI tools today require zero coding."
+      - id: "human-check"
+        text: "AI output always needs a human to check it."
+        is_good: true
+        explanation: "Reality. You are the quality control. Always."
+    score_messages:
+      perfect: "You can tell AI hype from AI reality. That's a superpower."
+      good: "Strong instincts. You know more about AI than most people who claim they do."
+      needs_work: "The line between hype and reality matters. Keep these distinctions in mind."
+    bad_label: "Hype"
+    good_label: "Reality"
+    points_per_correct: 4
+transcript: |
+  The internet is full of both AI hype and AI fear. Swipe right for reality. Swipe left for hype or myth.
+estimated_duration_seconds: 25

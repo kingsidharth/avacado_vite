@@ -32,6 +32,8 @@ import chatsHandler from '../api/chats/index'
 import chatIdHandler from '../api/chats/[id]'
 import chatHandler from '../api/chat/index'
 import chatModelsHandler from '../api/chat/models'
+import ragQueryHandler from '../api/rag-query/index'
+import lessonGenerateHandler from '../api/lesson-generate/index'
 
 type Handler = (req: IncomingMessage & { body?: unknown }, res: ServerResponse) => void | Promise<void>
 
@@ -45,6 +47,8 @@ const routes: [string, Handler][] = [
   ['/api/chat/models', chatModelsHandler],
   ['/api/chat', chatHandler],
   ['/api/chats', chatsHandler],
+  ['/api/rag-query', ragQueryHandler],
+  ['/api/lesson-generate', lessonGenerateHandler],
 ]
 
 function matchRoute(pathname: string): Handler | null {

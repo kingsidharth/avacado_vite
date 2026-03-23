@@ -1,0 +1,30 @@
+id: "02-cold-open-quiz"
+title: "The Document Problem"
+hero:
+  type: "interactive"
+  component: "ColdOpenQuiz"
+  props:
+    headline: "The Document Problem"
+    subline: "You have a 200-page manual. A client emails asking about Section 4.2. What do you do?"
+    options:
+      - id: "ctrl-f"
+        text: "Ctrl+F and hope the right keyword shows up"
+        is_correct: false
+        explanation: "Ctrl+F only works if you guess the exact words. What if the answer uses different phrasing?"
+      - id: "skim"
+        text: "Skim the table of contents, then scan Section 4"
+        is_correct: false
+        explanation: "This works but takes 5-10 minutes. And you might still miss nuance buried in the text."
+      - id: "ai-doc"
+        text: "Feed the document to AI and ask your question in plain English"
+        is_correct: true
+        explanation: "Exactly right. AI can read the full document and answer in seconds — using the document's own words, not guesses."
+      - id: "memory"
+        text: "Rely on your memory from when you read it last month"
+        is_correct: false
+        explanation: "Human memory is unreliable for specific details. The document is the source of truth."
+    correct_reveal: "This is called RAG — Retrieval-Augmented Generation. AI reads your document, then generates answers grounded in the actual text. No guessing, no hallucinating."
+    points: 10
+transcript: |
+  Quick question before we start. You have a 200-page manual and a client email asking about one specific section. What's your move?
+estimated_duration_seconds: 20

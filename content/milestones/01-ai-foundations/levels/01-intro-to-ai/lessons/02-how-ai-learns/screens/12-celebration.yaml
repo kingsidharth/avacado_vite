@@ -1,0 +1,11 @@
+id: "12-celebration"
+title: "Lesson Complete!"
+hero:
+  type: "mascot"
+  eye_variant: "regular"
+  mouth_variant: "smile"
+  cta_text: "Continue"
+  cta_action: "next"
+transcript: |
+  Lesson complete! You can now make AI read and answer questions from any document. That's a real superpower. Next up — we'll explore how AI learns patterns from data. See you there.
+estimated_duration_seconds: 12

@@ -30,6 +30,8 @@ interface HeroRendererProps {
   onSyncPoint?: (syncPoint: SyncPoint) => void
   /** Callback for mascot hero CTA click */
   onMascotCta?: () => void
+  /** Callback when interactive activity is completed by the user */
+  onActivityComplete?: () => void
 }
 
 // ============================================================================
@@ -37,7 +39,7 @@ interface HeroRendererProps {
 // ============================================================================
 
 export const HeroRenderer = forwardRef<HeroRendererRef, HeroRendererProps>(
-  ({ hero, currentWordIndex, onSyncPoint, onMascotCta }, ref) => {
+  ({ hero, currentWordIndex, onSyncPoint, onMascotCta, onActivityComplete }, ref) => {
     const videoRef = useRef<VideoHeroRef>(null)
 
     // Expose video controls via ref
@@ -100,6 +102,7 @@ export const HeroRenderer = forwardRef<HeroRendererRef, HeroRendererProps>(
           <InteractiveHero
             component={hero.component}
             props={hero.props}
+            onActivityComplete={onActivityComplete}
           />
         )
 

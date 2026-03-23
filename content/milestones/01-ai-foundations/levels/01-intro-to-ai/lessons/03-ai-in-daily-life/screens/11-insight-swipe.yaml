@@ -1,0 +1,43 @@
+id: "11-insight-swipe"
+title: "Insight or Hallucination?"
+hero:
+  type: "interactive"
+  component: "PromptSwipe"
+  props:
+    headline: "Insight or Hallucination?"
+    subline: "AI is powerful with data. It can also make things up — confidently. Swipe RIGHT for trustworthy. LEFT for suspicious."
+    prompts:
+      - id: "q3-revenue"
+        text: "Revenue in Q3 was 23% higher than Q2."
+        is_good: true
+        explanation: "A verifiable calculation from the data. This is trustworthy."
+      - id: "overworked"
+        text: "This trend suggests your APAC team is overworked."
+        is_good: false
+        explanation: "Not in the data. AI is inferring emotions from numbers."
+      - id: "top-product"
+        text: "The top product by revenue was Product A at 41% of total."
+        is_good: true
+        explanation: "A direct calculation from the dataset. Verifiable."
+      - id: "benchmarks"
+        text: "Based on industry benchmarks, you're underperforming by 15%."
+        is_good: false
+        explanation: "No benchmark data was in the dataset. AI made this up."
+      - id: "highest-day"
+        text: "October had the single highest sales day in the dataset."
+        is_good: true
+        explanation: "A factual finding from the data."
+      - id: "satisfaction"
+        text: "Customer satisfaction is likely declining based on these numbers."
+        is_good: false
+        explanation: "Satisfaction data was never in the dataset. This is speculation."
+    score_messages:
+      perfect: "Perfect! You can spot AI hallucinations in data analysis."
+      good: "Strong critical eye. Always ask: is this actually in my data?"
+      needs_work: "Remember: if it's not in your actual data, it's an opinion dressed as a fact."
+    bad_label: "Suspicious"
+    good_label: "Trustworthy"
+    points_per_correct: 5
+transcript: |
+  AI is powerful with data. It can also confidently make things up. Swipe to judge each output. Right if it seems legit, left if it's suspicious.
+estimated_duration_seconds: 20

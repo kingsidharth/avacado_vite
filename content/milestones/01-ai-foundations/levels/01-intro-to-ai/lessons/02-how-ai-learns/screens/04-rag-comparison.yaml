@@ -1,0 +1,25 @@
+id: "04-rag-comparison"
+title: "Without RAG vs With RAG"
+hero:
+  type: "interactive"
+  component: "PromptComparison"
+  props:
+    headline: "Without RAG vs With RAG"
+    instruction: "Tap each card to see what the AI actually returned."
+    weak_prompt:
+      label: "WITHOUT RAG"
+      text: "What was the company's Q3 revenue?"
+      output: "I don't have specific information about your company's Q3 revenue. Generally, company revenue can vary widely depending on industry, size, and market conditions. You would need to check your company's financial statements or quarterly report for accurate figures."
+      annotation: "Without your document, AI has no data to work with — it gives generic, useless answers."
+      annotation_type: "bad"
+    pro_prompt:
+      label: "WITH RAG"
+      text: "What was the company's Q3 revenue?"
+      output: "According to the Q3 2025 quarterly report, Avocado Inc generated $12.4 million in total revenue, representing a 23% increase quarter-over-quarter from Q2's $10.1 million. The Enterprise segment was the primary growth driver at $7.9M (+34% QoQ)."
+      annotation: "With your document loaded, AI pulls exact figures and cites the source — no guessing."
+      annotation_type: "good"
+    cta_text: "RAG grounds AI in your actual data"
+    points: 10
+transcript: |
+  Look at the difference. Without your document, AI gives generic fluff. With your document loaded, it pulls exact numbers and cites the source.
+estimated_duration_seconds: 15

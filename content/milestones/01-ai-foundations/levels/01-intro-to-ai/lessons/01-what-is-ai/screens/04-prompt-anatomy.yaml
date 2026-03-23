@@ -1,0 +1,53 @@
+id: "04-prompt-anatomy"
+title: "Break It Down"
+hero:
+  type: "interactive"
+  component: "PromptAnatomy"
+  props:
+    headline: "Break It Down"
+    subline: "A great prompt has 5 layers. Tap each coloured segment to unlock it."
+    segments:
+      - id: "role"
+        color: "red"
+        label: "ROLE"
+        chip_text: "You are a senior product manager"
+        icon: "user"
+        description: "Give AI a job title and let it think in that frame. The right role changes vocabulary, priorities, and perspective."
+        example: "You are a McKinsey strategy consultant..."
+      - id: "task"
+        color: "yellow"
+        label: "TASK"
+        chip_text: "Write a one-page executive summary"
+        icon: "target"
+        description: "One task per prompt. State exactly what you want delivered — not what you're thinking about."
+        example: "Write a concise one-page executive summary..."
+      - id: "context"
+        color: "blue"
+        label: "CONTEXT"
+        chip_text: "of our new onboarding flow"
+        icon: "globe"
+        description: "Context is the gap between generic and actually useful. Include what's relevant — not everything, just what matters."
+        example: "...of our customer onboarding flow that launched last month and has a 45% completion rate..."
+      - id: "audience"
+        color: "purple"
+        label: "AUDIENCE"
+        chip_text: "for the board of directors"
+        icon: "users"
+        description: "Audience shapes tone, depth, and vocabulary. A board needs different language than a dev team."
+        example: "...for the board of directors and key investors who are non-technical..."
+      - id: "format"
+        color: "green"
+        label: "FORMAT"
+        chip_text: "Use 3 bullet points for wins, 2 paragraphs max for risks."
+        icon: "file-text"
+        description: "Format instructions give AI a container. Without them, output length and structure are random."
+        example: "...Use bullet points for wins, plain prose for risks. Maximum 300 words total."
+    points_per_layer: 4
+    cta_text: "I've Got the Blueprint"
+transcript: |
+  Break it down. A great prompt has five layers. Tap each coloured segment to unlock it.
+
+  Role. Task. Context. Audience. Format.
+
+  Each layer changes how AI responds. Together, they give you full control.
+estimated_duration_seconds: 25

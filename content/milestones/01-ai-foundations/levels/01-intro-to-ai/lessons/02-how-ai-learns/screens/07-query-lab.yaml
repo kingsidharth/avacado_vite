@@ -1,0 +1,29 @@
+id: "07-query-lab"
+title: "Ask Your Document"
+hero:
+  type: "interactive"
+  component: "RAGQueryLab"
+  props:
+    headline: "Ask Your Document"
+    subline: "Type a question and see AI find the answer in your document."
+    rounds: 3
+    suggested_queries:
+      - "What was the total Q3 revenue?"
+      - "Which segment grew the fastest?"
+      - "What are the key risks?"
+    placeholder: "Ask a question about your document..."
+    rating_prompt: "How useful was this answer?"
+    rating_options:
+      - id: "great"
+        label: "Very Useful"
+        value: 3
+      - id: "ok"
+        label: "Somewhat Useful"
+        value: 2
+      - id: "poor"
+        label: "Not Useful"
+        value: 1
+    points_per_round: 10
+transcript: |
+  Now ask your document questions. Three rounds — type anything you want, or use a suggestion. After each answer, rate how useful it was.
+estimated_duration_seconds: 40

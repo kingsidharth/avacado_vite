@@ -1,0 +1,52 @@
+id: "02-work-day-swipe"
+title: "Your Work Day, Before & After"
+hero:
+  type: "interactive"
+  component: "PromptSwipe"
+  props:
+    headline: "Your Work Day, Before & After"
+    subline: "Swipe right if AI can genuinely help here. Left if it can't."
+    prompts:
+      - id: "first-draft"
+        text: "Writing a first draft of anything"
+        is_good: true
+        explanation: "AI drafts fast. You edit smart."
+      - id: "strategy-call"
+        text: "Making the final call on a strategy"
+        is_good: false
+        explanation: "Strategy is judgment. AI can inform it, not own it."
+      - id: "notes-to-report"
+        text: "Turning notes into a structured report"
+        is_good: true
+        explanation: "One of AI's strongest use cases."
+      - id: "client-relationship"
+        text: "Building a real relationship with a client"
+        is_good: false
+        explanation: "Relationships are human. Full stop."
+      - id: "summarise-doc"
+        text: "Summarising a 40-page document in 30 seconds"
+        is_good: true
+        explanation: "This is where AI genuinely saves hours."
+      - id: "trust-output"
+        text: "Deciding whether to trust the AI's output"
+        is_good: false
+        explanation: "Always yours. AI doesn't fact-check itself."
+      - id: "subject-lines"
+        text: "Generating 10 subject line options for one email"
+        is_good: true
+        explanation: "Volume + variety — AI's sweet spot."
+      - id: "know-audience"
+        text: "Knowing your audience well enough to communicate with them"
+        is_good: false
+        explanation: "Context about people comes from you, not AI."
+    score_messages:
+      perfect: "Perfect score! You know exactly where AI fits."
+      good: "AI multiplies your output. You still do the thinking."
+      needs_work: "AI is powerful but it's a tool, not a replacement. You still make the calls."
+    bad_label: "Nope, That's You"
+    good_label: "AI Can Do This"
+    points_per_correct: 2
+    completion_text: "AI multiplies your output. You still do the thinking."
+transcript: |
+  Swipe right if AI can genuinely help here. Left if it can't. Let's see how well you know where AI fits in your work day.
+estimated_duration_seconds: 25

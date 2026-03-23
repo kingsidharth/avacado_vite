@@ -1,0 +1,11 @@
+id: "11-key-takeaway"
+title: "Key Takeaway"
+hero:
+  type: "mascot"
+  eye_variant: "regular"
+  mouth_variant: "grin"
+  cta_text: "Almost Done"
+  cta_action: "next"
+transcript: |
+  Here's the key takeaway. RAG is how you turn AI from a guessing machine into a document expert. Upload your file. Ask specific questions. Verify the answers. And when something sounds too specific to be true — check the source. You just learned the same technique used by lawyers, analysts, and researchers who work with AI every day.
+estimated_duration_seconds: 18

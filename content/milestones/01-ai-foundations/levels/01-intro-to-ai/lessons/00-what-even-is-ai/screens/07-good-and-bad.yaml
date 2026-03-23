@@ -1,0 +1,25 @@
+id: "07-good-and-bad"
+title: "What AI Is Good At (and Bad At)"
+hero:
+  type: "interactive"
+  component: "PromptComparison"
+  props:
+    headline: "What AI Is Good At (and Bad At)"
+    instruction: "Tap each card to reveal both sides."
+    weak_prompt:
+      label: "AI IS BAD AT"
+      text: "Knowing what happened after its training cutoff. Being certain when it doesn't know something. Understanding context it wasn't given. Making judgment calls about people. Creative originality — it remixes, it doesn't invent. Knowing what you meant vs. what you typed."
+      output: "These are real limitations. The last one is the most important — it means your prompts need to do the thinking for AI."
+      annotation: "AI has real blind spots. Knowing them makes you better at using it."
+      annotation_type: "bad"
+    pro_prompt:
+      label: "AI IS GOOD AT"
+      text: "Drafting text quickly — emails, reports, summaries. Finding patterns in large amounts of data. Giving you multiple options fast. Doing repetitive tasks without getting tired. Explaining complex things simply. Working at any hour, at any scale."
+      output: "These are genuine strengths. AI as a tireless first-drafter and pattern-finder is already transforming work."
+      annotation: "AI excels as a tool for speed, scale, and first drafts."
+      annotation_type: "good"
+    cta_text: "AI is a tool. Like every tool, it has a right job and a wrong job. Now you know both."
+    points: 20
+transcript: |
+  AI is a tool. Like every tool, it has a right job and a wrong job. Tap each card to reveal both sides.
+estimated_duration_seconds: 20

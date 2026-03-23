@@ -1,0 +1,47 @@
+id: "04-how-ai-learns"
+title: "How Does AI Actually Learn?"
+hero:
+  type: "interactive"
+  component: "TechniqueExplorer"
+  props:
+    headline: "How Does AI Actually Learn?"
+    subline: "AI doesn't have a brain. But it does learn. Tap each step to see how."
+    min_to_proceed: 4
+    points_per_technique: 5
+    techniques:
+      - id: "examples"
+        label: "Show It Examples"
+        icon: "list-checks"
+        power: 5
+        tagline: "Feed it millions of examples"
+        when_to_use: "Before AI can do anything, it needs to see millions of examples. ChatGPT was trained on billions of web pages, books, and conversations. Spotify's AI has heard millions of playlists. Your email's spam filter has seen millions of emails."
+        example: "Training GPT on billions of web pages so it knows what human language looks like"
+        best_for: "More examples = better pattern recognition"
+      - id: "patterns"
+        label: "Let It Find Patterns"
+        icon: "brain"
+        power: 5
+        tagline: "It spots what repeats"
+        when_to_use: "The AI looks for what repeats. What words tend to follow other words? What songs do people with similar taste tend to like? What emails tend to be spam? It doesn't understand any of this — it just notices statistical patterns."
+        example: "Noticing that emails with 'FREE PRIZE' in the subject tend to be spam"
+        best_for: "Finding connections across massive datasets"
+      - id: "predict"
+        label: "Make Predictions"
+        icon: "zap"
+        power: 4
+        tagline: "Predict what comes next"
+        when_to_use: "Once it has patterns, it starts making predictions. Given this email, is it spam? Given this half-sentence, what word comes next? Given this listener's history, what song will they like? Every AI product you use is predicting the most likely useful next thing."
+        example: "You type 'How do I…' and AI predicts the most helpful completion"
+        best_for: "Powering every AI feature you use daily"
+      - id: "correct"
+        label: "Get Corrected"
+        icon: "repeat"
+        power: 4
+        tagline: "Learn from mistakes"
+        when_to_use: "When the prediction is wrong, the AI adjusts. Billions of tiny corrections, repeated trillions of times. That's how it improves — not by understanding, but by adjusting until its predictions get consistently useful."
+        example: "AI predicts 'cat' but the answer was 'dog' — it adjusts its weights slightly"
+        best_for: "Turning wrong guesses into better future predictions"
+    cta_text: "That whole process happens before you ever open the app. By the time you type your first message, the AI has already done trillions of corrections."
+transcript: |
+  AI doesn't have a brain. It doesn't think. But it does learn. Tap each step to see how.
+estimated_duration_seconds: 25

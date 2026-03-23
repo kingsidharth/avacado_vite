@@ -1,0 +1,22 @@
+id: "09-prompt-upgrade"
+title: "Upgrade Your Prompt"
+hero:
+  type: "interactive"
+  component: "PromptUpgradeLab"
+  props:
+    headline: "Upgrade Your Prompt"
+    subline: "The basic prompt got a basic answer. Make it better."
+    initial_prompt: "Tell me about the company's performance"
+    upgrade_hints:
+      - "Ask for specific numbers"
+      - "Request comparisons between segments"
+      - "Add a format constraint like 'in 3 bullet points'"
+      - "Ask about risks or concerns"
+    placeholder: "Write a better version of this prompt..."
+    comparison_labels:
+      before: "Basic Prompt"
+      after: "Your Upgraded Prompt"
+    points: 25
+transcript: |
+  Now improve a prompt. The basic version just says 'tell me about performance.' Edit it to be specific, structured, and useful. See how much better the AI response gets.
+estimated_duration_seconds: 35

@@ -1,0 +1,41 @@
+id: "03-prompt-swipe"
+title: "Good or Bad Prompt?"
+hero:
+  type: "interactive"
+  component: "PromptSwipe"
+  props:
+    headline: "Good or Bad Prompt?"
+    subline: "Tap to decide"
+    prompts:
+      - id: "p1"
+        text: "Summarize this for me."
+        is_good: false
+        explanation: "What should be summarized? For who? How long? AI is guessing at everything."
+      - id: "p2"
+        text: "You are a data analyst. Summarize the following sales report in 3 bullet points for a non-technical executive. Focus on trends and any anomalies worth flagging."
+        is_good: true
+        explanation: "Role, format (3 bullets), audience, and focus area — all defined. AI has everything it needs."
+      - id: "p3"
+        text: "Make this better."
+        is_good: false
+        explanation: "'Better' means nothing. Better in what way? Shorter? More professional? AI will guess randomly."
+      - id: "p4"
+        text: "Act as a senior copywriter. Rewrite this product description to be 20% shorter, punchier, and targeted at millennials aged 25–35. Preserve key benefits, cut filler."
+        is_good: true
+        explanation: "Specific role, measurable task, target audience, and constraint — a complete instruction set."
+      - id: "p5"
+        text: "Help me write stuff."
+        is_good: false
+        explanation: "No task, no context, no output format. This is the equivalent of telling a new hire 'just do things'."
+    score_messages:
+      perfect: "Sharp eye. You're already reading prompts like a pro."
+      good: "Good instincts forming. Let's deepen the pattern."
+      needs_work: "The pattern will click soon. Let's go deeper."
+    points_per_correct: 5
+transcript: |
+  Good or bad prompt? Tap to decide.
+
+  Five prompts, one at a time. Is it a good prompt or a bad prompt?
+
+  The pattern — specific prompts with role, task, audience, and format always win.
+estimated_duration_seconds: 25

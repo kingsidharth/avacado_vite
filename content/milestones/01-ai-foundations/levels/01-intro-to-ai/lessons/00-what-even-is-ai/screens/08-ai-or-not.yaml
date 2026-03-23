@@ -1,0 +1,43 @@
+id: "08-ai-or-not"
+title: "AI or Not AI?"
+hero:
+  type: "interactive"
+  component: "PromptSwipe"
+  props:
+    headline: "AI or Not AI?"
+    subline: "Quick fire round. Swipe RIGHT if it's AI. Swipe LEFT if it's not."
+    prompts:
+      - id: "calculator"
+        text: "A calculator working out 847 x 23"
+        is_good: false
+        explanation: "Not AI. Pure maths. No pattern learning, no prediction."
+      - id: "gmail-complete"
+        text: "Gmail auto-completing your sentence as you type"
+        is_good: true
+        explanation: "AI. Predicting your next words from patterns in millions of emails."
+      - id: "thermostat"
+        text: "A thermostat turning on at 7am because you set it to"
+        is_good: false
+        explanation: "Not AI. A timer. Programmed rule, no learning."
+      - id: "spotify-skip"
+        text: "Spotify noticing you skip sad songs on Mondays and stops suggesting them"
+        is_good: true
+        explanation: "AI. Detecting a behavioural pattern and adapting."
+      - id: "spellcheck"
+        text: "A spell-checker underlining a typo"
+        is_good: false
+        explanation: "Not AI. Rule-based. It checks against a fixed dictionary."
+      - id: "chatgpt-draft"
+        text: "ChatGPT writing a first draft of your presentation"
+        is_good: true
+        explanation: "AI. Predicting useful content from patterns across billions of documents."
+    score_messages:
+      perfect: "Perfect. The line between AI and software is pattern-learning."
+      good: "Strong instincts. If it adapts and predicts — it's AI."
+      needs_work: "Remember: the key test is whether it learns from patterns and makes predictions."
+    bad_label: "Not AI"
+    good_label: "AI"
+    points_per_correct: 5
+transcript: |
+  Quick fire round. Is it AI or not AI? The test is simple — does it learn from patterns and make predictions?
+estimated_duration_seconds: 20

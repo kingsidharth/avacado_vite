@@ -1,0 +1,40 @@
+id: "12-ranking-exercise"
+title: "Map Your AI Work Day"
+hero:
+  type: "interactive"
+  component: "RankingExercise"
+  props:
+    headline: "Map Your AI Work Day"
+    subline: "Drag to rank: which tasks waste the most of your time? Most time-wasting at top."
+    items:
+      - id: "emails"
+        label: "Writing and replying to emails"
+        icon: "mail"
+      - id: "reports"
+        label: "Creating or updating reports"
+        icon: "file-text"
+      - id: "presentations"
+        label: "Preparing presentations"
+        icon: "presentation"
+      - id: "searching"
+        label: "Searching for information"
+        icon: "search"
+      - id: "summarising"
+        label: "Summarising meetings or documents"
+        icon: "message-square"
+      - id: "proposals"
+        label: "Writing proposals or briefs"
+        icon: "pencil"
+      - id: "repetitive"
+        label: "Responding to repetitive questions"
+        icon: "repeat"
+      - id: "proofreading"
+        label: "Proofreading and editing"
+        icon: "check-circle"
+    top_n: 3
+    store_key: "ranked_tasks"
+    completion_text: "Look at your top 3. AI can handle all of them. Let's build your routine."
+    points: 20
+transcript: |
+  You've just AI-powered four real tasks. Now let's build a system so you do this every day without thinking. Drag to rank these tasks from most time-wasting at top to least at bottom.
+estimated_duration_seconds: 20

@@ -1,0 +1,23 @@
+id: "10-celebration"
+title: "You're Now Ahead of 99% of AI Users"
+hero:
+  type: "mascot"
+  eye_variant: "regular"
+  mouth_variant: "smile"
+  cta_text: "Continue to Lesson 2.2"
+  cta_action: "next"
+transcript: |
+  You're now ahead of 99% of AI users.
+
+  Most people are still typing 'write me an email.' You just learned to engineer results.
+
+  What you can do now:
+
+  Write 5-layer prompts that work on the first try.
+
+  Choose the right technique for any task — instantly.
+
+  Get 3x better output from every AI interaction.
+
+  Badge unlocked — Prompt Engineer.
+estimated_duration_seconds: 15

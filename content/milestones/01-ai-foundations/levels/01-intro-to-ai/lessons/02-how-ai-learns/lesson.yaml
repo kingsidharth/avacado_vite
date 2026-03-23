@@ -1,9 +1,24 @@
 id: "02-how-ai-learns"
-title: "How AI Learns"
-description: "Discover how machines learn from data and improve over time."
+title: "Talk to Your Documents"
+description: "Upload a doc and ask AI about it."
 order: 2
-screen_refs: []
-estimated_duration_minutes: 12
+screen_refs:
+  - screens/01-lesson-intro.yaml
+  - screens/02-cold-open-quiz.yaml
+  - screens/03-rag-pipeline.yaml
+  - screens/04-rag-comparison.yaml
+  - screens/05-build-rag-prompt.yaml
+  - screens/06-upload-document.yaml
+  - screens/07-query-lab.yaml
+  - screens/08-spot-the-gap.yaml
+  - screens/09-prompt-upgrade.yaml
+  - screens/10-build-toolkit.yaml
+  - screens/11-key-takeaway.yaml
+  - screens/12-celebration.yaml
+estimated_duration_minutes: 22
 tags:
-  - fundamentals
-  - machine-learning
+  - rag
+  - documents
+  - retrieval-augmented-generation
+  - hallucination-detection
+  - prompt-engineering

@@ -1,0 +1,47 @@
+id: "05-build-rag-prompt"
+title: "Build a RAG Prompt"
+hero:
+  type: "interactive"
+  component: "FillTheBlueprint"
+  props:
+    headline: "Build a RAG Prompt"
+    subline: "Complete this prompt that tells AI to use only the document."
+    blanks:
+      - id: "role"
+        label: "ROLE"
+        correct: "You are a document analyst"
+        options:
+          - "You are a document analyst"
+          - "You are a creative writer"
+          - "You are a general assistant"
+          - "Just answer"
+      - id: "constraint"
+        label: "CONSTRAINT"
+        correct: "Answer ONLY from the provided document"
+        options:
+          - "Answer ONLY from the provided document"
+          - "Answer from your training data"
+          - "Use any source you want"
+          - "Be creative"
+      - id: "evidence"
+        label: "EVIDENCE"
+        correct: "Quote specific figures and sections"
+        options:
+          - "Quote specific figures and sections"
+          - "Give me your opinion"
+          - "Keep it short"
+          - "Summarize broadly"
+      - id: "fallback"
+        label: "FALLBACK"
+        correct: "If the answer isn't in the document, say so"
+        options:
+          - "If the answer isn't in the document, say so"
+          - "Make your best guess"
+          - "Use general knowledge instead"
+          - "Skip the question"
+    success_message: "That's a solid RAG prompt — role, constraint, evidence, and fallback."
+    points_first_try: 25
+    points_with_correction: 10
+transcript: |
+  Build a prompt that forces AI to stick to your document. Fill in the four blanks — role, constraint, evidence, and fallback.
+estimated_duration_seconds: 25

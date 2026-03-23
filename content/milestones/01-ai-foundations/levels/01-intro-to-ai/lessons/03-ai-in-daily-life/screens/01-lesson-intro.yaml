@@ -1,0 +1,11 @@
+id: "01-lesson-intro"
+title: "You Already Own These Skills"
+hero:
+  type: "mascot"
+  eye_variant: "regular"
+  mouth_variant: "smile"
+  cta_text: "Let's Get to Work"
+  cta_action: "next"
+transcript: |
+  You know what AI is. You know how to prompt. Level 2 is where you stop practising and start producing. In this lesson you're going to use AI on five real work tasks. No formulas. No fill-in-the-blanks. Just you, your brief, and the output. An email, written and sent-ready in under 2 minutes. A cold message with your voice in it. A slide deck outline from a 2-line brief. A data analysis that would have taken an hour. Your personal AI routine for every work day after this. Let's get to work.
+estimated_duration_seconds: 20

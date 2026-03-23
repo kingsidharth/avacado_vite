@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useState } from 'react'
 import {
   useContentManifest,
   useMilestones,
@@ -32,6 +33,13 @@ function LevelLessons({
     ? lessons.find((l) => !isLessonComplete(milestoneId, levelId, l.id))?.id
     : undefined
 
+  // Track which card is hovered — only ONE mascot at a time
+  const [hoveredLessonId, setHoveredLessonId] = useState<string | null>(null)
+
+  // Mascot shows on hovered card (priority) or current card (default)
+  const mascotLessonId = hoveredLessonId ?? currentLessonId ?? null
+  const isHoveringNonCurrent = hoveredLessonId !== null && hoveredLessonId !== currentLessonId
+
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       {lessons.map((lesson) => {
@@ -47,6 +55,8 @@ function LevelLessons({
           progress = completedCount / lesson.screen_refs.length
         }
 
+        const isMascotCard = mascotLessonId === lesson.id
+
         return (
           <LessonCard
             key={lesson.id}
@@ -57,6 +67,11 @@ function LevelLessons({
             isCurrent={lesson.id === currentLessonId}
             isComplete={complete}
             progress={progress}
+            showMascot={isMascotCard}
+            mascotExpression={isMascotCard && isHoveringNonCurrent ? 'excited' : 'default'}
+            onHoverChange={(hovered) =>
+              setHoveredLessonId(hovered ? lesson.id : null)
+            }
           />
         )
       })}

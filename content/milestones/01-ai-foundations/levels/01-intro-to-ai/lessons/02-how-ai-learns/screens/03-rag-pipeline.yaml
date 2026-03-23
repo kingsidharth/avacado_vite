@@ -1,0 +1,39 @@
+id: "03-rag-pipeline"
+title: "How RAG Works"
+hero:
+  type: "interactive"
+  component: "RAGPipelineExplorer"
+  props:
+    headline: "How RAG Works"
+    subline: "Tap each step to see how AI reads your documents."
+    nodes:
+      - id: "upload"
+        icon: "upload"
+        label: "1. Upload"
+        title: "Upload Your Document"
+        description: "You give the AI a document — a PDF, Word file, or plain text. This becomes the AI's knowledge base."
+        analogy: "Think of it like handing a textbook to a study partner."
+      - id: "chunk"
+        icon: "scissors"
+        label: "2. Chunk"
+        title: "Break Into Pieces"
+        description: "The document gets split into smaller sections — paragraphs or passages. This makes searching faster and more precise."
+        analogy: "Like tearing a book into individual pages so you can flip to exactly the right one."
+      - id: "retrieve"
+        icon: "search"
+        label: "3. Retrieve"
+        title: "Find Relevant Sections"
+        description: "When you ask a question, AI finds the most relevant chunks. It matches your question to the sections most likely to contain the answer."
+        analogy: "Like a librarian who already knows which shelf has what you need."
+      - id: "generate"
+        icon: "sparkles"
+        label: "4. Generate"
+        title: "Generate the Answer"
+        description: "AI reads the relevant chunks and writes an answer using only what's in the document. If it's not in the document, it says so."
+        analogy: "Like a research assistant who quotes the source, not their opinion."
+    min_to_proceed: 4
+    cta_text: "I get it — let's try it"
+    points: 15
+transcript: |
+  Here's how RAG works in four steps. Tap each one to explore.
+estimated_duration_seconds: 30

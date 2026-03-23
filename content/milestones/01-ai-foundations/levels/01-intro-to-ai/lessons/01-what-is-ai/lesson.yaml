@@ -1,21 +1,24 @@
 id: "01-what-is-ai"
-title: "What is AI?"
-description: "What is AI and how does it work? What can it do for me?"
+title: "Prompt Engineering: Talk to AI Like a Pro"
+description: "Master 5 pro prompting techniques."
 order: 1
 screen_refs:
-  - screens/01-not-new.yaml
-  - screens/02-narrow-vs-general.yaml
-  - screens/03-ready-for-ai.yaml
-quiz:
-  question_refs:
-    - questions/q01-define-ai.yaml
-    - questions/q02-narrow-vs-general.yaml
-    - questions/q03-ai-examples.yaml
-  minimum_passing_score: 0.67
-  allow_retry: true
-  show_answers_after: true
+  - screens/01-lesson-intro.yaml
+  - screens/02-comparison.yaml
+  - screens/03-prompt-swipe.yaml
+  - screens/04-prompt-anatomy.yaml
+  - screens/05-power-techniques.yaml
+  - screens/06-technique-matching.yaml
+  - screens/07-fill-blueprint.yaml
+  - screens/08-live-ai-test.yaml
+  - screens/09-build-toolkit.yaml
+  - screens/10-celebration.yaml
 estimated_duration_minutes: 15
 tags:
-  - fundamentals
-  - ai-basics
-  - introduction
+  - prompt-engineering
+  - techniques
+  - zero-shot
+  - few-shot
+  - chain-of-thought
+  - role-prompting
+  - step-back

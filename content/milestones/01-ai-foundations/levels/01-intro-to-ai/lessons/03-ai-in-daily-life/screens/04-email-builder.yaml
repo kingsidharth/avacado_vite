@@ -1,0 +1,50 @@
+id: "04-email-builder"
+title: "Write the Email — Live"
+hero:
+  type: "interactive"
+  component: "BuildAPrompt"
+  props:
+    headline: "Write the Email — Live"
+    subline: "Give me the situation. I'll give you the email."
+    fields:
+      - id: "recipient"
+        label: "Who are you writing to?"
+        type: "dropdown"
+        options:
+          - "A client"
+          - "A colleague"
+          - "Your manager"
+          - "A vendor"
+          - "Someone new"
+        required: true
+      - id: "ask"
+        label: "What do you need from them? (be specific)"
+        type: "text"
+        placeholder: "e.g. 'Approval on the Q4 budget by Friday'"
+        required: true
+      - id: "context"
+        label: "Anything they need to know first?"
+        type: "text"
+        placeholder: "e.g. 'We already discussed this in last week's meeting'"
+        required: false
+      - id: "tone"
+        label: "Tone?"
+        type: "dropdown"
+        options:
+          - "Professional"
+          - "Friendly"
+          - "Urgent"
+          - "Concise"
+          - "Diplomatic"
+        required: true
+    system_prompt: "You are a professional email writer. Write clear, actionable emails that get replies. Keep under 150 words. Include a subject line."
+    prompt_template: "Write a professional email to {recipient}. The ask: {ask}. Additional context: {context}. Tone: {tone}. Include a clear subject line, opening, body, and call-to-action."
+    output_label: "Your AI Email"
+    output_format: "email"
+    store_key: "email_output"
+    cta_text: "Write My Email"
+    points: 50
+    show_copy: true
+transcript: |
+  Give me the situation. I'll give you the email. Fill in the brief and AI will write a professional email in seconds.
+estimated_duration_seconds: 40

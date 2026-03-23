@@ -1,0 +1,55 @@
+id: "06-cold-message-builder"
+title: "Build Your Cold Message — Live"
+hero:
+  type: "interactive"
+  component: "BuildAPrompt"
+  props:
+    headline: "Build Your Cold Message — Live"
+    subline: "One message. One person. Make it about them, not you."
+    fields:
+      - id: "recipient_type"
+        label: "Who are you reaching out to?"
+        type: "dropdown"
+        options:
+          - "Potential client"
+          - "Potential employer"
+          - "Collaborator"
+          - "Investor"
+          - "Speaker or Expert"
+        required: true
+      - id: "their_goal"
+        label: "What do they care about? (their goal or pain)"
+        type: "text"
+        placeholder: "e.g. Growing their team without increasing headcount"
+        required: true
+      - id: "proof"
+        label: "What's your relevant proof or connection?"
+        type: "text"
+        placeholder: "e.g. We helped a similar company cut onboarding time by 60%"
+        required: true
+      - id: "cta"
+        label: "What do you want them to do? (one clear ask)"
+        type: "text"
+        placeholder: "e.g. 15-minute call this week"
+        required: true
+      - id: "platform"
+        label: "Platform?"
+        type: "dropdown"
+        options:
+          - "LinkedIn DM"
+          - "Email"
+          - "WhatsApp"
+          - "Twitter/X"
+          - "In-person intro"
+        required: true
+    system_prompt: "You are a cold outreach expert. Write a compelling cold message based on the user's brief. The message must: lead with THEIR problem (not yours), include specific proof, have one clear CTA, and be under 100 words. Match the platform's tone. Include markers [A], [B], and [C] in the message: [A] after the opening line (for a specific personal detail), [B] after the proof point (for a specific data point), and [C] before the sign-off (for a soft exit option)."
+    prompt_template: "Write a cold {platform} message to a {recipient_type}.\n\nTheir goal/pain: {their_goal}\nMy proof: {proof}\nMy ask: {cta}\n\nRemember to include [A], [B], and [C] gap markers."
+    output_label: "Your Cold Message"
+    output_format: "message"
+    store_key: "cold_message_output"
+    cta_text: "Write My Cold Message"
+    points: 50
+    show_copy: false
+transcript: |
+  One message. One person. Make it about them, not you. Fill in the brief and AI will write a message worth replying to.
+estimated_duration_seconds: 40
