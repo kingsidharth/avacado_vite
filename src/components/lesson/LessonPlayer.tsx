@@ -7,7 +7,8 @@ import { ScreenPlayer } from './ScreenPlayer'
 import { QuizRunner } from './QuizRunner'
 import { LessonComplete } from './LessonComplete'
 import { QuestionRenderer } from './questions/QuestionRenderer'
-import { useProgressStore, type ProgressStore } from '@/store/progress'
+import { useProgressStore, type ProgressStore, makeLessonKey } from '@/store/progress'
+import { useSessionStore } from '@/store/session'
 import { useRecordUserHistory } from '@/hooks/useRecordUserHistory'
 import { X } from 'lucide-react'
 import { animate } from 'animejs'
@@ -121,6 +122,7 @@ export function LessonPlayer({
   const recordLessonResult = useProgressStore((s: ProgressStore) => s.recordLessonResult)
   const markScreenComplete = useProgressStore((s: ProgressStore) => s.markScreenComplete)
   const updateLastAccessed = useProgressStore((s: ProgressStore) => s.updateLastAccessed)
+  const setNewlyCompleted = useSessionStore((s) => s.setNewlyCompleted)
   const { recordLessonWatched, recordQuizAnswer } = useRecordUserHistory()
   const lessonSlug = `${milestoneId}/${levelId}/${lesson.id}`
 
@@ -173,6 +175,7 @@ export function LessonPlayer({
     } else {
       recordLessonResult(milestoneId, levelId, lesson.id, 1, true)
       recordLessonWatched(lessonSlug).catch(() => {})
+      setNewlyCompleted(makeLessonKey(milestoneId, levelId, lesson.id))
       dispatch({ type: 'FINISH_LESSON' })
       navigate({ to: '/dashboard' })
     }
@@ -190,6 +193,7 @@ export function LessonPlayer({
     navigate,
     recordLessonResult,
     recordLessonWatched,
+    setNewlyCompleted,
   ])
 
   // After checkpoint passed — advance to next screen/quiz/finish
@@ -204,6 +208,7 @@ export function LessonPlayer({
     } else {
       recordLessonResult(milestoneId, levelId, lesson.id, 1, true)
       recordLessonWatched(lessonSlug).catch(() => {})
+      setNewlyCompleted(makeLessonKey(milestoneId, levelId, lesson.id))
       dispatch({ type: 'FINISH_LESSON' })
       navigate({ to: '/dashboard' })
     }
@@ -219,6 +224,7 @@ export function LessonPlayer({
     navigate,
     recordLessonResult,
     recordLessonWatched,
+    setNewlyCompleted,
   ])
 
   const handleScreenPrev = useCallback(() => {
@@ -248,8 +254,11 @@ export function LessonPlayer({
   }, [])
 
   const handleFinish = useCallback(() => {
+    if (state.assessmentResult?.passed) {
+      setNewlyCompleted(makeLessonKey(milestoneId, levelId, lesson.id))
+    }
     navigate({ to: '/dashboard' })
-  }, [navigate])
+  }, [navigate, state.assessmentResult, milestoneId, levelId, lesson.id, setNewlyCompleted])
 
   const handleClose = useCallback(() => {
     navigate({ to: '/dashboard' })

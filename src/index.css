@@ -108,7 +108,7 @@
 
 :root {
   --radius: 0.75rem;
-  --onboarding-fill: #05abd6;
+  --onboarding-fill: #30d4ff;
   /* Quiz page — option button states (Figma spec 559-2395, 724-628/632/636/640) */
   --quiz-option-selected-bg: #a6ebfd;
   --quiz-option-selected-border: rgba(140, 229, 252, 0.8);
@@ -291,5 +291,11 @@
     font-weight: 500;
     line-height: 1.35;
     letter-spacing: -0.028em;
+  }
+
+  /* Initial state for the path-sweep animation overlay in LessonPathMap.
+     Fully clips the element from the right so it's invisible before anime.js takes over. */
+  .path-anim-hidden {
+    clip-path: inset(0 100% 0 0);
   }
 }
