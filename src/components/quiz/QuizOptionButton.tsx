@@ -63,9 +63,6 @@ export function QuizOptionButton({
   disabled = false,
   className,
 }: QuizOptionButtonProps) {
-  // ── Spec §8: gap is 10px when selected, 6px otherwise ─────────────────────
-  const gapClass = variant === 'selected' ? 'gap-2.5' : 'gap-1.5'
-
   // ── Background + border ────────────────────────────────────────────────────
   const containerVariant = {
     default:
@@ -88,9 +85,8 @@ export function QuizOptionButton({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        'flex w-full cursor-pointer items-center rounded-xl px-3 py-4 text-left transition-colors',
+        'flex w-full cursor-pointer items-center gap-1.5 rounded-xl px-3 py-4 text-left transition-colors',
         'disabled:cursor-default',
-        gapClass,
         containerVariant,
         className,
       )}
