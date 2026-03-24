@@ -10,8 +10,12 @@ const rawKey =
 const publishableKey = typeof rawKey === 'string' ? rawKey.trim() : ''
 const isValidKey = publishableKey.startsWith('pk_test_') || publishableKey.startsWith('pk_live_')
 
+const rootElement = document.getElementById('root')
+if (!rootElement) throw new Error('Root element #root not found in document')
+const root = createRoot(rootElement)
+
 if (!publishableKey || !isValidKey) {
-  createRoot(document.getElementById('root')!).render(
+  root.render(
     <div className="flex min-h-dvh flex-col items-center justify-center gap-4 bg-background px-6 text-center font-sans">
       <div className="text-[32px] leading-none">⚙️</div>
       <h1 className="m-0 text-[20px] font-semibold leading-tight">
@@ -40,7 +44,7 @@ if (!publishableKey || !isValidKey) {
     </div>,
   )
 } else {
-  createRoot(document.getElementById('root')!).render(
+  root.render(
     <StrictMode>
       <ClerkProvider publishableKey={publishableKey} afterSignOutUrl="/splash">
         <App />

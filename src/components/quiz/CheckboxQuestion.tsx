@@ -11,17 +11,14 @@ interface CheckboxQuestionProps {
 export function CheckboxQuestion({ prompt, options, selected, onSelect }: CheckboxQuestionProps) {
   return (
     <div className="flex flex-col gap-5">
-      {prompt && (
-        <div className="flex flex-col gap-2">
-          <h2 className="text-question">{prompt}</h2>
-          <p className="text-body text-muted-foreground">Select all that apply.</p>
-        </div>
-      )}
+      {prompt && <h2 className="text-question">{prompt}</h2>}
+      <p className="text-body text-muted-foreground">Select all that apply.</p>
       <div className="flex flex-col gap-4">
         {options.map((option) => (
           <button
             key={option.id}
             type="button"
+            aria-pressed={selected.includes(option.id)}
             onClick={() => onSelect(option.id)}
             className={cn(
               'flex min-h-[50px] w-full cursor-pointer flex-col justify-center rounded-xl border bg-background px-3 py-4 text-left shadow-level-1 transition-colors',
@@ -30,7 +27,7 @@ export function CheckboxQuestion({ prompt, options, selected, onSelect }: Checkb
                 : 'border-border/40 hover:border-border',
             )}
           >
-            <span className={cn('text-body', selected.includes(option.id) ? 'text-foreground' : 'text-[#3b3b3b]')}>
+            <span className={cn('text-body', selected.includes(option.id) ? 'text-foreground' : 'text-muted-foreground')}>
               {option.text}
             </span>
           </button>

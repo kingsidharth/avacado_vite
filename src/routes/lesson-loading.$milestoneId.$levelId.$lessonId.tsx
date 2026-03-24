@@ -2,6 +2,8 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useRef, useEffect } from 'react'
 import { animate, createScope, createTimeline } from 'animejs'
 
+const LESSON_LOADING_TIMEOUT_MS = 1200
+
 // ============================================================================
 // Lesson Loading Screen
 // ============================================================================
@@ -48,13 +50,13 @@ function LessonLoadingPage() {
         .add('.dot-3', { opacity: [0.2, 1, 0.2], duration: 600, ease: 'inOutSine' }, 400)
     })
 
-    // Navigate to lesson after 6 seconds
+    // Keep the loading screen brief but configurable while the lesson route initializes.
     const timer = setTimeout(() => {
       void navigate({
         to: '/lesson/$milestoneId/$levelId/$lessonId',
         params: { milestoneId, levelId, lessonId },
       })
-    }, 6 * 1000)
+    }, LESSON_LOADING_TIMEOUT_MS)
 
     return () => {
       scope.current?.revert()

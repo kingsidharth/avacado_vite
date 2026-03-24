@@ -375,9 +375,14 @@ export function LessonPlayer({
       }
     }
 
-    // Arrow-key navigation between lessons (only when lesson is complete)
+    // Arrow-key navigation between lessons (only when lesson is complete).
+    // Guard against events from text inputs so typing doesn't trigger navigation.
     const handleKeyDown = (e: KeyboardEvent) => {
       if (state.phase !== 'complete') return
+      const active = document.activeElement as HTMLElement | null
+      if (!active || !el.contains(active)) return
+      const tag = active.tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || active.isContentEditable) return
       if (e.key === 'ArrowDown') navigateToNextLesson()
       else if (e.key === 'ArrowUp') navigateToPrevLesson()
     }
@@ -506,6 +511,7 @@ export function LessonPlayer({
   return (
     <div
       className="lesson-player-root flex h-dvh flex-col justify-start items-start bg-background pt-3 pb-3"
+      tabIndex={0}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >

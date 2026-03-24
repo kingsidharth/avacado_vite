@@ -43,11 +43,16 @@ export function ManyOfManyQuestionComponent({
   const [selected, setSelected] = useState<string[]>([])
   const [localResult, setLocalResult] = useState<QuestionResult | null>(null)
   const result = localResult ?? externalResult
-  const resolvedSelected =
-    Array.isArray(externalAnswer) ? externalAnswer :
-      Array.isArray(result?.userAnswer) ? result.userAnswer.filter((value): value is string => typeof value === 'string') :
-        selected
   const hasSubmitted = !!result
+  const resolvedSelected: string[] = hasSubmitted
+    ? (Array.isArray(result?.userAnswer)
+        ? result.userAnswer.filter((v): v is string => typeof v === 'string')
+        : [])
+    : selected.length > 0
+      ? selected
+      : (Array.isArray(externalAnswer) && externalAnswer.length > 0
+          ? (externalAnswer as unknown[]).filter((v): v is string => typeof v === 'string')
+          : [])
 
   const toggleOption = (optionId: string) => {
     if (hasSubmitted) return
@@ -79,7 +84,7 @@ export function ManyOfManyQuestionComponent({
     // ── Card grid (with images) ───────────────────────────────────────────────
     if (renderAs === 'card-grid') {
       const cardVariantStyles: Record<QuizOptionVariant, string> = {
-        default:  'border-[rgba(0,0,0,0.08)] bg-white shadow-[var(--quiz-option-shadow-default)]',
+        default:  'border-[var(--quiz-option-default-border)] bg-white shadow-[var(--quiz-option-shadow-default)]',
         selected: 'border-[var(--quiz-option-selected-border)] bg-[var(--quiz-option-selected-bg)] shadow-[var(--quiz-option-shadow-state)]',
         correct:  'border-[var(--quiz-option-correct-border)] bg-[var(--quiz-option-correct-bg)] shadow-[var(--quiz-option-shadow-state)]',
         wrong:    'border border-dashed border-[var(--quiz-option-wrong-border)] bg-[var(--quiz-option-wrong-bg)] shadow-[var(--quiz-option-shadow-state)]',

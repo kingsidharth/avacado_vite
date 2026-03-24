@@ -25,7 +25,7 @@ export function RadioQuestion({ prompt, options, selected, onSelect }: RadioQues
                 : 'border-border/40 hover:border-border',
             )}
           >
-            <span className={cn('text-body', selected.includes(option.id) ? 'text-foreground' : 'text-[#3b3b3b]')}>
+            <span className={cn('text-body', selected.includes(option.id) ? 'text-foreground' : 'text-muted-foreground')}>
               {option.text}
             </span>
           </button>

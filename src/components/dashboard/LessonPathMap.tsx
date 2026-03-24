@@ -82,13 +82,19 @@ function PathConnector({
   const overlayRef = useCallback(
     (node: HTMLImageElement | null) => {
       if (!node || !animatePath) return
-      animate(node, {
+      const animationConfig = {
         clipPath: ['inset(0 100% 0 0)', 'inset(0 0% 0 0)'],
         duration: 900,
         ease: 'outQuad',
         delay: 400,
-        onComplete: onAnimationComplete,
-      })
+      }
+
+      animate(
+        node,
+        onAnimationComplete
+          ? { ...animationConfig, onComplete: onAnimationComplete }
+          : animationConfig,
+      )
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [animatePath],
@@ -96,7 +102,7 @@ function PathConnector({
 
   if (animatePath) {
     return (
-      <div className="relative ml-[35px] w-[calc(100%-70px)]">
+      <div className="relative ml-[35px] w-[calc(100%_-_70px)]">
         {/* Locked path sits underneath as the "before" state */}
         <img
           src={lockedSrc}
@@ -119,7 +125,7 @@ function PathConnector({
   }
 
   return (
-    <div className="ml-[35px] w-[calc(100%-70px)]">
+    <div className="ml-[35px] w-[calc(100%_-_70px)]">
       <img
         src={src}
         alt=""

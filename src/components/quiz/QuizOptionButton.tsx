@@ -66,7 +66,7 @@ export function QuizOptionButton({
   // ── Background + border ────────────────────────────────────────────────────
   const containerVariant = {
     default:
-      'bg-white border border-[rgba(0,0,0,0.08)] shadow-[var(--quiz-option-shadow-default)]',
+      'bg-white border border-[var(--quiz-option-default-border)] shadow-[var(--quiz-option-shadow-default)]',
     selected:
       'bg-[var(--quiz-option-selected-bg)] border border-[var(--quiz-option-selected-border)] shadow-[var(--quiz-option-shadow-state)]',
     correct:

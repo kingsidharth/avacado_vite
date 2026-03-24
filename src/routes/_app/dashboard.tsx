@@ -72,17 +72,17 @@ function LevelSection({
     <section className="space-y-6">
       {/* Level header */}
       <div className="flex flex-col gap-1">
-        <p className="text-caption text-[rgba(10,10,10,0.7)]">Level {levelNumber}</p>
+        <p className="text-caption text-ui-muted-strong">Level {levelNumber}</p>
         <h2 className="text-level-title text-foreground">{title}</h2>
-        <p className="text-body font-normal leading-[1.4] text-[rgba(10,10,10,0.5)]">
+        <p className="text-body text-ui-muted font-normal leading-[1.4]">
           {description}
         </p>
       </div>
 
       {isLocked ? (
-        <div className="flex items-center gap-2 rounded-xl border border-dashed border-[#a3e0f0] px-4 py-6">
-          <Lock className="size-5 text-[#a3e0f0]" />
-          <p className="text-body font-normal text-[rgba(10,10,10,0.4)]">
+        <div className="border-ui-locked flex items-center gap-2 rounded-xl border border-dashed px-4 py-6">
+          <Lock className="text-ui-locked size-5" />
+          <p className="text-body text-ui-muted-subtle font-normal">
             Complete the previous level to unlock
           </p>
         </div>

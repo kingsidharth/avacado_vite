@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { animate } from 'animejs'
 
@@ -43,37 +43,36 @@ export function ScoreRing({
   animated = true,
 }: ScoreRingProps) {
   const centreNumber = displayValue ?? score
-  const hasAnimatedRef = useRef(false)
+  const svgRef = useRef<SVGSVGElement>(null)
 
   const radius = (size - strokeWidth) / 2
   const circumference = 2 * Math.PI * radius
   const progress = Math.min(Math.max(score / 100, 0), 1)
   const targetOffset = circumference - progress * circumference
 
-  const containerRef = useCallback(
-    (node: SVGSVGElement | null) => {
-      if (!node || !animated || hasAnimatedRef.current) return
-      const ring = node.querySelector<SVGCircleElement>('.score-ring-progress')
-      if (!ring) return
-      hasAnimatedRef.current = true
+  useEffect(() => {
+    const ring = svgRef.current?.querySelector<SVGCircleElement>('.score-ring-progress')
+    if (!ring) return
 
-      // Start fully hidden (offset = full circumference), animate to target
-      ring.style.strokeDashoffset = String(circumference)
-      animate(ring, {
-        strokeDashoffset: targetOffset,
-        duration: 900,
-        ease: 'outExpo',
-        delay: 200,
-      })
-    },
-    [animated, circumference, targetOffset],
-  )
+    if (!animated) {
+      ring.style.strokeDashoffset = String(targetOffset)
+      return
+    }
+
+    ring.style.strokeDashoffset = String(circumference)
+    animate(ring, {
+      strokeDashoffset: targetOffset,
+      duration: 900,
+      ease: 'outExpo',
+      delay: 200,
+    })
+  }, [animated, circumference, score, targetOffset])
 
   return (
     <div className="relative" style={{ width: size, height: size }}>
       {/* SVG ring */}
       <svg
-        ref={containerRef}
+        ref={svgRef}
         width={size}
         height={size}
         viewBox={`0 0 ${size} ${size}`}

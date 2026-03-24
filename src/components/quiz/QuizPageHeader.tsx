@@ -38,7 +38,7 @@ export function QuizPageHeader({ progressPercent }: QuizPageHeaderProps) {
       {/* Progress bar: 12px height, rounded, track gray, fill accent */}
       <div className="h-3 w-full min-w-0 overflow-hidden rounded-[8px] bg-[rgba(10,10,10,0.1)]">
         <div
-          className="h-full rounded-[8px] bg-[var(--onboarding-fill)] transition-[width] duration-300 ease-out"
+          className="h-full rounded-[8px] bg-[var(--quiz-progress-fill)] transition-[width] duration-300 ease-out"
           style={{ width: `${percent}%` }}
         />
       </div>

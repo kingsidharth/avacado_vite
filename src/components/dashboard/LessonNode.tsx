@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils'
 import { DEFAULT_NODE_ASSETS } from './learning-path-assets'
+import type { LessonNodeState } from './learning-path-assets'
 
 export type { LessonNodeState } from './learning-path-assets'
 export type LessonNodeSide = 'left' | 'right'

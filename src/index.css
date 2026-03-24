@@ -101,7 +101,10 @@
 :root {
   --radius: 0.75rem;
   --onboarding-fill: #30d4ff;
+  /* Quiz page — progress bar fill (Figma spec §5.2, node 559:2418) */
+  --quiz-progress-fill: #05abd6;
   /* Quiz page — option button states (Figma spec 559-2395, 724-628/632/636/640) */
+  --quiz-option-default-border: rgba(0, 0, 0, 0.02);
   --quiz-option-selected-bg: #a6ebfd;
   --quiz-option-selected-border: rgba(140, 229, 252, 0.8);
   --quiz-option-correct-bg: rgba(173, 255, 193, 1);
@@ -304,5 +307,25 @@
     line-height: 1;
     letter-spacing: -0.025rem;
     color: rgba(10,10,10,0.4);
+  }
+
+  .text-ui-muted-strong {
+    color: rgba(10,10,10,0.7);
+  }
+
+  .text-ui-muted {
+    color: rgba(10,10,10,0.5);
+  }
+
+  .text-ui-muted-subtle {
+    color: rgba(10,10,10,0.4);
+  }
+
+  .text-ui-locked {
+    color: #a3e0f0;
+  }
+
+  .border-ui-locked {
+    border-color: #a3e0f0;
   }
 }

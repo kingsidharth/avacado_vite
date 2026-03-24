@@ -53,13 +53,11 @@ export function OneOfManyQuestionComponent({
   const [selected, setSelected] = useState<string>('')
   const [localResult, setLocalResult] = useState<QuestionResult | null>(null)
   const result = localResult ?? externalResult
-  const resolvedSelected =
-    typeof externalAnswer === 'string'
-      ? externalAnswer
-      : typeof result?.userAnswer === 'string'
-        ? result.userAnswer
-        : selected
   const hasSubmitted = !!result
+  const submittedAnswer = typeof result?.userAnswer === 'string' ? result.userAnswer : ''
+  const resolvedSelected = hasSubmitted
+    ? submittedAnswer
+    : selected || (typeof externalAnswer === 'string' && externalAnswer !== '' ? externalAnswer : '')
 
   const handleSubmit = () => {
     if (!resolvedSelected) return
@@ -102,7 +100,7 @@ export function OneOfManyQuestionComponent({
     // ── Cards (with images) ────────────────────────────────────────────────────
     if (renderAs === 'cards') {
       const cardVariantStyles: Record<QuizOptionVariant, string> = {
-        default:  'border-[rgba(0,0,0,0.08)] bg-white shadow-[var(--quiz-option-shadow-default)]',
+        default:  'border-[var(--quiz-option-default-border)] bg-white shadow-[var(--quiz-option-shadow-default)]',
         selected: 'border-[var(--quiz-option-selected-border)] bg-[var(--quiz-option-selected-bg)] shadow-[var(--quiz-option-shadow-state)]',
         correct:  'border-[var(--quiz-option-correct-border)] bg-[var(--quiz-option-correct-bg)] shadow-[var(--quiz-option-shadow-state)]',
         wrong:    'border border-dashed border-[var(--quiz-option-wrong-border)] bg-[var(--quiz-option-wrong-bg)] shadow-[var(--quiz-option-shadow-state)]',
