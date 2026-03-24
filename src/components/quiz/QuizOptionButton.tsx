@@ -46,6 +46,9 @@ interface QuizOptionButtonProps {
   onClick?: () => void
   disabled?: boolean
   className?: string
+  role?: 'checkbox' | 'radio' | 'button'
+  'aria-checked'?: boolean
+  'aria-disabled'?: boolean
 }
 
 /**
@@ -62,6 +65,9 @@ export function QuizOptionButton({
   onClick,
   disabled = false,
   className,
+  role,
+  'aria-checked': ariaChecked,
+  'aria-disabled': ariaDisabled,
 }: QuizOptionButtonProps) {
   // ── Background + border ────────────────────────────────────────────────────
   const containerVariant = {
@@ -84,6 +90,9 @@ export function QuizOptionButton({
       type="button"
       onClick={onClick}
       disabled={disabled}
+      role={role}
+      aria-checked={ariaChecked}
+      aria-disabled={ariaDisabled}
       className={cn(
         'flex w-full cursor-pointer items-center gap-1.5 rounded-xl px-3 py-4 text-left transition-colors',
         'disabled:cursor-default',

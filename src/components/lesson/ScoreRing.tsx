@@ -60,12 +60,16 @@ export function ScoreRing({
     }
 
     ring.style.strokeDashoffset = String(circumference)
-    animate(ring, {
+    const animation = animate(ring, {
       strokeDashoffset: targetOffset,
       duration: 900,
       ease: 'outExpo',
       delay: 200,
     })
+
+    return () => {
+      animation.revert()
+    }
   }, [animated, circumference, score, targetOffset])
 
   return (

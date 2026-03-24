@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate, useRouter } from '@tanstack/react-router'
 import { useRef, useEffect } from 'react'
 import { animate, createScope, createTimeline } from 'animejs'
 
@@ -11,12 +11,21 @@ const LESSON_LOADING_TIMEOUT_MS = 1200
 function LessonLoadingPage() {
   const { milestoneId, levelId, lessonId } = Route.useParams()
   const navigate = useNavigate()
+  const router = useRouter()
 
   const rootRef = useRef<HTMLDivElement>(null)
   const scope = useRef<ReturnType<typeof createScope> | null>(null)
 
   useEffect(() => {
     if (!rootRef.current) return
+
+    const lessonLocation = {
+      to: '/lesson/$milestoneId/$levelId/$lessonId' as const,
+      params: { milestoneId, levelId, lessonId },
+    }
+
+    let isCancelled = false
+    let timer: ReturnType<typeof setTimeout> | undefined
 
     scope.current = createScope({ root: rootRef.current }).add(() => {
       // Entry: fade in the whole scene
@@ -50,19 +59,23 @@ function LessonLoadingPage() {
         .add('.dot-3', { opacity: [0.2, 1, 0.2], duration: 600, ease: 'inOutSine' }, 400)
     })
 
-    // Keep the loading screen brief but configurable while the lesson route initializes.
-    const timer = setTimeout(() => {
-      void navigate({
-        to: '/lesson/$milestoneId/$levelId/$lessonId',
-        params: { milestoneId, levelId, lessonId },
-      })
-    }, LESSON_LOADING_TIMEOUT_MS)
+    const preloadPromise = router.preloadRoute(lessonLocation).catch(() => undefined)
+    const minimumDelayPromise = new Promise<void>((resolve) => {
+      timer = setTimeout(resolve, LESSON_LOADING_TIMEOUT_MS)
+    })
+
+    void Promise.all([preloadPromise, minimumDelayPromise]).then(() => {
+      if (isCancelled) return
+
+      void navigate(lessonLocation)
+    })
 
     return () => {
+      isCancelled = true
       scope.current?.revert()
-      clearTimeout(timer)
+      if (timer) clearTimeout(timer)
     }
-  }, [navigate, milestoneId, levelId, lessonId])
+  }, [navigate, router, milestoneId, levelId, lessonId])
 
   return (
     <div

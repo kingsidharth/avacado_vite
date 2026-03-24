@@ -95,29 +95,37 @@ export function ManyOfManyQuestionComponent({
           role="list"
           data-quiz-options
         >
-          {question.options.map((option) => (
-            <li
-              key={option.id}
-              className="w-full"
-              data-quiz-option
-              data-option-id={option.id}
-            >
-              <button
-                type="button"
-                onClick={() => toggleOption(option.id)}
-                disabled={hasSubmitted}
-                className={cn(
-                  'flex w-full flex-col items-start gap-2 rounded-xl border p-4 text-left transition-colors',
-                  cardVariantStyles[getVariantMulti(option.id, question.correct_options, resolvedSelected, hasSubmitted)],
-                )}
-              >
-                {option.image && (
-                  <img src={option.image} alt="" className="h-20 w-full rounded-lg object-cover" />
-                )}
-                <span className="text-sm font-medium">{option.text}</span>
-              </button>
-            </li>
-          ))}
+          {question.options.map((option) => {
+            const isSelected = resolvedSelected.includes(option.id)
+            const variant = getVariantMulti(
+              option.id,
+              question.correct_options,
+              resolvedSelected,
+              hasSubmitted,
+            )
+
+            return (
+              <li key={option.id} className="w-full" data-quiz-option data-option-id={option.id}>
+                <button
+                  type="button"
+                  onClick={() => toggleOption(option.id)}
+                  disabled={hasSubmitted}
+                  role="checkbox"
+                  aria-checked={isSelected}
+                  aria-disabled={hasSubmitted}
+                  className={cn(
+                    'flex w-full flex-col items-start gap-2 rounded-xl border p-4 text-left transition-colors',
+                    cardVariantStyles[variant],
+                  )}
+                >
+                  {option.image && (
+                    <img src={option.image} alt="" className="h-20 w-full rounded-lg object-cover" />
+                  )}
+                  <span className="text-sm font-medium">{option.text}</span>
+                </button>
+              </li>
+            )
+          })}
         </ul>
       )
     }
@@ -130,17 +138,15 @@ export function ManyOfManyQuestionComponent({
         data-quiz-options
       >
         {question.options.map((option) => (
-          <li
-            key={option.id}
-            className="w-full"
-            data-quiz-option
-            data-option-id={option.id}
-          >
+          <li key={option.id} className="w-full" data-quiz-option data-option-id={option.id}>
             <QuizOptionButton
               label={option.text}
               variant={getVariantMulti(option.id, question.correct_options, resolvedSelected, hasSubmitted)}
               onClick={() => toggleOption(option.id)}
               disabled={hasSubmitted}
+              role="checkbox"
+              aria-checked={resolvedSelected.includes(option.id)}
+              aria-disabled={hasSubmitted}
             />
           </li>
         ))}
