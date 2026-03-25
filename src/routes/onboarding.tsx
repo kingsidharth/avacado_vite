@@ -11,7 +11,6 @@ import { RadioQuestion } from '@/components/quiz/RadioQuestion'
 import { OnboardingProgressBar } from '@/components/onboarding/OnboardingProgressBar'
 import { OnboardingMascotBubble } from '@/components/onboarding/OnboardingMascotBubble'
 import { OnboardingErrorBoundary } from '@/components/onboarding/OnboardingErrorBoundary'
-import { PageContainer } from '@/components/layout/PageContainer'
 import { MascotBlob } from '@/components/mascot/MascotBlob'
 import { DEFAULT_OUTER_BLOBS } from '@/components/mascot/mascot-blob-config'
 import { apiRequest } from '@/lib/api/client'
@@ -81,6 +80,7 @@ function OnboardingPage() {
   const [frequency, setFrequency] = useState<Frequency | ''>('')
   const [preferredTiming, setPreferredTiming] = useState<Timing | ''>('')
   const [validationError, setValidationError] = useState<string | null>(null)
+  const [saveError, setSaveError] = useState<string | null>(null)
 
   const { data: profile, isLoading: profileLoading } = useAppUserProfile()
 
@@ -134,11 +134,14 @@ function OnboardingPage() {
 
     if (isLastStep) {
       setPhase('saving')
+      setSaveError(null)
       try {
         await submitOnboarding()
         setPhase('celebration')
-      } catch {
+      } catch (err) {
+        console.error('Failed to submit onboarding.', err)
         setPhase('steps')
+        setSaveError('We could not save your plan right now. Please try again.')
       }
       return
     }
@@ -188,7 +191,7 @@ function OnboardingPage() {
     return (
       <div className="flex min-h-dvh flex-col items-center justify-center gap-4">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-        <p className="text-sm text-muted-foreground">Setting up your plan...</p>
+        <p className="text-body text-muted-foreground">Setting up your plan...</p>
       </div>
     )
   }
@@ -226,104 +229,111 @@ function OnboardingPage() {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="fixed top-0 left-0 right-0 z-10 flex flex-col border-b border-border bg-background">
-        <OnboardingProgressBar totalSteps={totalSteps} currentStep={stepIndex} />
-        <div className="mx-auto flex min-h-[100px] max-w-md items-center px-4 py-3">
+      <header className="sticky top-0 z-10 border-b border-border bg-background">
+        <div className="mx-auto w-full max-w-md">
+          <OnboardingProgressBar totalSteps={totalSteps} currentStep={stepIndex} />
+        </div>
+        <div className="mx-auto w-full max-w-md px-6 py-3">
           <OnboardingMascotBubble question={stepQuestion} variant="header" className="w-full" />
         </div>
       </header>
 
-      <div className="flex flex-1 flex-col justify-center px-4 pt-[140px] pb-6">
-        <PageContainer className="max-w-md space-y-6">
-          {currentStepKey === 'profession' && (
-            <RadioQuestion
-              prompt=""
-              options={PROFESSION_OPTIONS}
-              selected={profession ? [profession] : []}
-              onSelect={(id) => { setValidationError(null); setProfession(id as Profession) }}
-            />
-          )}
+      <div className="mx-auto flex w-full max-w-md flex-1 flex-col px-6 py-6">
+        <div className="flex flex-1 flex-col gap-6">
+            {currentStepKey === 'profession' && (
+              <RadioQuestion
+                prompt=""
+                options={PROFESSION_OPTIONS}
+                selected={profession ? [profession] : []}
+                onSelect={(id) => { setValidationError(null); setProfession(id as Profession) }}
+              />
+            )}
 
-          {currentStepKey === 'companyWebsite' && (
-            <Input
-              placeholder="https://..."
-              value={companyWebsite}
-              onChange={(e) => setCompanyWebsite(e.target.value)}
-              className="mt-2"
-            />
-          )}
+            {currentStepKey === 'companyWebsite' && (
+              <Input
+                placeholder="https://..."
+                value={companyWebsite}
+                onChange={(e) => setCompanyWebsite(e.target.value)}
+              />
+            )}
 
-          {currentStepKey === 'jobTitle' && (
-            <Input
-              placeholder="e.g. Product Manager"
-              value={jobTitle}
-              onChange={(e) => setJobTitle(e.target.value)}
-              className="mt-2"
-            />
-          )}
+            {currentStepKey === 'jobTitle' && (
+              <Input
+                placeholder="e.g. Product Manager"
+                value={jobTitle}
+                onChange={(e) => setJobTitle(e.target.value)}
+              />
+            )}
 
-          {currentStepKey === 'aiKnowledge' && (
-            <RadioQuestion
-              prompt=""
-              options={AI_KNOWLEDGE_OPTIONS}
-              selected={aiKnowledge ? [aiKnowledge] : []}
-              onSelect={setAiKnowledge}
-            />
-          )}
+            {currentStepKey === 'aiKnowledge' && (
+              <RadioQuestion
+                prompt=""
+                options={AI_KNOWLEDGE_OPTIONS}
+                selected={aiKnowledge ? [aiKnowledge] : []}
+                onSelect={setAiKnowledge}
+              />
+            )}
 
-          {currentStepKey === 'timeCommitment' && (
-            <div className="space-y-4">
-              <div className="flex flex-wrap gap-2">
-                {TIME_SPAN_OPTIONS.map((m) => (
-                  <Button
-                    key={m}
-                    type="button"
-                    variant={timeSpan === m ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => { setValidationError(null); setTimeSpan(m) }}
-                  >
-                    {m} mins
-                  </Button>
-                ))}
+            {currentStepKey === 'timeCommitment' && (
+              <div className="flex flex-col gap-5">
+                <div className="flex flex-wrap gap-2">
+                  {TIME_SPAN_OPTIONS.map((m) => (
+                    <Button
+                      key={m}
+                      type="button"
+                      variant={timeSpan === m ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => { setValidationError(null); setTimeSpan(m) }}
+                    >
+                      {m} mins
+                    </Button>
+                  ))}
+                </div>
+                <div className="flex flex-col gap-4">
+                  <p className="text-body text-muted-foreground">How often?</p>
+                  <RadioQuestion
+                    prompt=""
+                    options={FREQUENCY_OPTIONS}
+                    selected={frequency ? [frequency] : []}
+                    onSelect={(value) => { setValidationError(null); setFrequency(value as Frequency) }}
+                  />
+                </div>
               </div>
-              <div>
-                <p className="mb-2 text-sm font-medium text-muted-foreground">How often?</p>
-                <RadioQuestion
-                  prompt=""
-                  options={FREQUENCY_OPTIONS}
-                  selected={frequency ? [frequency] : []}
-                  onSelect={(value) => { setValidationError(null); setFrequency(value as Frequency) }}
-                />
-              </div>
-            </div>
-          )}
+            )}
 
-          {currentStepKey === 'preferredTiming' && (
-            <RadioQuestion
-              prompt=""
-              options={TIMING_OPTIONS}
-              selected={preferredTiming ? [preferredTiming] : []}
-              onSelect={(value) => { setValidationError(null); setPreferredTiming(value as Timing) }}
-            />
-          )}
-        </PageContainer>
+            {currentStepKey === 'preferredTiming' && (
+              <RadioQuestion
+                prompt=""
+                options={TIMING_OPTIONS}
+                selected={preferredTiming ? [preferredTiming] : []}
+                onSelect={(value) => { setValidationError(null); setPreferredTiming(value as Timing) }}
+              />
+            )}
+        </div>
       </div>
 
-      <PageContainer className="max-w-md px-4 pb-8">
-        <div className="flex flex-col gap-3">
-          {validationError && (
-            <p className="text-center text-sm font-medium text-destructive">{validationError}</p>
-          )}
-          {currentStepKey === 'companyWebsite' && (
-            <Button variant="outline" size="lg" className="w-full" onClick={handleSkip}>
-              Skip
-            </Button>
-          )}
-          <Button onClick={handleContinue} size="lg" className="w-full">
-            Continue
+      <div className="mx-auto flex w-full max-w-md flex-col gap-3 px-6 py-6">
+        {validationError && (
+          <p className="text-caption text-center text-destructive">{validationError}</p>
+        )}
+        {saveError && (
+          <p className="text-body text-center text-destructive" role="alert">
+            {saveError}
+          </p>
+        )}
+        {currentStepKey === 'companyWebsite' && (
+          <Button variant="outline" size="lg" className="w-full" onClick={handleSkip}>
+            Skip
           </Button>
-        </div>
-      </PageContainer>
+        )}
+        <Button
+          size="lg"
+          className="h-[46px] w-full rounded-xl bg-foreground text-background hover:bg-foreground/90"
+          onClick={handleContinue}
+        >
+          Continue
+        </Button>
+      </div>
     </div>
   )
 }
@@ -355,19 +365,21 @@ function OnboardingCompleteScreen({
   }
 
   return (
-    <div ref={setRef} className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-4">
+    <div ref={setRef} className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6">
       <div className="ob-shine absolute -z-10 h-[300px] w-[300px] scale-[0.8] rounded-full bg-(--onboarding-fill) opacity-0 blur-3xl" />
       <div className="ob-mascot flex justify-center">
         <CompletionMascot />
       </div>
-      <p className="mt-6 text-center text-lg font-medium">Your personal plan is ready</p>
-      <Button
-        size="lg"
-        className="mt-6 w-full max-w-xs bg-black text-white hover:bg-black/90"
-        onClick={onCtaClick}
-      >
-        Your Personal Plan is Ready
-      </Button>
+      <p className="mt-6 text-center text-body-lg">Your personal plan is ready</p>
+      <div className="mt-6 w-full max-w-xs">
+        <Button
+          size="lg"
+          className="h-[46px] w-full rounded-xl bg-foreground text-background hover:bg-foreground/90"
+          onClick={onCtaClick}
+        >
+          Your Personal Plan is Ready
+        </Button>
+      </div>
     </div>
   )
 }
@@ -424,9 +436,9 @@ function PersonalisingLoader({ onComplete }: { onComplete: () => void }) {
   }
 
   return (
-    <div ref={setRef} className="flex min-h-dvh flex-col items-center justify-center gap-4">
+    <div ref={setRef} className="flex min-h-dvh flex-col items-center justify-center gap-5">
       <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-      <p className="pl-text text-sm text-muted-foreground opacity-0">Personalising the app for you...</p>
+      <p className="pl-text text-body text-muted-foreground opacity-0">Personalising the app for you...</p>
     </div>
   )
 }
@@ -434,13 +446,19 @@ function PersonalisingLoader({ onComplete }: { onComplete: () => void }) {
 function OnboardingFallback() {
   const navigate = useNavigate()
   return (
-    <div className="flex min-h-dvh flex-col items-center justify-center gap-4 px-4">
-      <p className="text-center text-muted-foreground">
+    <div className="flex min-h-dvh flex-col items-center justify-center gap-5 px-6">
+      <p className="text-body text-center text-muted-foreground">
         Having trouble connecting. You can continue to the app and finish setup later.
       </p>
-      <Button size="lg" className="w-full max-w-xs" onClick={() => navigate({ to: '/dashboard' })}>
-        Continue to app
-      </Button>
+      <div className="w-full max-w-xs">
+        <Button
+          size="lg"
+          className="h-[46px] w-full rounded-xl bg-foreground text-background hover:bg-foreground/90"
+          onClick={() => navigate({ to: '/dashboard' })}
+        >
+          Continue to app
+        </Button>
+      </div>
     </div>
   )
 }

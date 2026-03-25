@@ -23,10 +23,13 @@ export interface Quiz {
 export interface QuizState {
   currentIndex: number
   answers: Record<string, string[]>
+  /** Question IDs for which the user has tapped "Check" and seen feedback. */
+  submittedQuestionIds: string[]
 }
 
 export type QuizAction =
   | { type: 'SELECT_ANSWER'; questionId: string; optionId: string; questionType: QuestionType }
+  | { type: 'SUBMIT_ANSWER'; questionId: string }
   | { type: 'NEXT' }
   | { type: 'PREV' }
   | { type: 'RESET' }

@@ -5,15 +5,15 @@ import {
   useLessons,
 } from '@/hooks/useContentManifest'
 import { useGating, useProgressStore, type ProgressStore } from '@/store/progress'
-import { LessonCard } from '@/components/dashboard/LessonCard'
-import { CategoryRow } from '@/components/explore/CategoryRow'
 import { Lock } from 'lucide-react'
+import { StatsRow } from '@/components/dashboard/StatsRow'
+import { LessonPathMap } from '@/components/dashboard/LessonPathMap'
 
 // ============================================================================
-// Level Lessons
+// Level Path — resolves gating state for all lessons in a level
 // ============================================================================
 
-function LevelLessons({
+function LevelPath({
   milestoneId,
   levelId,
   isActiveLevel,
@@ -26,46 +26,29 @@ function LevelLessons({
   const lessons = useLessons(milestoneId, levelId)
   const { isLessonUnlocked } = useGating(manifest)
   const isLessonComplete = useProgressStore((s: ProgressStore) => s.isLessonComplete)
-  const isScreenComplete = useProgressStore((s: ProgressStore) => s.isScreenComplete)
 
   const currentLessonId = isActiveLevel
     ? lessons.find((l) => !isLessonComplete(milestoneId, levelId, l.id))?.id
     : undefined
 
-  return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-      {lessons.map((lesson) => {
-        const unlocked = isLessonUnlocked(milestoneId, levelId, lesson.id)
-        const complete = isLessonComplete(milestoneId, levelId, lesson.id)
+  const entries = lessons.map((lesson) => {
+    const unlocked = isLessonUnlocked(milestoneId, levelId, lesson.id)
+    const complete = isLessonComplete(milestoneId, levelId, lesson.id)
+    return {
+      lesson,
+      milestoneId,
+      levelId,
+      isLocked: !unlocked,
+      isComplete: complete,
+      isCurrent: lesson.id === currentLessonId,
+    }
+  })
 
-        let progress = 0
-        if (unlocked && !complete && lesson.screen_refs.length > 0) {
-          const completedCount = lesson.screen_refs.filter((ref) => {
-            const screen = manifest.screens[ref]
-            return screen && isScreenComplete(milestoneId, levelId, lesson.id, screen.id)
-          }).length
-          progress = completedCount / lesson.screen_refs.length
-        }
-
-        return (
-          <LessonCard
-            key={lesson.id}
-            milestoneId={milestoneId}
-            levelId={levelId}
-            lesson={lesson}
-            isLocked={!unlocked}
-            isCurrent={lesson.id === currentLessonId}
-            isComplete={complete}
-            progress={progress}
-          />
-        )
-      })}
-    </div>
-  )
+  return <LessonPathMap entries={entries} />
 }
 
 // ============================================================================
-// Level Section
+// Level Section — header + path map, or locked state
 // ============================================================================
 
 function LevelSection({
@@ -86,24 +69,25 @@ function LevelSection({
   isLocked: boolean
 }) {
   return (
-    <section className="space-y-4">
-      <div>
-        <p className="text-xs font-medium uppercase tracking-wider text-primary">
-          Level {levelNumber}
+    <section className="space-y-6">
+      {/* Level header */}
+      <div className="flex flex-col gap-1">
+        <p className="text-caption text-ui-muted-strong">Level {levelNumber}</p>
+        <h2 className="text-level-title text-foreground">{title}</h2>
+        <p className="text-body text-ui-muted font-normal leading-[1.4]">
+          {description}
         </p>
-        <h2 className="mt-2 text-xl font-medium text-foreground">{title}</h2>
-        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{description}</p>
       </div>
 
       {isLocked ? (
-        <div className="flex items-center gap-2 rounded-xl border border-dashed border-muted-foreground/20 px-4 py-6">
-          <Lock className="size-5 text-muted-foreground/40" />
-          <p className="text-sm text-muted-foreground/60">
+        <div className="border-ui-locked flex items-center gap-2 rounded-xl border border-dashed px-4 py-6">
+          <Lock className="text-ui-locked size-5" />
+          <p className="text-body text-ui-muted-subtle font-normal">
             Complete the previous level to unlock
           </p>
         </div>
       ) : (
-        <LevelLessons
+        <LevelPath
           milestoneId={milestoneId}
           levelId={levelId}
           isActiveLevel={isActive}
@@ -123,22 +107,23 @@ function DashboardPage() {
   const { isMilestoneUnlocked, isLevelUnlocked } = useGating(manifest)
   const isLessonComplete = useProgressStore((s: ProgressStore) => s.isLessonComplete)
 
-  const activeMilestone = milestones.find((m) => {
-    if (!isMilestoneUnlocked(m.id)) return false
-    const levels = m.level_refs
-      .map((ref) => manifest.levels[ref])
-      .filter(Boolean)
-    return levels.some((level) =>
-      level.lesson_refs.some((lessonRef) => {
-        const lesson = manifest.lessons[lessonRef]
-        return lesson && !isLessonComplete(m.id, level.id, lesson.id)
-      })
-    )
-  }) ?? milestones[0]
+  const activeMilestone =
+    milestones.find((m) => {
+      if (!isMilestoneUnlocked(m.id)) return false
+      const levels = m.level_refs.map((ref) => manifest.levels[ref]).filter(Boolean)
+      return levels.some((level) =>
+        level.lesson_refs.some((lessonRef) => {
+          const lesson = manifest.lessons[lessonRef]
+          return lesson && !isLessonComplete(m.id, level.id, lesson.id)
+        }),
+      )
+    }) ?? milestones[0]
 
   return (
-    <div className="mx-auto w-full max-w-2xl space-y-10 px-5 py-6">
-      <CategoryRow />
+    <div className="mx-auto w-full max-w-[450px] space-y-10 px-6 py-6">
+      {/* Stats row — XP / Streak / Coins / Avo Cash */}
+      <StatsRow />
+
       {milestones.map((milestone) => {
         const isActive = milestone.id === activeMilestone?.id
         const unlocked = isMilestoneUnlocked(milestone.id)
@@ -149,25 +134,16 @@ function DashboardPage() {
           .sort((a, b) => a.order - b.order)
 
         return (
-          <div key={milestone.id} className="space-y-8">
-            <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                Milestone
-              </p>
-              <h1 className="mt-2 text-2xl font-medium text-foreground">
-                {milestone.title}
-              </h1>
-              <p className="mt-1 text-base leading-relaxed text-muted-foreground">
-                {milestone.description}
-              </p>
-            </div>
-
+          <div key={milestone.id} className="space-y-10">
             {levels.map((level, i) => {
               const levelUnlocked = unlocked && isLevelUnlocked(milestone.id, level.id)
-              const isActiveLevel = isActive && levelUnlocked && level.lesson_refs.some((ref) => {
-                const lesson = manifest.lessons[ref]
-                return lesson && !isLessonComplete(milestone.id, level.id, lesson.id)
-              })
+              const isActiveLevel =
+                isActive &&
+                levelUnlocked &&
+                level.lesson_refs.some((ref) => {
+                  const lesson = manifest.lessons[ref]
+                  return lesson && !isLessonComplete(milestone.id, level.id, lesson.id)
+                })
 
               return (
                 <LevelSection

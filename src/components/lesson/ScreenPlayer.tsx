@@ -12,7 +12,6 @@ import { TranscriptTyper } from './TranscriptTyper'
 interface ScreenPlayerProps {
   screen: Screen
   onComplete: () => void
-  onMascotCta?: () => void
   /** Optional TTS audio URL from generate-tts manifest */
   ttsUrl?: string | null
 }
@@ -51,7 +50,6 @@ function screenPlayerReducer(
 export function ScreenPlayer({
   screen,
   onComplete,
-  onMascotCta,
   ttsUrl,
 }: ScreenPlayerProps) {
   const heroRef = useRef<HeroRendererRef>(null)
@@ -140,7 +138,6 @@ export function ScreenPlayer({
         hero={screen.hero}
         currentWordIndex={state.currentWordIndex}
         onSyncPoint={handleSyncPoint}
-        onMascotCta={onMascotCta}
       />
 
       {/* Transcript Section */}

@@ -60,6 +60,22 @@ function matchRoute(pathname: string): Handler | null {
 
 const PORT = Number(process.env.API_DEV_PORT) || 3001
 
+// Ensure DB is migrated before handling requests (avoids 500 from missing tables)
+const { getDb } = await import('../api/_lib/db/adapter')
+try {
+  const db = await getDb()
+  await db.migrate()
+} catch (err) {
+  console.error('API startup: migration failed.', err instanceof Error ? err.message : err)
+  process.exit(1)
+}
+
+if (!process.env.CLERK_SECRET_KEY?.trim()) {
+  console.warn(
+    'API startup: CLERK_SECRET_KEY is not set in .env.local. /api/users/me and /api/users/onboarding will return 401. Add your Clerk secret key from dashboard.clerk.com → API Keys.',
+  )
+}
+
 const server = createServer(async (req, res) => {
   const url = new URL(req.url ?? '/', `http://localhost:${PORT}`)
   const handler = matchRoute(url.pathname)
@@ -90,6 +106,18 @@ const server = createServer(async (req, res) => {
       res.end(JSON.stringify({ error: err instanceof Error ? err.message : 'Internal server error' }))
     }
   }
+})
+
+server.on('error', (error: NodeJS.ErrnoException) => {
+  if (error.code === 'EADDRINUSE') {
+    console.error(
+      `API dev server could not start because port ${PORT} is already in use. Stop the process using that port or set API_DEV_PORT to a different value and retry.`,
+    )
+    process.exit(1)
+  }
+
+  console.error('API dev server failed to start.', error)
+  process.exit(1)
 })
 
 server.listen(PORT, () => {

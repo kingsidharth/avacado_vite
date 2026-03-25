@@ -100,7 +100,32 @@
 
 :root {
   --radius: 0.75rem;
-  --onboarding-fill: oklch(0.65 0.2 250);
+  --onboarding-fill: #30d4ff;
+  /* Quiz page — progress bar fill (Figma spec §5.2, node 559:2418) */
+  --quiz-progress-fill: #05abd6;
+  /* Quiz page — option button states (Figma spec 559-2395, 724-628/632/636/640) */
+  --quiz-option-default-border: rgba(0, 0, 0, 0.02);
+  --quiz-option-selected-bg: #a6ebfd;
+  --quiz-option-selected-border: rgba(140, 229, 252, 0.8);
+  --quiz-option-correct-bg: rgba(173, 255, 193, 1);
+  --quiz-option-correct-border: rgba(7, 171, 28, 0.3);
+  /* Feedback message (correct) — distinct from option card: solid border, lighter fill */
+  --quiz-feedback-correct-bg: rgba(230, 255, 236, 1);
+  --quiz-feedback-correct-border: rgba(7, 171, 28, 1);
+  --quiz-option-wrong-bg: rgba(255, 207, 184, 1);
+  --quiz-option-wrong-border: rgba(245, 191, 165, 1);
+  /* Feedback message (wrong) — more saturated than the option button, set independently */
+  --quiz-feedback-wrong-bg: rgba(253, 231, 220, 1);
+  --quiz-feedback-wrong-border: rgba(243, 133, 82, 1);
+  --quiz-option-shadow-default: 0px 21px 6px 0px rgba(163, 163, 163, 0),
+    0px 13px 5px 0px rgba(163, 163, 163, 0.01), 0px 7px 4px 0px rgba(163, 163, 163, 0.05),
+    0px 3px 3px 0px rgba(163, 163, 163, 0.09), 0px 1px 2px 0px rgba(163, 163, 163, 0.1);
+  --quiz-option-shadow-state: 0px 15px 4px 0px rgba(107, 123, 133, 0),
+    0px 10px 4px 0px rgba(107, 123, 133, 0.01), 0px 6px 3px 0px rgba(107, 123, 133, 0.05),
+    0px 2px 2px 0px rgba(107, 123, 133, 0.09), 0px 1px 1px 0px rgba(107, 123, 133, 0.1);
+  --quiz-cta-shadow: 0px 103px 29px 0px rgba(51, 51, 51, 0),
+    0px 66px 26px 0px rgba(51, 51, 51, 0.01), 0px 37px 22px 0px rgba(51, 51, 51, 0.05),
+    0px 16px 16px 0px rgba(51, 51, 51, 0.09), 0px 4px 9px 0px rgba(51, 51, 51, 0.1);
   --background: oklch(1 0 0);
   --foreground: oklch(0.15 0.02 260);
   --card: oklch(1 0 0);
@@ -139,6 +164,18 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Lesson player — current segment slow-fill animation */
+@keyframes lesson-segment-fill {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+.lesson-segment-active {
+  animation-name: lesson-segment-fill;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  /* duration is set via inline style per-screen */
+}
+
 @keyframes glow-fade-in {
   from { opacity: 0; }
   to { opacity: 0.25; }
@@ -153,7 +190,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: "SpaceGrotesk", ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-sans);
     font-size: 1rem;
     line-height: 1.55em;
     font-weight: 400;
@@ -192,7 +229,7 @@
     line-height: 1.4em;
   }
   button, input, select, textarea {
-    font-family: "SpaceGrotesk", ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-sans);
     letter-spacing: -0.006em;
   }
   label {
@@ -201,5 +238,94 @@
   @media (min-width: 768px) {
     h1 { font-size: 2.5rem; letter-spacing: -0.02em; }
     h2 { font-size: 2rem; letter-spacing: -0.015em; }
+  }
+}
+
+/* Semantic typography tokens — Figma onboarding flow */
+@layer utilities {
+  .text-display {
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+  }
+  .text-display-sub {
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+  }
+  .text-question {
+    font-size: 1.125rem;
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+  }
+  .text-body-lg {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.037em;
+  }
+  .text-body {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.03em;
+  }
+  .text-caption {
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  /* Level section title — Figma home screen (20px / medium / -0.45px tracking) */
+  .text-level-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.028em;
+  }
+
+  /* Initial state for the path-sweep animation overlay in LessonPathMap.
+     Fully clips the element from the right so it's invisible before anime.js takes over. */
+  .path-anim-hidden {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  .text-score-value {
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.0625rem;
+  }
+
+  .text-score-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.025rem;
+    color: rgba(10,10,10,0.4);
+  }
+
+  .text-ui-muted-strong {
+    color: rgba(10,10,10,0.7);
+  }
+
+  .text-ui-muted {
+    color: rgba(10,10,10,0.5);
+  }
+
+  .text-ui-muted-subtle {
+    color: rgba(10,10,10,0.4);
+  }
+
+  .text-ui-locked {
+    color: #a3e0f0;
+  }
+
+  .border-ui-locked {
+    border-color: #a3e0f0;
   }
 }

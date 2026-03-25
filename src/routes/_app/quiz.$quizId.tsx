@@ -23,7 +23,7 @@ function QuizPage() {
   }
 
   return (
-    <div className="mx-auto max-w-md">
+    <div className="flex h-full flex-col bg-white mx-auto w-full max-w-[402px]">
       <QuizContainer quiz={quiz} />
     </div>
   )

@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { Button } from '@/components/ui/button'
 import { MascotBlob, DEFAULT_OUTER_BLOBS, type SubBlobConfig, type BodyMode } from '@/components/mascot/MascotBlob'
 import { MascotSettings } from '@/components/mascot/MascotSettings'
-import { PageContainer } from '@/components/layout/PageContainer'
 import { RedirectSignedInFromSplash } from '@/components/auth/AuthGuards'
+import { Button } from '@/components/ui/button'
 import type { EyeVariant } from '@/components/mascot/MascotEyes'
 import type { MouthVariant } from '@/components/mascot/MascotMouth'
 
@@ -48,78 +47,18 @@ function SplashPage() {
 
   return (
     <RedirectSignedInFromSplash>
-    <div className="relative h-dvh flex flex-col">
-      <MascotSettings
-        bodyMode={bodyMode}
-        outerBlobs={outerBlobs}
-        innerScale={innerScale}
-        innerOffsetY={innerOffsetY}
-        staticBaseScale={staticBaseScale}
-        staticBaseOffsetX={staticBaseOffsetX}
-        staticBaseOffsetY={staticBaseOffsetY}
-        staticInnerScale={staticInnerScale}
-        eyeVariant={eyeVariant}
-        mouthVariant={mouthVariant}
-        faceOffsetX={faceOffsetX}
-        faceOffsetY={faceOffsetY}
-        faceSpacing={faceSpacing}
-        faceScale={faceScale}
-        animationEnabled={animationEnabled}
-        animationSpeed={animationSpeed}
-        animationAmplitude={animationAmplitude}
-        onBodyModeChange={setBodyMode}
-        onOuterBlobsChange={setOuterBlobs}
-        onInnerScaleChange={setInnerScale}
-        onInnerOffsetYChange={setInnerOffsetY}
-        onStaticBaseScaleChange={setStaticBaseScale}
-        onStaticBaseOffsetXChange={setStaticBaseOffsetX}
-        onStaticBaseOffsetYChange={setStaticBaseOffsetY}
-        onStaticInnerScaleChange={setStaticInnerScale}
-        onEyeVariantChange={setEyeVariant}
-        onMouthVariantChange={setMouthVariant}
-        onFaceOffsetXChange={setFaceOffsetX}
-        onFaceOffsetYChange={setFaceOffsetY}
-        onFaceSpacingChange={setFaceSpacing}
-        onFaceScaleChange={setFaceScale}
-        onAnimationEnabledChange={setAnimationEnabled}
-        onAnimationSpeedChange={setAnimationSpeed}
-        onAnimationAmplitudeChange={setAnimationAmplitude}
-        grainEnabled={grainEnabled}
-        grainFrequency={grainFrequency}
-        grainOctaves={grainOctaves}
-        grainContrast={grainContrast}
-        grainBrightness={grainBrightness}
-        grainScale={grainScale}
-        onGrainEnabledChange={setGrainEnabled}
-        onGrainFrequencyChange={setGrainFrequency}
-        onGrainOctavesChange={setGrainOctaves}
-        onGrainContrastChange={setGrainContrast}
-        onGrainBrightnessChange={setGrainBrightness}
-        onGrainScaleChange={setGrainScale}
-        onOpenChange={setDrawerOpen}
-      />
-
-      <PageContainer className={`flex flex-1 flex-col items-center justify-center px-6 transition-all ${drawerOpen ? 'pb-[45vh]' : ''}`}>
-        <div className="mb-6 text-center">
-          <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
-            Avocado
-          </p>
-          <h1 className="text-3xl font-medium tracking-tight">
-            AI to help you work Smarter
-          </h1>
-        </div>
-        <MascotBlob
-          className="w-full max-w-[420px] md:max-w-[520px] lg:max-w-[600px]"
+      <div className="flex min-h-dvh flex-col">
+        <MascotSettings
           bodyMode={bodyMode}
+          outerBlobs={outerBlobs}
+          innerScale={innerScale}
+          innerOffsetY={innerOffsetY}
           staticBaseScale={staticBaseScale}
           staticBaseOffsetX={staticBaseOffsetX}
           staticBaseOffsetY={staticBaseOffsetY}
           staticInnerScale={staticInnerScale}
           eyeVariant={eyeVariant}
           mouthVariant={mouthVariant}
-          outerBlobs={outerBlobs}
-          innerScale={innerScale}
-          innerOffsetY={innerOffsetY}
           faceOffsetX={faceOffsetX}
           faceOffsetY={faceOffsetY}
           faceSpacing={faceSpacing}
@@ -127,24 +66,88 @@ function SplashPage() {
           animationEnabled={animationEnabled}
           animationSpeed={animationSpeed}
           animationAmplitude={animationAmplitude}
+          onBodyModeChange={setBodyMode}
+          onOuterBlobsChange={setOuterBlobs}
+          onInnerScaleChange={setInnerScale}
+          onInnerOffsetYChange={setInnerOffsetY}
+          onStaticBaseScaleChange={setStaticBaseScale}
+          onStaticBaseOffsetXChange={setStaticBaseOffsetX}
+          onStaticBaseOffsetYChange={setStaticBaseOffsetY}
+          onStaticInnerScaleChange={setStaticInnerScale}
+          onEyeVariantChange={setEyeVariant}
+          onMouthVariantChange={setMouthVariant}
+          onFaceOffsetXChange={setFaceOffsetX}
+          onFaceOffsetYChange={setFaceOffsetY}
+          onFaceSpacingChange={setFaceSpacing}
+          onFaceScaleChange={setFaceScale}
+          onAnimationEnabledChange={setAnimationEnabled}
+          onAnimationSpeedChange={setAnimationSpeed}
+          onAnimationAmplitudeChange={setAnimationAmplitude}
           grainEnabled={grainEnabled}
           grainFrequency={grainFrequency}
           grainOctaves={grainOctaves}
           grainContrast={grainContrast}
           grainBrightness={grainBrightness}
           grainScale={grainScale}
+          onGrainEnabledChange={setGrainEnabled}
+          onGrainFrequencyChange={setGrainFrequency}
+          onGrainOctavesChange={setGrainOctaves}
+          onGrainContrastChange={setGrainContrast}
+          onGrainBrightnessChange={setGrainBrightness}
+          onGrainScaleChange={setGrainScale}
+          onOpenChange={setDrawerOpen}
         />
-      </PageContainer>
-      <PageContainer className="p-6 pb-10">
-        <Button
-          className="w-full bg-black text-white hover:bg-black/90"
-          size="lg"
-          onClick={() => navigate({ to: '/signup' })}
+
+        <div
+          className={`mx-auto flex w-full max-w-[402px] flex-1 flex-col items-center justify-center transition-all ${drawerOpen ? 'pb-[45vh]' : ''}`}
         >
-          Get Started
-        </Button>
-      </PageContainer>
-    </div>
+          <div className="flex w-full flex-col items-center gap-2 px-6 text-center">
+            <div className="flex flex-col items-center gap-3">
+              <p className="text-caption text-muted-foreground">Avocado</p>
+              <div className="flex flex-col items-center gap-1">
+                <h1 className="text-display">Master AI for your work</h1>
+                <p className="text-display-sub text-muted-foreground">10 minutes a Day</p>
+              </div>
+            </div>
+            <MascotBlob
+              className="w-full max-w-[420px] md:max-w-[520px] lg:max-w-[600px]"
+              bodyMode={bodyMode}
+              staticBaseScale={staticBaseScale}
+              staticBaseOffsetX={staticBaseOffsetX}
+              staticBaseOffsetY={staticBaseOffsetY}
+              staticInnerScale={staticInnerScale}
+              eyeVariant={eyeVariant}
+              mouthVariant={mouthVariant}
+              outerBlobs={outerBlobs}
+              innerScale={innerScale}
+              innerOffsetY={innerOffsetY}
+              faceOffsetX={faceOffsetX}
+              faceOffsetY={faceOffsetY}
+              faceSpacing={faceSpacing}
+              faceScale={faceScale}
+              animationEnabled={animationEnabled}
+              animationSpeed={animationSpeed}
+              animationAmplitude={animationAmplitude}
+              grainEnabled={grainEnabled}
+              grainFrequency={grainFrequency}
+              grainOctaves={grainOctaves}
+              grainContrast={grainContrast}
+              grainBrightness={grainBrightness}
+              grainScale={grainScale}
+            />
+          </div>
+        </div>
+
+        <div className="mt-auto px-6 pb-7">
+          <Button
+            size="lg"
+            className="h-[46px] w-full rounded-xl bg-foreground text-background hover:bg-foreground/90"
+            onClick={() => navigate({ to: '/signup' })}
+          >
+            Get Started
+          </Button>
+        </div>
+      </div>
     </RedirectSignedInFromSplash>
   )
 }
