@@ -6,29 +6,58 @@ import { cn } from '@/lib/utils'
 interface OnboardingMascotBubbleProps {
   question: ReactNode
   className?: string
-  /** Compact single-row layout for fixed header (mascot + bubble vertically centered) */
+  /** Compact single-row layout for fixed header (mascot + bubble vertically centered) — Figma 842:37 / 559:2310 */
   variant?: 'default' | 'header'
+  /** Figma 559:2329 — greeting line uses `nowrap`; longer questions wrap */
+  textWrap?: 'wrap' | 'nowrap'
 }
 
-export function OnboardingMascotBubble({ question, className, variant = 'default' }: OnboardingMascotBubbleProps) {
+/** Left tail toward mascot (559:2330) — white fill + green border */
+function SpeechBubbleTail({ className }: { className?: string }) {
+  return (
+    <svg
+      className={cn('pointer-events-none absolute top-1/2 z-10 h-[22px] w-[11px] -translate-y-1/2', className)}
+      viewBox="0 0 11 22"
+      fill="none"
+      aria-hidden
+    >
+      <path
+        d="M11 1.2 L11 20.8 L1.2 11 Z"
+        fill="white"
+        stroke="rgba(2, 156, 61, 0.2)"
+        strokeWidth="1.61"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+export function OnboardingMascotBubble({
+  question,
+  className,
+  variant = 'default',
+  textWrap = 'wrap',
+}: OnboardingMascotBubbleProps) {
   const isHeader = variant === 'header'
   return (
     <div
       className={cn(
-        'flex gap-3',
-        !isHeader && 'flex-col items-center gap-4 sm:flex-row sm:gap-6',
-        isHeader && 'items-center gap-3',
+        'flex items-center',
+        isHeader ? 'max-w-[368px] flex-wrap justify-center gap-[4px]' : 'w-full flex-col gap-4 sm:flex-row sm:gap-6',
         className
       )}
     >
-      <div className={cn('flex shrink-0 justify-center sm:order-2', isHeader && '-my-3')}>
+      {/* Mascot — header: 74×74px SVG; scale + offsets so body paths fill the square (same path `d`, centered in viewBox) */}
+      <div className={cn('flex shrink-0 justify-center overflow-visible', isHeader && '-my-1')}>
         <MascotBlob
-          className={cn(isHeader ? 'w-20 sm:w-24' : 'w-32 sm:w-40')}
+          className={cn(
+            isHeader ? 'size-[74px] shrink-0' : 'w-32 sm:w-40'
+          )}
           bodyMode="static"
-          staticBaseScale={isHeader ? 1.8 : 1.2}
-          staticBaseOffsetX={0}
-          staticBaseOffsetY={0}
-          staticInnerScale={1}
+          staticBaseScale={isHeader ? 3.25 : 1.2}
+          staticBaseOffsetX={isHeader ? -162 : 0}
+          staticBaseOffsetY={isHeader ? -164 : 0}
+          staticInnerScale={isHeader ? 0.78 : 1}
           eyeVariant="regular"
           mouthVariant="smile"
           outerBlobs={DEFAULT_OUTER_BLOBS}
@@ -49,15 +78,32 @@ export function OnboardingMascotBubble({ question, className, variant = 'default
           grainScale={1}
         />
       </div>
+      {/* Speech bubble — Figma 559:2327 */}
       <div
         className={cn(
-          'relative rounded-2xl rounded-bl-sm border-2 border-border bg-card shadow-level-1 sm:order-1 sm:rounded-bl-2xl sm:rounded-tl-sm',
-          isHeader ? 'px-3 py-2' : 'px-4 py-3'
+          'relative min-h-0 min-w-0',
+          isHeader ? 'min-w-0 flex-1' : 'w-full'
         )}
-        aria-label="Question"
       >
-        <div className={cn('text-left font-medium text-card-foreground', isHeader ? 'text-sm' : 'text-base sm:text-lg')}>
-          {question}
+        {isHeader && <SpeechBubbleTail className="-left-[10px]" />}
+        <div
+          className={cn(
+            'relative z-[1] overflow-clip',
+            isHeader
+              ? 'w-full rounded-[6.442px] border-[1.61px] border-[rgba(2,156,61,0.2)] bg-white px-5 py-[25px] shadow-none'
+              : 'rounded-2xl rounded-tl-sm border-2 border-border bg-card px-4 py-3 shadow-level-1 sm:rounded-2xl'
+          )}
+          aria-label="Question"
+        >
+          <div
+            className={cn(
+              'font-medium leading-[1.4] tracking-[-0.6px]',
+              isHeader ? 'text-center text-base text-[#6c6c6c]' : 'text-left text-base text-muted-foreground sm:text-lg',
+              textWrap === 'nowrap' && 'whitespace-nowrap'
+            )}
+          >
+            {question}
+          </div>
         </div>
       </div>
     </div>

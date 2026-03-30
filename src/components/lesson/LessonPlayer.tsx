@@ -454,16 +454,18 @@ export function LessonPlayer({
 
         return (
           <div className="flex h-full flex-col gap-3">
-            <div className="mb-4 flex flex-col gap-1.5">
+            <div className="mb-4 flex flex-col gap-1.5 px-1.5">
               <div className="flex flex-col gap-1.5">
-                <p className="text-caption text-[#6c6c6c] px-1.5">
+                <p className="text-caption text-[#6c6c6c]">
                   QUESTION {quizQuestionIndex + 1} OF {questions.length}
                 </p>
               </div>
-              <h2 className="text-[18px] font-medium px-1.5">Lesson Quiz</h2>
-              <p className="text-sm text-muted-foreground px-1.5">
-                Test your knowledge from this lesson
-              </p>
+              <div className="flex flex-col gap-1">
+                <h2 className="text-[18px] font-medium">Lesson Quiz</h2>
+                <p className="text-sm text-muted-foreground">
+                  Test your knowledge from this lesson
+                </p>
+              </div>
             </div>
             <div className="flex-1 overflow-auto">
               <QuizRunner
@@ -518,7 +520,7 @@ export function LessonPlayer({
       {/* Header — design spec 559:4084: close, title, progress label, segmented bar */}
       <header className="mx-auto flex w-full max-w-[400px] flex-col gap-[11px] px-4 py-[5.5px]">
         {/* Top row: close, title, progress label */}
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center justify-center gap-2">
           <button
             type="button"
             onClick={handleClose}
@@ -527,7 +529,7 @@ export function LessonPlayer({
           >
             <X className="size-6 shrink-0 text-foreground" />
           </button>
-          <h1 className="min-w-0 flex-1 truncate text-center text-[16px] font-medium leading-[1.32] tracking-[-0.45px] text-[#0a0a0a]">
+          <h1 className="min-w-0 flex-1 truncate text-center text-[16px] font-medium leading-[1.32] tracking-[-0.45px] text-[#0a0a0a] md:text-[18px]">
             {lesson.title}
           </h1>
           <span className="shrink-0 text-[16px] font-medium leading-[1.1] tracking-[-1px] text-[rgba(10,10,10,0.3)] whitespace-nowrap">
