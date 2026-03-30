@@ -52,7 +52,7 @@ interface QuizOptionButtonProps {
 }
 
 /**
- * Quiz option button — four states per Figma spec (docs/figma-design-spec-quiz-page-559-2395.md §9).
+ * Quiz option button with the four visual states used across the mobile quiz flow.
  *
  * default  → white bg, gray ring icon
  * selected → teal bg, teal filled-dot icon

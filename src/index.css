@@ -241,6 +241,68 @@
   }
 }
 
+/* Mobile typography overrides for viewports up to 767px.
+   Placed outside @layer so these rules override base and utility typography. */
+@media (max-width: 767px) {
+  body {
+    font-size: 0.9375rem;
+    line-height: 1.6em;
+  }
+  h1 {
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+    line-height: 1.25em;
+  }
+  h2 {
+    font-size: 1rem;
+    letter-spacing: -0.008em;
+    line-height: 1.51875;
+  }
+  h3 {
+    font-size: 1.125rem;
+    line-height: 1.35em;
+  }
+  h4 {
+    font-size: 1rem;
+    line-height: 1.4em;
+  }
+
+  .text-display {
+    font-size: 1.125rem;
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+  }
+  .text-display-sub {
+    font-size: 1rem;
+    line-height: 1.45;
+    letter-spacing: -0.015em;
+  }
+  .text-question {
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+  .text-body-lg {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+  .text-body {
+    letter-spacing: -0.02em;
+  }
+  .text-caption {
+    font-size: 0.6875rem;
+  }
+  .text-level-title {
+    font-size: 1.0625rem;
+    letter-spacing: -0.02em;
+  }
+  .text-score-value {
+    font-size: 1.375rem;
+  }
+  .text-score-label {
+    font-size: 0.6875rem;
+  }
+}
+
 /* Semantic typography tokens — Figma onboarding flow */
 @layer utilities {
   .text-display {

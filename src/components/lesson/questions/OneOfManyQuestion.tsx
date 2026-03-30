@@ -146,7 +146,7 @@ export function OneOfManyQuestionComponent({
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
-        <h2 className="text-[18px] font-medium leading-[1.4] tracking-[-0.45px] text-[#0a0a0a]">
+        <h2 className="px-1.5 text-[18px] font-medium leading-[1.4] tracking-[-0.45px] text-[#0a0a0a]">
           {question.prompt}
         </h2>
         {question.hint && !hasSubmitted && <HintReveal hint={question.hint} />}

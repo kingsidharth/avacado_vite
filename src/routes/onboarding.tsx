@@ -14,6 +14,7 @@ import { OnboardingErrorBoundary } from '@/components/onboarding/OnboardingError
 import { MascotBlob } from '@/components/mascot/MascotBlob'
 import { DEFAULT_OUTER_BLOBS } from '@/components/mascot/mascot-blob-config'
 import { apiRequest } from '@/lib/api/client'
+import { cn } from '@/lib/utils'
 import type { OnboardingInput } from '@/types/api'
 import type { Option } from '@/types/quiz'
 
@@ -227,92 +228,105 @@ function OnboardingPage() {
                 ? 'When do you learn the best?'
                 : ''
 
+  const headerBubbleText =
+    stepIndex === 0 && currentStepKey === 'profession'
+      ? "Let's Personalize your Journey"
+      : stepQuestion
+
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="sticky top-0 z-10 border-b border-border bg-background">
-        <div className="mx-auto w-full max-w-md">
-          <OnboardingProgressBar totalSteps={totalSteps} currentStep={stepIndex} />
-        </div>
-        <div className="mx-auto w-full max-w-md px-6 py-3">
-          <OnboardingMascotBubble question={stepQuestion} variant="header" className="w-full" />
+      <header className="sticky top-0 z-10 mt-4 flex w-full flex-wrap justify-center border-b-0 bg-background">
+        {/* Progress + mascot row: centered; max width 450px per layout spec */}
+        <div className="box-border mx-auto flex w-full max-w-[400px] flex-col items-center gap-6 p-4">
+          <div className="flex h-8 w-full max-w-[368px] items-center">
+            <OnboardingProgressBar totalSteps={totalSteps} currentStep={stepIndex} />
+          </div>
+          <OnboardingMascotBubble
+            question={headerBubbleText}
+            variant="header"
+            textWrap={stepIndex === 0 && currentStepKey === 'profession' ? 'nowrap' : 'wrap'}
+            className="w-full justify-center"
+          />
         </div>
       </header>
 
-      <div className="mx-auto flex w-full max-w-md flex-1 flex-col px-6 py-6">
-        <div className="flex flex-1 flex-col gap-6">
-            {currentStepKey === 'profession' && (
+      <div className="box-border mx-auto flex w-full max-w-[400px] flex-1 flex-col items-center justify-start gap-6 p-4">
+        {currentStepKey === 'profession' && (
+          <RadioQuestion
+            prompt=""
+            options={PROFESSION_OPTIONS}
+            selected={profession ? [profession] : []}
+            onSelect={(id) => { setValidationError(null); setProfession(id as Profession) }}
+          />
+        )}
+
+        {currentStepKey === 'companyWebsite' && (
+          <Input
+            placeholder="https://..."
+            value={companyWebsite}
+            onChange={(e) => setCompanyWebsite(e.target.value)}
+            className="w-full max-w-[400px] focus-visible:border-[#0A0A0A] focus-visible:ring-[#0A0A0A]"
+          />
+        )}
+
+        {currentStepKey === 'jobTitle' && (
+          <Input
+            placeholder="e.g. Product Manager"
+            value={jobTitle}
+            onChange={(e) => setJobTitle(e.target.value)}
+            className="w-full max-w-[400px]"
+          />
+        )}
+
+        {currentStepKey === 'aiKnowledge' && (
+          <RadioQuestion
+            prompt=""
+            options={AI_KNOWLEDGE_OPTIONS}
+            selected={aiKnowledge ? [aiKnowledge] : []}
+            onSelect={setAiKnowledge}
+          />
+        )}
+
+        {currentStepKey === 'timeCommitment' && (
+          <div className="flex w-full max-w-[400px] flex-col gap-5">
+            <div className="flex flex-wrap gap-2">
+              {TIME_SPAN_OPTIONS.map((m) => (
+                <Button
+                  key={m}
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className={cn(
+                    timeSpan === m &&
+                      'border-[var(--quiz-option-selected-border)] bg-[var(--quiz-option-selected-bg)] text-foreground shadow-[var(--quiz-option-shadow-state)] hover:bg-[var(--quiz-option-selected-bg)] hover:text-foreground dark:border-[var(--quiz-option-selected-border)] dark:bg-[var(--quiz-option-selected-bg)] dark:hover:bg-[var(--quiz-option-selected-bg)]',
+                  )}
+                  onClick={() => { setValidationError(null); setTimeSpan(m) }}
+                >
+                  {m} mins
+                </Button>
+              ))}
+            </div>
+            <div className="flex flex-col gap-4">
+              <p className="text-body text-muted-foreground">How often?</p>
               <RadioQuestion
                 prompt=""
-                options={PROFESSION_OPTIONS}
-                selected={profession ? [profession] : []}
-                onSelect={(id) => { setValidationError(null); setProfession(id as Profession) }}
+                options={FREQUENCY_OPTIONS}
+                selected={frequency ? [frequency] : []}
+                onSelect={(value) => { setValidationError(null); setFrequency(value as Frequency) }}
               />
-            )}
+            </div>
+          </div>
+        )}
 
-            {currentStepKey === 'companyWebsite' && (
-              <Input
-                placeholder="https://..."
-                value={companyWebsite}
-                onChange={(e) => setCompanyWebsite(e.target.value)}
-              />
-            )}
+        {currentStepKey === 'preferredTiming' && (
+          <RadioQuestion
+            prompt=""
+            options={TIMING_OPTIONS}
+            selected={preferredTiming ? [preferredTiming] : []}
+            onSelect={(value) => { setValidationError(null); setPreferredTiming(value as Timing) }}
+          />
+        )}
 
-            {currentStepKey === 'jobTitle' && (
-              <Input
-                placeholder="e.g. Product Manager"
-                value={jobTitle}
-                onChange={(e) => setJobTitle(e.target.value)}
-              />
-            )}
-
-            {currentStepKey === 'aiKnowledge' && (
-              <RadioQuestion
-                prompt=""
-                options={AI_KNOWLEDGE_OPTIONS}
-                selected={aiKnowledge ? [aiKnowledge] : []}
-                onSelect={setAiKnowledge}
-              />
-            )}
-
-            {currentStepKey === 'timeCommitment' && (
-              <div className="flex flex-col gap-5">
-                <div className="flex flex-wrap gap-2">
-                  {TIME_SPAN_OPTIONS.map((m) => (
-                    <Button
-                      key={m}
-                      type="button"
-                      variant={timeSpan === m ? 'default' : 'outline'}
-                      size="sm"
-                      onClick={() => { setValidationError(null); setTimeSpan(m) }}
-                    >
-                      {m} mins
-                    </Button>
-                  ))}
-                </div>
-                <div className="flex flex-col gap-4">
-                  <p className="text-body text-muted-foreground">How often?</p>
-                  <RadioQuestion
-                    prompt=""
-                    options={FREQUENCY_OPTIONS}
-                    selected={frequency ? [frequency] : []}
-                    onSelect={(value) => { setValidationError(null); setFrequency(value as Frequency) }}
-                  />
-                </div>
-              </div>
-            )}
-
-            {currentStepKey === 'preferredTiming' && (
-              <RadioQuestion
-                prompt=""
-                options={TIMING_OPTIONS}
-                selected={preferredTiming ? [preferredTiming] : []}
-                onSelect={(value) => { setValidationError(null); setPreferredTiming(value as Timing) }}
-              />
-            )}
-        </div>
-      </div>
-
-      <div className="mx-auto flex w-full max-w-md flex-col gap-3 px-6 py-6">
         {validationError && (
           <p className="text-caption text-center text-destructive">{validationError}</p>
         )}
@@ -321,18 +335,20 @@ function OnboardingPage() {
             {saveError}
           </p>
         )}
-        {currentStepKey === 'companyWebsite' && (
-          <Button variant="outline" size="lg" className="w-full" onClick={handleSkip}>
-            Skip
+        <div className="flex w-full flex-col gap-2">
+          {currentStepKey === 'companyWebsite' && (
+            <Button variant="outline" size="lg" className="w-full" onClick={handleSkip}>
+              Skip
+            </Button>
+          )}
+          <Button
+            size="lg"
+            className="h-[46px] w-full max-w-[368px] self-center rounded-xl bg-foreground text-background hover:bg-foreground/90"
+            onClick={handleContinue}
+          >
+            Continue
           </Button>
-        )}
-        <Button
-          size="lg"
-          className="h-[46px] w-full rounded-xl bg-foreground text-background hover:bg-foreground/90"
-          onClick={handleContinue}
-        >
-          Continue
-        </Button>
+        </div>
       </div>
     </div>
   )

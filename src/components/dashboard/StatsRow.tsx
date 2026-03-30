@@ -159,13 +159,13 @@ function StatPill({ icon, label, className }: StatPillProps) {
     <div
       className={cn(
         'flex h-8 items-center gap-[2px] overflow-clip rounded-[48px] border border-[rgba(10,10,10,0.02)]',
-        'bg-white px-[8px] py-[7px] font-sans',
+        'bg-white px-[8px] py-[7px] font-sans max-[430px]:py-[5px]',
         pillShadowClass,
         className,
       )}
     >
       {icon}
-      <span className="whitespace-nowrap font-medium text-[14px] tracking-[-0.4173px] text-[rgba(10,10,10,0.8)]">
+      <span className="whitespace-nowrap font-medium text-[14px] max-[430px]:text-[12px] tracking-[-0.4173px] text-[rgba(10,10,10,0.8)]">
         {label}
       </span>
     </div>
@@ -191,7 +191,7 @@ export function StatsRow({
   return (
     <div
       className={cn(
-        'flex h-8 w-full flex-wrap items-center justify-between gap-2',
+        'flex w-full flex-nowrap items-center justify-between gap-2 overflow-x-auto scrollbar-hide py-[6px]',
         className,
       )}
       role="group"
