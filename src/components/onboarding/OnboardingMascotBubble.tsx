@@ -43,7 +43,7 @@ export function OnboardingMascotBubble({
     <div
       className={cn(
         'flex items-center',
-        isHeader ? 'w-full max-w-[368px] flex-wrap justify-center gap-[4px]' : 'w-full flex-col gap-4 sm:flex-row sm:gap-6',
+        isHeader ? 'max-w-[368px] flex-wrap justify-center gap-[4px]' : 'w-full flex-col gap-4 sm:flex-row sm:gap-6',
         className
       )}
     >
@@ -82,7 +82,7 @@ export function OnboardingMascotBubble({
       <div
         className={cn(
           'relative min-h-0 min-w-0',
-          isHeader ? 'w-full min-w-0 flex-1' : 'w-full'
+          isHeader ? 'min-w-0 flex-1' : 'w-full'
         )}
       >
         {isHeader && <SpeechBubbleTail className="-left-[10px]" />}
